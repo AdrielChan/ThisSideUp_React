@@ -1,6 +1,6 @@
 // Redesigned React App for "This Side Up" E-commerce
-import { useState } from "react";
-import "./App.css";
+//import { useState } from "react";
+//import "./App.css";
 
 function NavBar() {
   return (
