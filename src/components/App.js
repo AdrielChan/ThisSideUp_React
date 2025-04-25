@@ -1,141 +1,67 @@
+// Redesigned React App for "This Side Up" E-commerce
 import { useState } from "react";
+import "./App.css";
 
-function Logo() {
-  return <h1>This Side Up</h1>;
-}
-
-function Form({ addItem }) {
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(1);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    //create new item
-    if (!description) return;
-    const newItem = {
-      id: Date.now(),
-      description,
-      quantity,
-      packed: false,
-    };
-
-    //add input
-    addItem(newItem);
-
-    //reset input
-    setDescription("");
-    setQuantity(1);
-  }
-
+function NavBar() {
   return (
-    <form className="add-form" onSubmit={handleSubmit}>
-      <h3>What do you need to pack?</h3>
-
-      <select
-        value={quantity}
-        onChange={(e) => setQuantity(Number(e.target.value))}
-      >
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-      </select>
-
-      <input
-        type="text"
-        placeholder="Item... "
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <button>Add</button>
-    </form>
+    <nav className="navbar">
+      <h1 className="logo">This Side Up</h1>
+      <div className="nav-links">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#design">Design Your Board</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div className="nav-icons">
+        🔍 👤 🛒
+      </div>
+    </nav>
   );
 }
 
-//Parent component template
-function PackingList({ items, onDeleteItem, onUpdateItem }) {
+function Hero() {
   return (
-    <div className="list">
-      <ul>
-        {items.map((item) => (
-          <Item 
-            item={item} 
-            key={item.id} 
-            onDeleteItem={onDeleteItem} 
-            onUpdateItem={onUpdateItem}
-            />
-        ))}
-      </ul>
-    </div>
+    <section className="hero">
+      <h2>Custom Skimboards for Every Wave</h2>
+      <div className="cta-buttons">
+        <button className="primary">Shop Now</button>
+        <button className="secondary">Design Your Board</button>
+      </div>
+    </section>
   );
 }
 
-//Child component template
-function Item({ item, onDeleteItem, onUpdateItem }) {
+function FeaturedCategories() {
   return (
-    <li>
-      <input
-        type="checkbox"
-        value={item.packed}
-        onChange={() => onUpdateItem(item.id)}
-      />
-
-      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
-        {item.description} ({item.quantity})
-      </span>
-
-      <button onClick={() => onDeleteItem(item.id)}>Remove</button>
-    </li>
+    <section className="featured-categories">
+      <h3>Shop by Category</h3>
+      <div className="categories">
+        <div className="card">🏄 Skimboards</div>
+        <div className="card">🧴 Beach Essentials</div>
+        <div className="card">👕 Apparel</div>
+      </div>
+    </section>
   );
 }
 
-function Stats({ items }) {
-  const numItems = items.length;
-  const numPacked = items.filter((item) => item.packed).length;
-  const percentage = Math.round((numPacked / numItems) * 100);
-
+function CustomBoardTeaser() {
   return (
-    <footer className="stats">
-      <em>
-        {percentage === 100
-          ? "You got everything!"
-          : `You have ${numItems} items in the list. You already packed ${numPacked} (
-          ${percentage}%).`}
-      </em>
-    </footer>
+    <section className="custom-board">
+      <h3>Design Your Own Skimboard</h3>
+      <p>Choose colors, add patterns, and preview in real-time.</p>
+      <button className="primary">Start Designing</button>
+    </section>
   );
 }
 
 function App() {
-  const [items, setItems] = useState([]);
-
-  function handleAddItems(item) {
-    setItems((prevItems) => [...prevItems, item]);
-  }
-
-  function handleDeleteItem(id) {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  }
-
-  function handleUpdateItem(id) {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, packed: !item.packed } : item
-      )
-    );
-  }
-
   return (
     <div className="app">
-      <Logo />
-      <Form addItem={handleAddItems} />
-      <PackingList
-        items={items}
-        onDeleteItem={handleDeleteItem}
-        onUpdateItem={handleUpdateItem}
-      />
-      <Stats items={items} />
+      <NavBar />
+      <Hero />
+      <FeaturedCategories />
+      <CustomBoardTeaser />
     </div>
   );
 }
