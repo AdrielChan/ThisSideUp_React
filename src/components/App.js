@@ -1,7 +1,3 @@
-// Redesigned React App for "This Side Up" E-commerce
-//import { useState } from "react";
-//import "./App.css";
-
 function NavBar() {
   return (
     <nav className="navbar">
@@ -20,13 +16,13 @@ function NavBar() {
   );
 }
 
-function Hero() {
+function MainBanner() {
   return (
-    <section className="hero">
+    <section className="MainBanner">
       <h2>Custom Skimboards for Every Wave</h2>
       <div className="cta-buttons">
-        <button className="primary">Shop Now</button>
-        <button className="secondary">Design Your Board</button>
+        <button className="btn primary">Shop Now</button>
+        <button className="btn secondary">Design Your Board</button>
       </div>
     </section>
   );
@@ -50,7 +46,7 @@ function CustomBoardTeaser() {
     <section className="custom-board">
       <h3>Design Your Own Skimboard</h3>
       <p>Choose colors, add patterns, and preview in real-time.</p>
-      <button className="primary">Start Designing</button>
+      <button className="btn primary">Start Designing</button>
     </section>
   );
 }
@@ -59,7 +55,7 @@ function App() {
   return (
     <div className="app">
       <NavBar />
-      <Hero />
+      <MainBanner />
       <FeaturedCategories />
       <CustomBoardTeaser />
     </div>
