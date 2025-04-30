@@ -2,17 +2,12 @@ function NavBar() {
   return (
     <nav className="navbar">
       <h1 className="logo">This Side Up</h1>
-      <ul className="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#shop">Shop</a></li>
-        <li><a href="#design">Design Your Board</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div className="nav-icons">
-        <span role="img" aria-label="search">🔍</span>
-        <span role="img" aria-label="user">👤</span>
-        <span role="img" aria-label="cart">🛒</span>
+      <div className="nav-links">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#design">Design Your Board</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contacts</a>
       </div>
     </nav>
   );
@@ -21,12 +16,10 @@ function NavBar() {
 function MainBanner() {
   return (
     <section className="main-banner">
-      <div className="banner-content">
-        <h2>Custom Skimboards for Every Wave</h2>
-        <div className="cta-buttons">
-          <button className="btn primary">Shop Now</button>
-          <button className="btn secondary">Design Your Board</button>
-        </div>
+      <h2>Customize a skimboard!</h2>
+      <div className="cta-buttons">
+        <button className="btn primary">Shop now</button>
+        <button className="btn primary">Design your board</button>
       </div>
     </section>
   );
@@ -35,11 +28,11 @@ function MainBanner() {
 function FeaturedCategories() {
   return (
     <section className="featured-categories">
-      <h3>Shop by Category</h3>
+      <h3>Shop by category</h3>
       <div className="categories">
-        <div className="card">🏄 Skimboards</div>
-        <div className="card">🧴 Beach Essentials</div>
-        <div className="card">👕 Apparel</div>
+        <button className="category-btn">Skimboards</button>
+        <button className="category-btn">Beach essentials</button>
+        <button className="category-btn">Apparel</button>
       </div>
     </section>
   );
@@ -48,8 +41,8 @@ function FeaturedCategories() {
 function CustomBoardTeaser() {
   return (
     <section className="custom-board">
-      <h3>Design Your Own Skimboard</h3>
-      <p>Choose colors, add patterns, and preview in real-time.</p>
+      <h3>Design your own skimboard</h3>
+      <p>Choose a color, add patterns and preview in real time!</p>
       <button className="btn primary">Start Designing</button>
     </section>
   );

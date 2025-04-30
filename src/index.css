@@ -4,143 +4,86 @@
   --sunset-coral: #ff6b6b;
   --palm-green: #4caf50;
   --shell-white: #fefaf6;
-  --text-color: #5a3e2b;
-  --font-primary: 'Quicksand', sans-serif;
-  --font-logo: 'Monoton', cursive;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-primary);
-  color: var(--text-color);
   background-color: var(--shell-white);
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+  color: #111;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem 4rem;
   background-color: var(--sandy-beige);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1.6rem 3rem;
 }
 
 .logo {
-  font-family: var(--font-logo);
-  font-size: 3rem;
+  font-size: 2.8rem;
   color: var(--ocean-blue);
+  font-weight: bold;
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-links li a {
+.nav-links a {
+  margin: 0 1.2rem;
   text-decoration: none;
   font-weight: 600;
-  color: var(--text-color);
+  color: #000;
 }
 
-.nav-icons {
-  display: flex;
-  gap: 1rem;
-  font-size: 1.5rem;
-}
-
-/* Main Banner */
 .main-banner {
-  background-color: var(--ocean-blue);
-  color: white;
-  padding: 6rem 2rem;
+  padding: 3rem 2rem;
+  background-color: #fff;
   text-align: center;
-}
-
-.banner-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
 }
 
 .cta-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .btn {
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
   border: none;
-  border-radius: 2rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0 0.5rem;
   cursor: pointer;
-  font-size: 1rem;
+  border-radius: 4px;
 }
 
 .btn.primary {
-  background-color: var(--sunset-coral);
+  background-color: var(--ocean-blue);
   color: white;
 }
 
-.btn.secondary {
-  background-color: var(--palm-green);
-  color: white;
-}
-
-/* Featured Categories */
 .featured-categories {
   background-color: var(--sandy-beige);
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   text-align: center;
-}
-
-.featured-categories h3 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
 }
 
 .categories {
   display: flex;
   justify-content: center;
   gap: 2rem;
+  margin-top: 2rem;
 }
 
-.card {
-  background-color: var(--shell-white);
-  border: 2px solid var(--ocean-blue);
-  padding: 2rem;
-  border-radius: 1rem;
+.category-btn {
+  background-color: var(--palm-green);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
   font-size: 1.2rem;
-  font-weight: bold;
-  width: 150px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-/* Custom Board Teaser */
 .custom-board {
   background-color: var(--sunset-coral);
   color: white;
   text-align: center;
   padding: 4rem 2rem;
-}
-
-.custom-board h3 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.custom-board p {
-  font-size: 1rem;
-  margin-bottom: 2rem;
 }
