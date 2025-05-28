@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 // Change 'products' to 'initialProducts'
-import { initialProducts } from '../Data'; // Corrected import
+import { initialProducts } from '../data/Data'; // Corrected import
 
 const Wrapper = styled.div` padding: 2rem; `;
 const SearchInput = styled.input`
