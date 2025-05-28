@@ -1,89 +1,167 @@
+/* File: public/index.css or src/index.css */
+
+/* Define CSS Custom Properties (Variables) based on the theme */
 :root {
-  --sandy-beige: #f4e2d8;
-  --ocean-blue: #0077b6;
-  --sunset-coral: #ff6b6b;
-  --palm-green: #4caf50;
-  --shell-white: #fefaf6;
+  /* Colors */
+  --color-primary-purple: #5D3FD3;
+  --color-primary-purple-light: #7A5FD3;
+  --color-secondary-peach: #FFDAB9;
+  --color-secondary-peach-dark: #FFA07A;
+  --color-text-light: #FFFFFF;
+  --color-text-dark: #333333;
+  --color-text-gray: #757575;
+  --color-background-light: #F8F8F8;
+  --color-background-dark: #1A1A1A;
+  --color-background-dark-lighter: #2C2C2C;
+  --color-accent-green: #A0C888;
+  --color-accent-pink: #F2C2CE;
+  --color-accent-yellow-green: #BDCE62;
+  --color-error-red: #D32F2F;
+  --color-success-green: #388E3C;
+  --color-light-gray-border: #E0E0E0;
+  --color-neutral-gray: #BDBDBD;
+  --color-input-background: #FFFFFF;
+  --color-input-placeholder: #A0A0A0;
+
+  /* Fonts */
+  --font-main: 'Helvetica', Arial, sans-serif;
+  --font-heading: "Times New Roman", Times, serif; /* Ensure "Inrai Serif" is loaded via @font-face if custom */
+
+  /* Font Sizes */
+  --font-size-small: 0.875rem;  /* 14px */
+  --font-size-medium: 1rem;     /* 16px */
+  --font-size-large: 1.25rem;   /* 20px */
+  --font-size-xlarge: 1.5rem;   /* 24px */
+  --font-size-xxlarge: 2rem;    /* 32px */
+  --font-size-hero: 3rem;       /* 48px */
+
+  /* Spacing */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-s: 0.5rem;   /* 8px */
+  --spacing-m: 1rem;     /* 16px */
+  --spacing-l: 1.5rem;   /* 24px */
+  --spacing-xl: 2rem;    /* 32px */
+  --spacing-xxl: 3rem;   /* 48px */
+
+  /* UI Elements */
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --header-height: 70px;
+  --footer-height: 200px; /* Approximate */
+}
+
+/* Global Styles applying the custom properties */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background-color: var(--shell-white);
-  margin: 0;
-  font-family: "Quicksand", sans-serif;
-  color: #111;
+  font-family: var(--font-main);
+  background-color: var(--color-background-light);
+  color: var(--color-text-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--sandy-beige);
-  padding: 1.6rem 3rem;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-primary-purple);
+  margin-bottom: var(--spacing-m);
+  line-height: 1.3;
 }
 
-.logo {
-  font-size: 2.8rem;
-  color: var(--ocean-blue);
-  font-weight: bold;
-}
+h1 { font-size: var(--font-size-xxlarge); }
+h2 { font-size: var(--font-size-xlarge); }
+h3 { font-size: var(--font-size-large); }
+/* Add h4, h5, h6 if specific sizes are needed beyond browser defaults */
 
-.nav-links a {
-  margin: 0 1.2rem;
+a {
+  color: var(--color-primary-purple);
   text-decoration: none;
-  font-weight: 600;
-  color: #000;
 }
 
-.main-banner {
-  padding: 3rem 2rem;
-  background-color: #fff;
-  text-align: center;
+a:hover {
+  text-decoration: underline;
+  color: var(--color-primary-purple-light);
 }
 
-.cta-buttons {
-  margin-top: 1.5rem;
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.btn {
-  padding: 0.8rem 2rem;
-  border: none;
-  font-size: 1.4rem;
-  margin: 0 0.5rem;
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: var(--font-main);
   cursor: pointer;
-  border-radius: 4px;
-}
-
-.btn.primary {
-  background-color: var(--ocean-blue);
-  color: white;
-}
-
-.featured-categories {
-  background-color: var(--sandy-beige);
-  padding: 3rem 2rem;
-  text-align: center;
-}
-
-.categories {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.category-btn {
-  background-color: var(--palm-green);
-  color: white;
   border: none;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
+  padding: var(--spacing-s) var(--spacing-m);
+  border-radius: var(--border-radius);
+  background-color: var(--color-primary-purple); /* Default button background */
+  color: var(--color-text-light); /* Default button text color */
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
 }
 
-.custom-board {
-  background-color: var(--sunset-coral);
-  color: white;
-  text-align: center;
-  padding: 4rem 2rem;
+button:hover {
+    background-color: var(--color-primary-purple-light);
 }
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* Example secondary button style */
+button.secondary {
+    background-color: var(--color-secondary-peach);
+    color: var(--color-text-dark);
+}
+button.secondary:hover {
+    background-color: var(--color-secondary-peach-dark);
+}
+
+
+input, textarea, select {
+  font-family: var(--font-main);
+  padding: var(--spacing-s);
+  border: 1px solid var(--color-light-gray-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-medium);
+  background-color: var(--color-input-background);
+  color: var(--color-text-dark);
+  width: 100%; /* Common default for form inputs to take full width of container */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-input-placeholder);
+  opacity: 1; /* Firefox fix */
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary-purple);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-purple-light) 30%, transparent); /* Light purple glow */
+}
+
+/* Utility classes (optional, but can be helpful) */
+.text-center {
+  text-align: center;
+}
+
+.mb-s { margin-bottom: var(--spacing-s); }
+.mb-m { margin-bottom: var(--spacing-m); }
+.mb-l { margin-bottom: var(--spacing-l); }
+
+.mt-s { margin-top: var(--spacing-s); }
+.mt-m { margin-top: var(--spacing-m); }
+.mt-l { margin-top: var(--spacing-l); }
+
