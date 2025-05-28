@@ -1,5 +1,6 @@
 
-// DON'T FORGET, IN TERMINAL:  npm install react-router-dom
+// DON'T FORGET, IN YOUR 🫵 TERMINAL:  npm install react-router-dom
+//               AND                    npm i styled-components
 
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
