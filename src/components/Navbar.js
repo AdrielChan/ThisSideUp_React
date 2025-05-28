@@ -19,10 +19,14 @@ const StyledLink = styled(Link)`
 `;
 
 const Navbar = () => (
-  <Nav>
-    <StyledLink to="/"><img src="this-side-up-logo_white.png" alt="This Side Up logo" style={{padding: '10px 20px 10px 60px'}} width="28%"/></StyledLink>
-    <StyledLink to="/design">Design Your Skimboard</StyledLink>
-    <StyledLink to="/search">Search</StyledLink>
+  <Nav style={{alignItems:'center'}}>
+    <StyledLink to="/"><img src="this-side-up-logo_white.png" alt="This Side Up logo" style={{padding: '13px 20px 13px 70px'}} width="290px"/></StyledLink>
+    <div >
+      <StyledLink to="/products">Products</StyledLink>
+      <StyledLink to="/about">About</StyledLink>
+      <StyledLink to="/faq">FAQ</StyledLink>
+    </div>
+    
   </Nav>
 );
 
