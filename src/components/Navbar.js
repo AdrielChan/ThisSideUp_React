@@ -20,7 +20,7 @@ const StyledLink = styled(Link)`
 
 const Navbar = () => (
   <Nav>
-    <StyledLink to="/">Home</StyledLink>
+    <StyledLink to="/"><img src="this-side-up-logo_white.png" alt="This Side Up logo" width="25%"/></StyledLink>
     <StyledLink to="/design">Design Your Skimboard</StyledLink>
     <StyledLink to="/search">Search</StyledLink>
   </Nav>
