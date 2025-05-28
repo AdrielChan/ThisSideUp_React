@@ -20,7 +20,7 @@ const StyledLink = styled(Link)`
 
 const Navbar = () => (
   <Nav>
-    <StyledLink to="/"><img src="this-side-up-logo_white.png" alt="This Side Up logo" width="25%"/></StyledLink>
+    <StyledLink to="/"><img src="this-side-up-logo_white.png" alt="This Side Up logo" style={{padding: '10px 20px 10px 60px'}} width="28%"/></StyledLink>
     <StyledLink to="/design">Design Your Skimboard</StyledLink>
     <StyledLink to="/search">Search</StyledLink>
   </Nav>
