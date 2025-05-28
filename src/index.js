@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './styles/GlobalStyles';
-import { theme } from './styles/theme';
+import { theme } from './styles/Theme';
 import { BrowserRouter } from 'react-router-dom';
 // Import Context Providers here if they are global
 // For now, they will be in App.js for better organization of imports
