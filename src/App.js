@@ -1,5 +1,8 @@
+
+// DON'T FORGET, IN TERMINAL:  npm install react-router-dom
+
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home';
 import DesignSkimboard from './pages/DesignSkimboard';
 import Search from './pages/Search';
