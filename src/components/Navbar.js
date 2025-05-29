@@ -159,7 +159,7 @@ const CloseSearchButton = styled(FaTimes)`
 `;
 
 const Navbar = () => {
-  const { isAuthenticated, currentUser, } = useAuth();
+  const { isAuthenticated, currentUser, logout } = useAuth();
   const { itemCount } = useCart();
   const navigate = useNavigate();
   const [showSearchOverlay, setShowSearchOverlay] = useState(false);
