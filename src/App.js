@@ -1,8 +1,3 @@
-// File: src/App.js
-
-// DON'T FORGET, IN YOUR 🫵 TERMINAL:  npm install react-router-dom
-//               AND                    npm i styled-components
-
 import React from 'react';
 // BrowserRouter is typically in index.js. You only need Routes, Route, Navigate here.
 import { Routes, Route, Navigate } from 'react-router-dom';
