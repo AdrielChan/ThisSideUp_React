@@ -22,7 +22,7 @@ const Navbar = () => (
   <Nav style={{alignItems:'center'}}>
     <StyledLink to="/"><img src="this-side-up-logo_white.png" alt="This Side Up logo" style={{padding: '13px 20px 13px 70px'}} width="290px"/></StyledLink>
     <div >
-      <StyledLink to="/products">Products</StyledLink>
+      <StyledLink to="/products">Producks</StyledLink>
       <StyledLink to="/about">About</StyledLink>
       <StyledLink to="/faq">FAQ</StyledLink>
     </div>
