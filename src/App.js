@@ -12,7 +12,11 @@ import Navbar from './components/Navbar';
 
 const App = () => {
   return (
+    
     <> {/* React Fragment, can also be <React.Fragment> */}
+    <div>
+      <h1>hello world</h1>
+    </div>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
