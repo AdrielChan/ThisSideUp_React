@@ -40,7 +40,7 @@ const Navbar = () => {
     <Nav>
       <StyledLink to="/">
         <img 
-          src="this-side-up-logo_white.png" 
+          src="this-side-up-logo.png" 
           alt="This Side Up logo" 
           style={{padding: '13px 20px 13px 70px'}} 
           width="290px"
