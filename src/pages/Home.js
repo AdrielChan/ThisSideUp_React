@@ -19,9 +19,10 @@ const Home = () => {
       height: '100vh',
       padding: '0rem'
     }}>
-      <div style={{padding: '2rem'}}>
-        <h1>Welcome to This Side Up</h1>
-        <p>Explore our skimboards, design your own, or search products!</p>
+      <div style={{padding: '2rem', backgroundColor: '#202020', opacity: '60%'}}>
+        <h1 style={{fontSize: 36, color: '#FDDDFD'}}>Skim & Ride</h1>
+        <p style={{fontSize: 64, color: '#FFFFFF'}}>Find your next adventure</p>
+        <h1 style={{fontSize: 24, color: '#FDDDFD'}}>Premium skimboards and beach gear, crafted for wave chasers</h1>
       </div>
       </div>
       
