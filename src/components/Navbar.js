@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import '../index.css';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
@@ -37,12 +38,12 @@ const Navbar = () => {
   const location = useLocation();
   
   return (
-    <Nav>
+    <Nav id='font1'>
       <StyledLink to="/">
         <img 
           src="this-side-up-logo_white.png" 
           alt="This Side Up logo" 
-          style={{padding: '13px 20px 13px 70px'}} 
+          style={{padding: '13px 10px 13px 90px'}} 
           width="290px"
         />
       </StyledLink>
