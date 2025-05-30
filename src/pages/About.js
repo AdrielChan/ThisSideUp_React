@@ -1,75 +1,105 @@
 import React from 'react';
 import styled from 'styled-components';
-// Assuming your Footer component is in src/components/layout/Footer.js
-// import Footer from '../components/layout/Footer'; // Already part of App.js layout
 
 // --- STYLED COMPONENTS ---
 
 const AboutPageWrapper = styled.div`
-  /* The main page background will be handled by global styles or App structure */
-  /* This wrapper is mainly for structuring content if needed, but might be minimal */
+  display: flex;
+  flex-direction: column;
 `;
 
 const AboutHeroSection = styled.section`
-  min-height: 60vh; /* Adjust height as needed */
-  background-image: url('/assets/images/about-us-background.jpg'); /* REPLACE with your image */
+  min-height: 70vh;
+  background-image: url('/assets/images/about-us-background.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xl, 32px) var(--spacing-m, 16px);
+  padding: 48px 16px;
   position: relative;
-
-  /* Optional overlay if text readability is an issue, though Figma has a solid text box */
-  /* &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); 
-  } */
 `;
 
 const TextOverlayBox = styled.div`
-  background-color: rgba(26, 26, 26, 0.8); /* Dark translucent background from Figma */
-  color: var(--color-text-light, #FFFFFF);
-  padding: var(--spacing-xl, 32px);
-  border-radius: var(--border-radius, 8px);
-  max-width: 700px; /* Adjust as needed */
-  text-align: left; /* Text is left-aligned */
-  position: relative; /* To ensure it's above any pseudo-element overlay */
-  z-index: 1;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  background-color: rgba(26, 26, 26, 0.8);
+  color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 850px;
+  text-align: left;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 `;
 
 const PageTitle = styled.h1`
   font-family: var(--font-heading);
-  font-size: var(--font-size-hero, 48px); /* Large title */
-  color: var(--color-secondary-peach, #FFDAB9); /* Title color from Figma */
-  margin-bottom: var(--spacing-l, 24px);
-  text-align: center; /* Centered title within the box */
+  font-size: 56px;
+  color: #FFD9EB;
+  margin-bottom: 24px;
+  text-align: left;
 `;
 
 const AboutText = styled.p`
-  font-family: var(--font-main); /* Assuming main text is sans-serif as per lorem ipsum */
-  font-size: var(--font-size-medium, 16px); /* Or small if preferred */
+  font-family: var(--font-main);
+  font-size: 16px;
   line-height: 1.8;
-  color: var(--color-neutral-gray, #BDBDBD); /* Lighter text color for body */
-  margin-bottom: var(--spacing-m, 16px);
+  color: #e0e0e0;
+  margin-bottom: 20px;
 
-  &:first-of-type::first-letter { /* Drop cap style for the first letter 'L' */
+  &:first-of-type::first-letter {
     font-family: var(--font-heading);
-    font-size: calc(var(--font-size-medium, 16px) * 3); /* Significantly larger */
-    color: var(--color-text-light, #FFFFFF);
+    font-size: 48px;
+    color: #FFFFFF;
     float: left;
-    line-height: 0.8; /* Adjust to pull text around it */
-    margin-right: var(--spacing-s, 8px);
-    margin-top: var(--spacing-xs, 4px); /* Fine-tune vertical alignment */
+    line-height: 0.8;
+    margin-right: 8px;
+    margin-top: 4px;
   }
 `;
 
-// The footer section is likely handled globally by App.js, so we don't redefine it here.
-// If you need specific content above the global footer but related to "About Us", add it here.
+const FooterSection = styled.footer`
+  display: flex;
+  flex-wrap: wrap;
+  background: linear-gradient(90deg, #3D0B52, #1A1A1A);
+  color: #FFFFFF;
+  padding: 48px 32px;
+  justify-content: space-between;
+`;
+
+const FooterColumn = styled.div`
+  flex: 1 1 220px;
+  margin-bottom: 32px;
+`;
+
+const FooterHeading = styled.h3`
+  font-size: 20px;
+  color: #FFD9EB;
+  margin-bottom: 16px;
+`;
+
+const FooterText = styled.p`
+  font-size: 14px;
+  color: #E0E0E0;
+  line-height: 1.6;
+`;
+
+const FooterLink = styled.a`
+  display: block;
+  font-size: 14px;
+  color: #E0E0E0;
+  margin-bottom: 8px;
+  text-decoration: none;
+
+  &:hover {
+    color: #FFD9EB;
+  }
+`;
+
+const SocialIcons = styled.div`
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+  font-size: 20px;
+`;
 
 const AboutPage = () => {
   return (
@@ -93,8 +123,43 @@ const AboutPage = () => {
         </TextOverlayBox>
       </AboutHeroSection>
 
-      
-      {/* <Footer />  <-- Only include this if Footer is NOT globally rendered by App.js */}
+      <FooterSection>
+        <FooterColumn>
+          <FooterHeading>Company Slogan</FooterHeading>
+          <FooterText>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis dignissim dolor.
+          </FooterText>
+        </FooterColumn>
+
+        <FooterColumn>
+          <FooterHeading>Social Medias</FooterHeading>
+          <SocialIcons>
+            <i className="fab fa-instagram"></i>
+            <i className="fab fa-facebook"></i>
+            <i className="fab fa-tiktok"></i>
+            <i className="fab fa-x-twitter"></i>
+          </SocialIcons>
+          <FooterText>@this_side_up.sg</FooterText>
+        </FooterColumn>
+
+        <FooterColumn>
+          <FooterHeading>Useful Links</FooterHeading>
+          <FooterLink href="#">Your Account</FooterLink>
+          <FooterLink href="#">Become an Affiliate</FooterLink>
+          <FooterLink href="#">Shipping Rates</FooterLink>
+          <FooterLink href="#">Help & Advice</FooterLink>
+        </FooterColumn>
+
+        <FooterColumn>
+          <FooterHeading>Contact</FooterHeading>
+          <FooterText>
+            📍 112 East Coast Road, #02-08 KANTONG MALL
+          </FooterText>
+          <FooterText>📞 +65 8900 2121</FooterText>
+          <FooterText>📠 53451524L</FooterText>
+          <FooterText>📧 inquiries@thissideup.com</FooterText>
+        </FooterColumn>
+      </FooterSection>
     </AboutPageWrapper>
   );
 };
