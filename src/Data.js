@@ -1,6 +1,3 @@
-// File: src/data/Data.js
-// (This will be a simplified version to get started, more details as we build components)
-
 let nextId = 1;
 const generateId = (prefix = 'id') => `${prefix}_${nextId++}`;
 

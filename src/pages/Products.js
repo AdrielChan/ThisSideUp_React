@@ -1,10 +1,15 @@
+// File: src/pages/products/ProductsPage.js (Example of corrected imports)
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useProducts } from '../../contexts/ProductContext';
+
+// Corrected import paths assuming ProductsPage.js is in src/pages/products/
+import { useProducts } from '../../contexts/ProductContext'; // Path was likely correct if ProductContext.js had the ../data/Data error
 import ProductCard from '../../components/products/ProductCard';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
+
+// ... rest of your ProductsPage.js code from my previous response ...
 
 // --- STYLED COMPONENTS ---
 

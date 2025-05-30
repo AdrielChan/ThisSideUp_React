@@ -1,6 +1,6 @@
 // File: src/contexts/ProductContext.js
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { fetchProducts, searchProductsAPI, productCategories, topSearchTerms } from '../data/Data';
+import { fetchProducts, searchProductsAPI, productCategories, topSearchTerms } from '../Data';
 
 const ProductContext = createContext(null);
 
