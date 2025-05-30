@@ -1,6 +1,8 @@
 // File: src/contexts/ProductContext.js
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { fetchProducts, searchProductsAPI, productCategories, topSearchTerms } from '../Data';
+import { fetchProducts, searchProductsAPI, productCategories, topSearchTerms, fetchProductById } from '../Data';
+
+
 
 const ProductContext = createContext(null);
 
@@ -53,20 +55,16 @@ export const ProductProvider = ({ children }) => {
   }, [searchTerm, currentCategory, sortBy]);
   
   const getProductById = useCallback(async (id) => {
-    // For simplicity, find from existing products list if loaded
-    // Or implement fetchProductById from Data.js if needed for direct access
-    const product = products.find(p => p._id === id);
-    if (product) return product;
-    
-    // Fallback if not in local state (e.g., direct link to product detail)
-    try {
-        const fetchedProduct = await import('../data/Data').then(mod => mod.fetchProductById(id));
-        return fetchedProduct;
-    } catch (err) {
-        console.error("Failed to fetch product by ID:", err);
-        return null;
-    }
-  }, [products]);
+  const product = products.find(p => p._id === id);
+  if (product) return product;
+  try {
+    const fetchedProduct = await fetchProductById(id);
+    return fetchedProduct;
+  } catch (err) {
+    console.error("Error fetching product by ID:", err);
+    return null;
+  }
+}, [products]);
 
 
   const value = {

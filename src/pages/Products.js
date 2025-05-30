@@ -4,14 +4,10 @@ import styled from 'styled-components';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 
 // Corrected import paths assuming ProductsPage.js is in src/pages/products/
-import { useProducts } from '../../contexts/ProductContext'; // Path was likely correct if ProductContext.js had the ../data/Data error
-import ProductCard from '../../components/products/ProductCard';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { useProducts } from '../contexts/ProductContext'; // Path was likely correct if ProductContext.js had the ../data/Data error
+import ProductCard from 'ProductCard';
+import LoadingSpinner from '../components/layout/LoadingSpinner';
 
-
-// ... rest of your ProductsPage.js code from my previous response ...
-
-// --- STYLED COMPONENTS ---
 
 const PageWrapper = styled.div`
   background-color: var(--color-background-dark, #1A1A1A); /* Dark background for the page */

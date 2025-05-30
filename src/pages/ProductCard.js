@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useProducts } from '../../contexts/ProductContext';
 import { useCart } from '../../contexts/CartContext';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
