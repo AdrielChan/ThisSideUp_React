@@ -6,10 +6,11 @@ import styled from 'styled-components';
 const AboutPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 `;
 
 const AboutHeroSection = styled.section`
-  min-height: 70vh;
+  flex: 1;
   background-image: url('/assets/images/about-us-background.jpg');
   background-size: cover;
   background-position: center;
@@ -106,13 +107,12 @@ const AboutPage = () => {
   return (
     <AboutPageWrapper>
       <AboutHeroSection style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize:'1950px',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      height: '100vh',
-      padding: '0rem'
-    }}>
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: '1950px',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        padding: '0rem'
+      }}>
         <TextOverlayBox>
           <PageTitle>About Us</PageTitle>
           <AboutText>
@@ -135,8 +135,9 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Company Slogan</FooterHeading>
           <FooterText>
-            "Ride the Shallow,<br/>
-            Rule the Shore."
+            "Ride the Shallow,"
+            <br />
+            "Rule the Shore."
           </FooterText>
         </FooterColumn>
 
@@ -161,9 +162,7 @@ const AboutPage = () => {
 
         <FooterColumn>
           <FooterHeading>Contact</FooterHeading>
-          <FooterText>
-            📍 112 East Coast Road, #02-08 KANTONG MALL
-          </FooterText>
+          <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
           <FooterText>📞 +65 8900 2121</FooterText>
           <FooterText>📠 53451524L</FooterText>
           <FooterText>📧 inquiries@thissideup.com</FooterText>
