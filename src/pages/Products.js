@@ -5,7 +5,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 
 // Corrected import paths assuming ProductsPage.js is in src/pages/products/
 import { useProducts } from '../contexts/ProductContext'; // Path was likely correct if ProductContext.js had the ../data/Data error
-import ProductCard from 'ProductCard';
+import ProductCard from './ProductCard';
 import LoadingSpinner from '../components/layout/LoadingSpinner';
 
 
