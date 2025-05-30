@@ -1,9 +1,13 @@
 /* File: public/index.css or src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Lilita+One&display=swap');
 /* Define CSS Custom Properties (Variables) based on the theme */
-#front {
+#font1 {
   font-family: "Inria Serif", serif;
   font-weight: bold;
+}
+
+#longpara {
+  line-height: 25px;
 }
 
 :root {

@@ -19,10 +19,10 @@ const Home = () => {
       height: '100vh',
       padding: '0rem'
     }}>
-      <div id='front' style={{padding: '2rem', backgroundColor: 'rgba(32, 32, 32, 0.6)', width: '560px'}}>
+      <div id='font1' style={{padding: '2rem', backgroundColor: 'rgba(32, 32, 32, 0.6)', width: '560px', paddingLeft: '30px'}}>
         <p style={{fontSize: 36, color: '#FDDDFD'}}>Skim & Ride</p>
-        <p style={{fontSize: 64, color: '#FFFFFF'}}>Find Your Next Adventure</p>
-        <p style={{fontSize: 24, color: '#FDDDFD'}}>Premium skimboards and beach gear, crafted for wave chasers</p>
+        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px'}}>Find Your Next Adventure</p>
+        <p style={{fontSize: 24, color: '#FDDDFD', lineHeight: '33px'}}>Premium skimboards and beach gear, crafted for wave chasers</p>
         <p id='longpara' style={{fontSize: 20, color: '#FFFFFF'}}>
           This Side Up is an online store for skimboards, beach
           supplies, and custom board designs. The website
