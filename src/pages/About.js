@@ -135,9 +135,8 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Company Slogan</FooterHeading>
           <FooterText>
-            Lorem ipsum dolor sit amet, consectetur<br />
-            adipiscing elit. Suspendisse convallis<br />
-            dignissim dolor.
+            "Ride the Shallow,<br/>
+            Rule the Shore."
           </FooterText>
         </FooterColumn>
 
