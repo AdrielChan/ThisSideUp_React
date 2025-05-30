@@ -127,7 +127,9 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Company Slogan</FooterHeading>
           <FooterText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis dignissim dolor.
+            Lorem ipsum dolor sit amet, consectetur<br />
+            adipiscing elit. Suspendisse convallis<br />
+            dignissim dolor.
           </FooterText>
         </FooterColumn>
 
