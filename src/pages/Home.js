@@ -23,7 +23,7 @@ const Home = () => {
         <p style={{fontSize: 36, color: '#FDDDFD'}}>Skim & Ride</p>
         <p style={{fontSize: 64, color: '#FFFFFF'}}>Find Your Next Adventure</p>
         <p style={{fontSize: 24, color: '#FDDDFD'}}>Premium skimboards and beach gear, crafted for wave chasers</p>
-        <p style={{fontSize: 20, color: '#FFFFFF'}}>
+        <p id='longpara' style={{fontSize: 20, color: '#FFFFFF'}}>
           This Side Up is an online store for skimboards, beach
           supplies, and custom board designs. The website
           makes it easy for customers to shop for skim-
