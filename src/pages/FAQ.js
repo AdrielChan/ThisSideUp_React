@@ -17,8 +17,8 @@ const FAQ = () => {
       height: '100vh',
       padding: '0rem'
     }}>
-      <div id='font1' style={{padding: '2rem', backgroundColor: 'rgba(32, 32, 32, 0.6)', width: '650px', paddingLeft: '30px', position: 'relative', left: '110px'}}>
-        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center'}}>Frequently Asked Questions (FAQs) </p>
+      <div id='font1' style={{padding: '2rem', backgroundColor: 'rgba(32, 32, 32, 0.6)', width: '650px', paddingLeft: '30px', position: 'relative', margin: 'auto'}}>
+        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center'}}>Frequently Asked Questions (FAQs)</p>
       </div>
       </div>
       
