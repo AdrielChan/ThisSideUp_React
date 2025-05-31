@@ -21,8 +21,11 @@ const FAQ = () => {
         <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center'}}>Frequently Asked Questions (FAQs)</p>
       </div>
       </div>
-      <div style={{backgroundColor: '#222', height: '800px'}}>
-        <p>Test</p>
+      <div style={{backgroundColor: '#222', height: '800px',}}>
+        <div id='qn'>
+          <p>What the hell?</p>
+        </div>
+        
       </div>
     </Wrapper>
   );
