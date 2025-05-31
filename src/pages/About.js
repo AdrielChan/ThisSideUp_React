@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import '../index.css';
 
 // Styled Components
 const AboutPageWrapper = styled.div`
@@ -120,7 +121,7 @@ const IconImage = styled.img`
 // Main Component
 const AboutPage = () => {
   const backgroundImage = "homebanner.png";
-  
+
   return (
     <AboutPageWrapper>
       <AboutHeroSection style={{
@@ -149,16 +150,16 @@ const AboutPage = () => {
         </TextOverlayBox>
       </AboutHeroSection>
 
-      <FooterSection>
-        <FooterColumn>
-          <FooterHeading>Company Slogan</FooterHeading>
+      <FooterSection id='font25' >
+        <FooterColumn >
+          <FooterHeading id='font2'>Company Slogan</FooterHeading>
           <FooterText>
             "Ride the Shallow,<br/>Rule the Shore."
           </FooterText>
         </FooterColumn>
 
         <FooterColumn>
-          <FooterHeading>Social Medias</FooterHeading>
+          <FooterHeading id='font2'>Social Medias</FooterHeading>
           <SocialIcons>
             <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
               <IconImage src="/assets/icons/instagram.png" alt="Instagram" />
@@ -171,7 +172,7 @@ const AboutPage = () => {
         </FooterColumn>
 
         <FooterColumn>
-          <FooterHeading>Useful Links</FooterHeading>
+          <FooterHeading id='font2'>Useful Links</FooterHeading>
           <FooterLink href="#">Your Account</FooterLink>
           <FooterLink href="#">Become an Affiliate</FooterLink>
           <FooterLink href="#">Shipping Rates</FooterLink>
@@ -179,7 +180,7 @@ const AboutPage = () => {
         </FooterColumn>
 
         <FooterColumn>
-          <FooterHeading>Contact</FooterHeading>
+          <FooterHeading id='font2'>Contact</FooterHeading>
           <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
           <FooterText>📞 +65 8900 2121</FooterText>
           <FooterText>📠 53451524L</FooterText>
