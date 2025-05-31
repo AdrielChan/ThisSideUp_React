@@ -43,63 +43,44 @@ const StyledLink = styled(Link)`
 const ProductsDropdown = styled.div`
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  margin-top: 0.5rem;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 0;
   opacity: ${props => props.show ? 1 : 0};
   visibility: ${props => props.show ? 'visible' : 'hidden'};
-  transition: all 0.3s ease;
-  min-width: 200px;
+  transition: all 0.2s ease;
+  min-width: 180px;
   z-index: 1001;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12px;
-    height: 12px;
-    background: white;
-    border-radius: 2px;
-    transform: translateX(-50%) rotate(45deg);
-  }
 `;
 
 const DropdownGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const CategoryLink = styled(Link)`
   color: #333;
   text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 12px 20px;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   display: block;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   &:hover {
     background: #f8f9fa;
     color: #b19cd9;
-    transform: translateX(4px);
   }
 `;
 
-const DropdownTitle = styled.h3`
-  color: #333;
-  font-size: 1rem;
-  margin: 0 0 1rem 0;
-  padding: 0 1rem;
-  font-weight: 600;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 0.5rem;
+const DropdownTitle = styled.div`
+  display: none;
 `;
 
 const Navbar = () => {
@@ -138,7 +119,6 @@ const Navbar = () => {
             Products
           </StyledLink>
           <ProductsDropdown show={showDropdown}>
-            <DropdownTitle>Shop by Category</DropdownTitle>
             <DropdownGrid>
               {productCategories.map((category, index) => (
                 <CategoryLink 
