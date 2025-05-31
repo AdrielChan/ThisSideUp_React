@@ -17,8 +17,8 @@ const FAQ = () => {
       height: '250px',
       padding: '0rem'
     }}>
-      <div id='font1' style={{padding: '2rem', backgroundImage: 'linear-gradient(to right, #1B0027, #60008D, #1B0027)', width: '650px', paddingLeft: '30px', position: 'relative', margin: 'auto'}}>
-        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center'}}>Frequently Asked Questions (FAQs)</p>
+      <div id='font1' style={{padding: '2rem', backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '650px', paddingLeft: '30px', position: 'relative', margin: 'auto'}}>
+        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center', textShadow: '2px 2px 5px rgba(0,0,0,0.25)'}}>Frequently Asked Questions (FAQs)</p>
       </div>
       </div>
       <div style={{backgroundColor: '#222', height: '800px',}}>
