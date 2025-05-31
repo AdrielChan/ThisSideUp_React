@@ -82,6 +82,14 @@ const FooterHeading = styled.h3`
   margin-bottom: 16px;
 `;
 
+const FooterDivider = styled.hr`
+  border: none;
+  height: 2px;
+  background: #FFD9EB;
+  margin: 8px 0 16px 0;
+  width: 120px;
+`;
+
 const FooterText = styled.p`
   font-size: 14px;
   color: #E0E0E0;
@@ -125,15 +133,15 @@ const AboutPage = () => {
   return (
     <AboutPageWrapper>
       <AboutHeroSection style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize:'1950px',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      height: '100vh',
-      padding: '0rem'
-    }}>
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: '1950px',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        height: '100vh',
+        padding: '0rem'
+      }}>
         <TextOverlayBox>
-          <PageTitle id='font1' style={{fontSize: '90'}}>About Us</PageTitle>
+          <PageTitle id='font1' style={{ fontSize: '90' }}>About Us</PageTitle>
           <AboutText id='aboot'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet maximus
             enim, vitae mollis ex tempor vel. Vestibulum ante ipsum primis in faucibus orci luctus et
@@ -150,16 +158,18 @@ const AboutPage = () => {
         </TextOverlayBox>
       </AboutHeroSection>
 
-      <FooterSection id='font25' >
-        <FooterColumn >
+      <FooterSection id='font25'>
+        <FooterColumn>
           <FooterHeading id='font2'>Company Slogan</FooterHeading>
+          <FooterDivider />
           <FooterText>
-            "Ride the Shallow,<br/>Rule the Shore."
+            "Ride the Shallow,<br />Rule the Shore."
           </FooterText>
         </FooterColumn>
 
         <FooterColumn>
           <FooterHeading id='font2'>Social Medias</FooterHeading>
+          <FooterDivider />
           <SocialIcons>
             <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
               <IconImage src="/assets/icons/instagram.png" alt="Instagram" />
@@ -173,6 +183,7 @@ const AboutPage = () => {
 
         <FooterColumn>
           <FooterHeading id='font2'>Useful Links</FooterHeading>
+          <FooterDivider />
           <FooterLink href="#">Your Account</FooterLink>
           <FooterLink href="#">Become an Affiliate</FooterLink>
           <FooterLink href="#">Shipping Rates</FooterLink>
@@ -181,6 +192,7 @@ const AboutPage = () => {
 
         <FooterColumn>
           <FooterHeading id='font2'>Contact</FooterHeading>
+          <FooterDivider />
           <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
           <FooterText>📞 +65 8900 2121</FooterText>
           <FooterText>📠 53451524L</FooterText>
