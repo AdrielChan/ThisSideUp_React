@@ -119,9 +119,18 @@ const IconImage = styled.img`
 
 // Main Component
 const AboutPage = () => {
+  const backgroundImage = "homebanner.png";
+  
   return (
     <AboutPageWrapper>
-      <AboutHeroSection>
+      <AboutHeroSection style={{
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize:'1950px',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      height: '100vh',
+      padding: '0rem'
+    }}>
         <TextOverlayBox>
           <PageTitle>About Us</PageTitle>
           <AboutText>
