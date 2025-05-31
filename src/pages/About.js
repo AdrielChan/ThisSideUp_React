@@ -133,14 +133,14 @@ const AboutPage = () => {
       padding: '0rem'
     }}>
         <TextOverlayBox>
-          <PageTitle>About Us</PageTitle>
-          <AboutText>
+          <PageTitle id='font1' style={{fontSize: '90'}}>About Us</PageTitle>
+          <AboutText id='aboot'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet maximus
             enim, vitae mollis ex tempor vel. Vestibulum ante ipsum primis in faucibus orci luctus et
             ultrices posuere cubilia curae; Suspendisse vestibulum, nisl in fermentum consectetur,
             felis neque fringilla orci, vel auctor eros urna at justo. Sed eget tincidunt libero.
           </AboutText>
-          <AboutText>
+          <AboutText id='aboot'>
             Donec auctor tincidunt rutrum. Vestibulum non felis sed metus dignissim pellentesque.
             Curabitur congue enim nisi, nec venenatis nisi malesuada vitae. Phasellus ante odio,
             malesuada vitae ipsum id, venenatis cursus sem. Fusce ligula sem, varius sed urna
