@@ -1,38 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// --- STYLED COMPONENTS ---
-
+// Styled Components
 const AboutPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 const AboutHeroSection = styled.section`
-  min-height: 75vh;
-  background-image: url('/assets/images/about-us-background.jpg');
+  min-height: calc(100vh - 160px);
+  background-image: url('/assets/images/homebanner.png');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 16px;
-  position: relative;
+  padding: 0;
 `;
 
 const TextOverlayBox = styled.div`
-  background-color: rgba(26, 26, 26, 0.8);
+  background-color: rgba(26, 26, 26, 0.85);
   color: #ffffff;
-  padding: 32px;
+  padding: 36px;
   border-radius: 8px;
   max-width: 850px;
   text-align: left;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -57,8 +56,8 @@ const AboutText = styled.p`
     color: #FFD9EB;
     float: left;
     line-height: 1;
-    margin-right: 12px;
-    margin-top: 4px;
+    margin-right: 8px;
+    margin-top: 2px;
   }
 `;
 
@@ -67,7 +66,7 @@ const FooterSection = styled.footer`
   flex-wrap: wrap;
   background: linear-gradient(90deg, #3D0B52, #1A1A1A);
   color: #FFFFFF;
-  padding: 24px 32px;
+  padding: 32px 24px;
   justify-content: space-between;
 `;
 
@@ -102,33 +101,27 @@ const FooterLink = styled.a`
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 12px;
   margin: 12px 0;
   align-items: center;
 `;
 
-const SocialIconImage = styled.img`
+const IconImage = styled.img`
   width: 28px;
   height: 28px;
-  transition: transform 0.3s ease;
+  cursor: pointer;
 
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.08);
+    transition: 0.3s ease;
   }
 `;
 
+// Main Component
 const AboutPage = () => {
-  const backgroundImage = "homebanner.png";
   return (
     <AboutPageWrapper>
-      <AboutHeroSection style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: '1950px',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        height: '75vh',
-        padding: '0rem'
-      }}>
+      <AboutHeroSection>
         <TextOverlayBox>
           <PageTitle>About Us</PageTitle>
           <AboutText>
@@ -142,7 +135,7 @@ const AboutPage = () => {
             Curabitur congue enim nisi, nec venenatis nisi malesuada vitae. Phasellus ante odio,
             malesuada vitae ipsum id, venenatis cursus sem. Fusce ligula sem, varius sed urna
             bibendum, fringilla pharetra nunc. Praesent iaculis aliquam elit, at fermentum tortor
-            ultricies ut. Mauris.
+            ultricies ut.
           </AboutText>
         </TextOverlayBox>
       </AboutHeroSection>
@@ -151,19 +144,18 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Company Slogan</FooterHeading>
           <FooterText>
-            "Ride the Shallow,<br/>
-            Rule the Shore."
+            "Ride the Shallow,<br/>Rule the Shore."
           </FooterText>
         </FooterColumn>
 
         <FooterColumn>
           <FooterHeading>Social Medias</FooterHeading>
           <SocialIcons>
-            <a href="https://www.tiktok.com/@this_side_up.sg" target="_blank" rel="noopener noreferrer">
-              <SocialIconImage src="/assets/images/tiktok.png" alt="TikTok" />
-            </a>
             <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
-              <SocialIconImage src="/assets/images/instagram.png" alt="Instagram" />
+              <IconImage src="/assets/icons/instagram.png" alt="Instagram" />
+            </a>
+            <a href="https://www.tiktok.com/@this_side_up.sg" target="_blank" rel="noopener noreferrer">
+              <IconImage src="/assets/icons/tiktok.png" alt="TikTok" />
             </a>
           </SocialIcons>
           <FooterText>@this_side_up.sg</FooterText>
