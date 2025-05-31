@@ -108,12 +108,12 @@ const Navbar = () => {
   
   const productCategories = [
     { name: 'All Products', path: '/products' },
-    { name: 'Skimboards', path: '/products/skimboards' },
-    { name: 'T-Shirts', path: '/products/t-shirts' },
-    { name: 'Boardshorts', path: '/products/boardshorts' },
-    { name: 'Accessories', path: '/products/accessories' },
-    { name: 'Beach Bags', path: '/products/beach-bags' },
-    { name: 'Towels', path: '/products/towels' }
+    { name: 'Skimboards', path: '/products/category/Skimboards' },
+    { name: 'T-Shirts', path: '/products/category/T-Shirts' },
+    { name: 'Boardshorts', path: '/products/category/Boardshorts' },
+    { name: 'Accessories', path: '/products/category/Accessories' },
+    { name: 'Beach Bags', path: '/products/category/Beach Bags' },
+    { name: 'Towels', path: '/products/category/Towels' }
   ];
 
   return (
