@@ -1,31 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// --- STYLED COMPONENTS ---
+
 const AboutPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 const AboutHeroSection = styled.section`
-  min-height: 70vh;
+  min-height: 75vh;
   background-image: url('/assets/images/about-us-background.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
+  padding: 32px 16px;
   position: relative;
 `;
 
 const TextOverlayBox = styled.div`
   background-color: rgba(26, 26, 26, 0.8);
   color: #ffffff;
-  padding: 40px;
+  padding: 32px;
   border-radius: 8px;
   max-width: 850px;
   text-align: left;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+  }
 `;
 
 const PageTitle = styled.h1`
@@ -45,11 +53,11 @@ const AboutText = styled.p`
 
   &:first-of-type::first-letter {
     font-family: var(--font-heading);
-    font-size: 48px;
-    color: #FFFFFF;
+    font-size: 64px;
+    color: #FFD9EB;
     float: left;
-    line-height: 0.8;
-    margin-right: 8px;
+    line-height: 1;
+    margin-right: 12px;
     margin-top: 4px;
   }
 `;
@@ -59,13 +67,13 @@ const FooterSection = styled.footer`
   flex-wrap: wrap;
   background: linear-gradient(90deg, #3D0B52, #1A1A1A);
   color: #FFFFFF;
-  padding: 48px 32px;
+  padding: 24px 32px;
   justify-content: space-between;
 `;
 
 const FooterColumn = styled.div`
   flex: 1 1 220px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 `;
 
 const FooterHeading = styled.h3`
@@ -96,16 +104,16 @@ const SocialIcons = styled.div`
   display: flex;
   gap: 16px;
   margin: 12px 0;
+  align-items: center;
+`;
 
-  img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
+const SocialIconImage = styled.img`
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
 
-  img:hover {
-    transform: scale(1.1);
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
@@ -118,7 +126,7 @@ const AboutPage = () => {
         backgroundSize: '1950px',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        height: '100vh',
+        height: '75vh',
         padding: '0rem'
       }}>
         <TextOverlayBox>
@@ -143,7 +151,7 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Company Slogan</FooterHeading>
           <FooterText>
-            "Ride the Shallow,<br />
+            "Ride the Shallow,<br/>
             Rule the Shore."
           </FooterText>
         </FooterColumn>
@@ -151,11 +159,11 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Social Medias</FooterHeading>
           <SocialIcons>
-            <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
-              <img src="/assets/icons/instagram.png" alt="Instagram" />
-            </a>
             <a href="https://www.tiktok.com/@this_side_up.sg" target="_blank" rel="noopener noreferrer">
-              <img src="/assets/icons/tiktok.png" alt="TikTok" />
+              <SocialIconImage src="/assets/images/tiktok.png" alt="TikTok" />
+            </a>
+            <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
+              <SocialIconImage src="/assets/images/instagram.png" alt="Instagram" />
             </a>
           </SocialIcons>
           <FooterText>@this_side_up.sg</FooterText>
@@ -171,9 +179,7 @@ const AboutPage = () => {
 
         <FooterColumn>
           <FooterHeading>Contact</FooterHeading>
-          <FooterText>
-            📍 112 East Coast Road, #02-08 KANTONG MALL
-          </FooterText>
+          <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
           <FooterText>📞 +65 8900 2121</FooterText>
           <FooterText>📠 53451524L</FooterText>
           <FooterText>📧 inquiries@thissideup.com</FooterText>
