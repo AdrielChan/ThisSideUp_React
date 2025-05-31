@@ -26,7 +26,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "RADBUG Skimboard Natural Wood Small",
     description: "Classic wooden skimboard, perfect for beginners and calm waters. Features a natural wood finish.",
-    imageUrl: "/assets/images/products/skimboard_radbug_natural_small.png", // Replace with actual path
+    imageUrl: "public/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Wood",
     price: 20.60,
