@@ -1,16 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// --- STYLED COMPONENTS ---
-
 const AboutPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 `;
 
 const AboutHeroSection = styled.section`
-  flex: 1;
+  min-height: 70vh;
   background-image: url('/assets/images/about-us-background.jpg');
   background-size: cover;
   background-position: center;
@@ -97,9 +94,19 @@ const FooterLink = styled.a`
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: 12px;
+  gap: 16px;
   margin: 12px 0;
-  font-size: 20px;
+
+  img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  img:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const AboutPage = () => {
@@ -111,6 +118,7 @@ const AboutPage = () => {
         backgroundSize: '1950px',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
+        height: '100vh',
         padding: '0rem'
       }}>
         <TextOverlayBox>
@@ -135,19 +143,20 @@ const AboutPage = () => {
         <FooterColumn>
           <FooterHeading>Company Slogan</FooterHeading>
           <FooterText>
-            "Ride the Shallow,"
-            <br />
-            "Rule the Shore."
+            "Ride the Shallow,<br />
+            Rule the Shore."
           </FooterText>
         </FooterColumn>
 
         <FooterColumn>
           <FooterHeading>Social Medias</FooterHeading>
           <SocialIcons>
-            <i className="fab fa-instagram"></i>
-            <i className="fab fa-facebook"></i>
-            <i className="fab fa-tiktok"></i>
-            <i className="fab fa-x-twitter"></i>
+            <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
+              <img src="/assets/icons/instagram.png" alt="Instagram" />
+            </a>
+            <a href="https://www.tiktok.com/@this_side_up.sg" target="_blank" rel="noopener noreferrer">
+              <img src="/assets/icons/tiktok.png" alt="TikTok" />
+            </a>
           </SocialIcons>
           <FooterText>@this_side_up.sg</FooterText>
         </FooterColumn>
@@ -162,7 +171,9 @@ const AboutPage = () => {
 
         <FooterColumn>
           <FooterHeading>Contact</FooterHeading>
-          <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
+          <FooterText>
+            📍 112 East Coast Road, #02-08 KANTONG MALL
+          </FooterText>
           <FooterText>📞 +65 8900 2121</FooterText>
           <FooterText>📠 53451524L</FooterText>
           <FooterText>📧 inquiries@thissideup.com</FooterText>
