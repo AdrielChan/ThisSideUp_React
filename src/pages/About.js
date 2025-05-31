@@ -160,7 +160,7 @@ const AboutPage = () => {
 
       <FooterSection id='font25'>
         <FooterColumn>
-          <FooterHeading id='font2'>Company Slogan</FooterHeading>
+          <FooterHeading id='font2'>Our Slogan</FooterHeading>
           <FooterDivider />
           <FooterText>
             "Ride the Shallow,<br />Rule the Shore."
