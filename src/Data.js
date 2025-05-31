@@ -26,7 +26,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "RADBUG Skimboard Natural Wood Small",
     description: "Classic wooden skimboard, perfect for beginners and calm waters. Features a natural wood finish.",
-    imageUrl: "public/Product Photos/Candy Camo.jpeg", // Replace with actual path
+    imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Wood",
     price: 20.60,
@@ -40,7 +40,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Blue Wave Pro Skimboard",
     description: "High-performance skimboard with a vibrant blue wave design. Suitable for intermediate to advanced riders.",
-    imageUrl: "/assets/images/products/skimboard_blue_wave_pro.png", // Replace with actual path
+    imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Foam",
     price: 35.00,
@@ -54,7 +54,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Sunset Orange Skimboard",
     description: "Colorful skimboard featuring a sunset orange gradient. Great for all skill levels.",
-    imageUrl: "/assets/images/products/skimboard_sunset_orange.png",
+    imageUrl: "/Product Photos/Candy Camo.jpeg",
     category: "Skimboards",
     type: "Composite",
     price: 30.50,
@@ -70,7 +70,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Cetaphil SUN 50 Sheer Mineral Sunscreen Lotion",
     description: "Broad Spectrum SPF 50. Gentle formula for sensitive skin. 3 FL OZ.",
-    imageUrl: "/assets/images/products/sunscreen_cetaphil_sheer_mineral.png", // Replace with actual path
+    imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Sunscreen",
     type: "Lotion",
     price: 27.60,
@@ -84,7 +84,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Neutrogena Ultra Sheer Dry-Touch Sunscreen SPF 55",
     description: "Broad Spectrum SPF 55. Lightweight, non-greasy feel.",
-    imageUrl: "/assets/images/products/sunscreen_neutrogena_ultra_sheer.png", // Replace with actual path
+    imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Sunscreen",
     type: "Lotion",
     price: 15.20,
@@ -100,7 +100,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Striped Beach Tote Bag - Pink & White",
     description: "Spacious and stylish rope handle tote bag for all your beach essentials. Durable canvas material.",
-    imageUrl: "/assets/images/products/beach_tote_pink_white.png", // Replace with actual path
+    imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Beach Bags",
     type: "Tote",
     price: 19.50,
@@ -114,7 +114,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Inflatable Island Lounger with Canopy",
     description: "Relax in style on this large inflatable lounger featuring a sun canopy. Perfect for pools and calm beach waters.",
-    imageUrl: "/assets/images/products/inflatable_lounger_canopy.png", // Replace with actual path
+    imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Beach Gear",
     type: "Floats",
     price: 59.50,
@@ -128,7 +128,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Black Bucket Hat with Neck Cover",
     description: "Versatile black bucket hat with detachable neck cover and face shield for ultimate sun protection.",
-    imageUrl: "/assets/images/products/bucket_hat_black_neck_cover.png",
+    imageUrl: "/Product Photos/Candy Camo.jpeg",
     category: "Hats",
     type: "Bucket Hat",
     price: 50.00, // Price seems high for a hat, might be a bundle
@@ -144,7 +144,7 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Classic Black Sunglasses",
     description: "Timeless black sunglasses with UV protection.",
-    imageUrl: "/assets/images/products/sunglasses_classic_black.png",
+    imageUrl: "/Product Photos/Candy Camo.jpeg",
     category: "Beach Apparel", // Or "Accessories"
     type: "Sunglasses",
     price: 10.98,

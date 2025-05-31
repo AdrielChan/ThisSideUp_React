@@ -3,15 +3,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const CardWrapper = styled(Link)`
-  background-color: var(--color-input-background, #FFFFFF); /* White card bg from Figma */
-  color: var(--color-text-dark, #333333); /* Dark text for name/price */
+const CardWrapper = styled(Link)` // Link to product detail page
+  background-color: var(--color-input-background, #FFFFFF);
+  color: var(--color-text-dark, #333333);
   border-radius: var(--border-radius, 8px);
   overflow: hidden;
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
   &:hover {
@@ -21,33 +21,31 @@ const CardWrapper = styled(Link)`
 `;
 
 const ProductImageWrapper = styled.div`
-  background-color: #f7f7f7; /* Light gray background for the image area itself */
-  padding: var(--spacing-s); /* Small padding around image if needed */
+  background-color: #f7f7f7;
+  padding: var(--spacing-s, 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1 / 1; /* Maintain square aspect ratio for image container */
+  aspect-ratio: 1 / 1;
 `;
 
 const ProductImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Use 'contain' to see the whole product image */
+  object-fit: contain;
 `;
 
 const ProductInfo = styled.div`
   padding: var(--spacing-m, 16px);
-  text-align: left; /* Text aligned left */
+  text-align: left;
 `;
 
 const ProductName = styled.h3`
-  font-size: var(--font-size-small, 14px); /* Smaller font from Figma */
+  font-size: var(--font-size-small, 14px);
   font-family: var(--font-main);
   color: var(--color-text-dark, #333333);
   margin: 0 0 var(--spacing-xs, 4px) 0;
   line-height: 1.3;
-  
-  /* For truncating text to two lines if needed */
   min-height: 2.6em; 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -59,17 +57,29 @@ const ProductName = styled.h3`
 const ProductPrice = styled.p`
   font-size: var(--font-size-medium, 16px);
   font-weight: bold;
-  color: var(--color-primary-purple, #5D3FD3); /* Purple price text */
+  color: var(--color-primary-purple, #5D3FD3);
   margin: 0;
 `;
 
 const ProductCard = ({ product }) => {
   if (!product) return null;
 
+
+  // If your images are directly in public/Product Photos, 
+  let imagePath = product.imageUrl || '/assets/images/placeholder-product.png';
+  if (imagePath.startsWith('public/')) {
+    imagePath = `/${imagePath}`; // e.g., /public/Product Photos/Candy Camo.jpeg
+                                 // Make sure your server serves the public folder correctly
+  } else if (!imagePath.startsWith('/assets/')) {
+
+  }
+
+
   return (
-    <CardWrapper to={`/product/${product._id}`}>
+    // Link to the unique product detail page
+    <CardWrapper to={`/product/${product._id}`}> 
       <ProductImageWrapper>
-        <ProductImage src={product.imageUrl || '/assets/images/placeholder-product.png'} alt={product.name} />
+        <ProductImage src={imagePath} alt={product.name} />
       </ProductImageWrapper>
       <ProductInfo>
         <ProductName>{product.name}</ProductName>
