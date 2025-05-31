@@ -1,31 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
+import '../index.css';
 
+// Styled Components
 const AboutPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 const AboutHeroSection = styled.section`
-  min-height: 70vh;
-  background-image: url('/assets/images/about-us-background.jpg');
+  min-height: calc(100vh - 160px);
+  background-image: url('/assets/images/homebanner.png');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
-  position: relative;
+  padding: 0;
 `;
 
 const TextOverlayBox = styled.div`
-  background-color: rgba(26, 26, 26, 0.8);
+  background-color: rgba(26, 26, 26, 0.85);
   color: #ffffff;
-  padding: 40px;
+  padding: 36px;
   border-radius: 8px;
   max-width: 850px;
   text-align: left;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const PageTitle = styled.h1`
@@ -45,12 +53,12 @@ const AboutText = styled.p`
 
   &:first-of-type::first-letter {
     font-family: var(--font-heading);
-    font-size: 48px;
-    color: #FFFFFF;
+    font-size: 64px;
+    color: #FFD9EB;
     float: left;
-    line-height: 0.8;
+    line-height: 1;
     margin-right: 8px;
-    margin-top: 4px;
+    margin-top: 2px;
   }
 `;
 
@@ -59,13 +67,13 @@ const FooterSection = styled.footer`
   flex-wrap: wrap;
   background: linear-gradient(90deg, #3D0B52, #1A1A1A);
   color: #FFFFFF;
-  padding: 48px 32px;
+  padding: 32px 24px;
   justify-content: space-between;
 `;
 
 const FooterColumn = styled.div`
   flex: 1 1 220px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 `;
 
 const FooterHeading = styled.h3`
@@ -94,33 +102,36 @@ const FooterLink = styled.a`
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 12px;
   margin: 12px 0;
+  align-items: center;
+`;
 
-  img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
+const IconImage = styled.img`
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
 
-  img:hover {
-    transform: scale(1.1);
+  &:hover {
+    transform: scale(1.08);
+    transition: 0.3s ease;
   }
 `;
 
+// Main Component
 const AboutPage = () => {
   const backgroundImage = "homebanner.png";
+
   return (
     <AboutPageWrapper>
       <AboutHeroSection style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: '1950px',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        height: '100vh',
-        padding: '0rem'
-      }}>
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize:'1950px',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      height: '100vh',
+      padding: '0rem'
+    }}>
         <TextOverlayBox>
           <PageTitle>About Us</PageTitle>
           <AboutText>
@@ -134,35 +145,34 @@ const AboutPage = () => {
             Curabitur congue enim nisi, nec venenatis nisi malesuada vitae. Phasellus ante odio,
             malesuada vitae ipsum id, venenatis cursus sem. Fusce ligula sem, varius sed urna
             bibendum, fringilla pharetra nunc. Praesent iaculis aliquam elit, at fermentum tortor
-            ultricies ut. Mauris.
+            ultricies ut.
           </AboutText>
         </TextOverlayBox>
       </AboutHeroSection>
 
-      <FooterSection>
-        <FooterColumn>
-          <FooterHeading>Company Slogan</FooterHeading>
+      <FooterSection id='font25' >
+        <FooterColumn >
+          <FooterHeading id='font2'>Company Slogan</FooterHeading>
           <FooterText>
-            "Ride the Shallow,<br />
-            Rule the Shore."
+            "Ride the Shallow,<br/>Rule the Shore."
           </FooterText>
         </FooterColumn>
 
         <FooterColumn>
-          <FooterHeading>Social Medias</FooterHeading>
+          <FooterHeading id='font2'>Social Medias</FooterHeading>
           <SocialIcons>
             <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
-              <img src="/assets/icons/instagram.png" alt="Instagram" />
+              <IconImage src="/assets/icons/instagram.png" alt="Instagram" />
             </a>
             <a href="https://www.tiktok.com/@this_side_up.sg" target="_blank" rel="noopener noreferrer">
-              <img src="/assets/icons/tiktok.png" alt="TikTok" />
+              <IconImage src="/assets/icons/tiktok.png" alt="TikTok" />
             </a>
           </SocialIcons>
           <FooterText>@this_side_up.sg</FooterText>
         </FooterColumn>
 
         <FooterColumn>
-          <FooterHeading>Useful Links</FooterHeading>
+          <FooterHeading id='font2'>Useful Links</FooterHeading>
           <FooterLink href="#">Your Account</FooterLink>
           <FooterLink href="#">Become an Affiliate</FooterLink>
           <FooterLink href="#">Shipping Rates</FooterLink>
@@ -170,10 +180,8 @@ const AboutPage = () => {
         </FooterColumn>
 
         <FooterColumn>
-          <FooterHeading>Contact</FooterHeading>
-          <FooterText>
-            📍 112 East Coast Road, #02-08 KANTONG MALL
-          </FooterText>
+          <FooterHeading id='font2'>Contact</FooterHeading>
+          <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
           <FooterText>📞 +65 8900 2121</FooterText>
           <FooterText>📠 53451524L</FooterText>
           <FooterText>📧 inquiries@thissideup.com</FooterText>

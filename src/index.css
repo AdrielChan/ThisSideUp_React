@@ -1,13 +1,39 @@
 /* File: public/index.css or src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Lilita+One&display=swap');
 /* Define CSS Custom Properties (Variables) based on the theme */
 #font1 {
   font-family: "Inria Serif", serif;
   font-weight: bold;
 }
+#font2 {
+  font-family: "Instrument Sans", sans-serif;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+#font25 {
+  font-family: "Instrument Sans", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+}
 
 #longpara {
   line-height: 25px;
+}
+
+#qn {
+  font-family: "Inria Serif", serif;
+  font-weight: bold;
+  width: 650px;
+  margin: auto;
+  text-align: center;
+  font-size: 24px;
+  background-color: #78405B;
+  color: white;
+  border-radius: 24px;
+  height: 66px;
+  line-height: 66px;
 }
 
 :root {
