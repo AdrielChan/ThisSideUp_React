@@ -1,7 +1,12 @@
-// File: src/components/products/ProductCard.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+
+
+
+
 
 const CardWrapper = styled(Link)` // Link to product detail page
   background-color: var(--color-input-background, #FFFFFF);
@@ -76,6 +81,8 @@ const ProductCard = ({ product }) => {
 
 
   return (
+    
+
     // Link to the unique product detail page
     <CardWrapper to={`/product/${product._id}`}> 
       <ProductImageWrapper>
