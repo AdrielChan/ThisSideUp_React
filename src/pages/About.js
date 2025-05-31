@@ -58,7 +58,7 @@ const AboutText = styled.p`
     float: left;
     line-height: 1;
     margin-right: 8px;
-    margin-top: 2px;
+    margin-top: -8px;
   }
 `;
 
