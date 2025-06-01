@@ -46,7 +46,7 @@ const PreviewArea = styled.div`
 const SkimboardPreview = styled.div`
   width: 500px; // Adjust as needed
   height: 1000px; // Adjust as needed
-  border-radius: 300px / 500px; // Oval shape
+  border-radius: 500px / 1000px; // Oval shape
   border: 1px solid #FFF; // Example border
   position: relative; // For positioning text and decals
   overflow: hidden; // Clip content to board shape
