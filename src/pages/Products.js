@@ -1,26 +1,46 @@
-// File: src/pages/products/ProductsPage.js 
-// (Rename your existing Products.js to this and place it in src/pages/products/)
+// File: src/pages/Products.js (or src/pages/products/ProductsPage.js)
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { FaChevronDown } from 'react-icons/fa'; // For dropdown arrow
+import { FaChevronDown } from 'react-icons/fa';
 
-// Corrected import paths assuming ProductsPage.js is in src/pages/products/
+// Corrected import paths assuming Products.js is in src/pages/
+// If Products.js is in src/pages/products/, then use:
+// import { useProducts } from '../../contexts/ProductContext'; 
+// import ProductCard from '../../components/products/ProductCard';
 import { useProducts } from '../contexts/ProductContext'; 
-import ProductCard from '../pages/ProductCard'; // Import the REUSABLE CARD
+// The ProductCard import in your provided Products.js was:
+// import ProductCard from './ProductCard'; 
+// This implies ProductCard.js is in the SAME FOLDER as Products.js (e.g., src/pages/ProductCard.js)
+// For a reusable component, it's better in src/components/products/ProductCard.js
+// Let's assume you've moved it as per best practice:
+import ProductCard from './ProductCard'; 
 
-// --- STYLED COMPONENTS (Copied from your "Products.js" file in the prompt) ---
-// Ensure these styles are appropriate for a product listing page
+
 const PageWrapper = styled.div`
   background-color: var(--color-primary-purple, #5D3FD3);
   color: var(--color-text-light, #FFFFFF);
+  min-height: 100vh; /* Ensure it takes at least full viewport height */
+  padding: var(--spacing-l, 24px) var(--spacing-m, 16px);
+  /* Removed padding-bottom: 100px from here, will add margin to content */
+  display: flex; /* Added for footer spacing */
+  flex-direction: column; /* Added for footer spacing */
 `;
+
+const MainContent = styled.main`
+  flex-grow: 1; /* Allows this section to grow and push footer down */
+  /* Add margin-bottom to create space for the footer if footer is not sticky */
+  /* If Footer is absolutely positioned or part of App.js layout, this might not be needed */
+  /* For now, assuming Footer is rendered after PageWrapper in a standard flow */
+  margin-bottom: var(--spacing-xxl, 60px); /* ADJUST THIS VALUE FOR GAP TO FOOTER */
+`;
+
 
 const PageHeader = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between; /* This will push Category and Cart button to opposite ends */
   align-items: center;
-  margin-bottom: var(--spacing-l, 24px);
+  margin-bottom: var(--spacing-xl, 32px); /* Increased margin below header */
   padding: 0 var(--spacing-m, 16px);
   max-width: 1200px;
   margin-left: auto;
@@ -34,21 +54,22 @@ const CategorySelectorWrapper = styled.div`
 const CategoryDisplayButton = styled.button`
   background-color: var(--color-secondary-peach, #FFDAB9);
   color: var(--color-primary-purple, #5D3FD3);
-  padding: var(--spacing-s, 8px) var(--spacing-m, 16px); /* Adjusted padding */
+  padding: var(--spacing-s, 10px) var(--spacing-l, 20px); /* Adjusted padding for looks */
   border: none;
-  border-radius: var(--border-radius, 8px);
-  font-size: var(--font-size-large, 20px);
-  font-family: var(--font-heading); /* Check var definition */
+  border-radius: var(--border-radius-m, 6px); /* Slightly less rounded than original */
+  font-size: var(--font-size-large, 18px); /* Adjusted size */
+  font-family: var(--font-heading);
   font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
-  min-width: 220px; 
+  min-width: 200px; 
   justify-content: space-between;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 
-  svg { /* For FaChevronDown */
+  svg {
     margin-left: var(--spacing-s, 8px);
+    font-size: var(--font-size-small, 14px); /* Smaller arrow */
   }
 `;
 
@@ -82,38 +103,39 @@ const CategoryDropdownItem = styled.li`
 
 const ProductGrid = styled.div`
   display: grid;
-  /* Ensure minmax is appropriate for your ProductCard size */
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--spacing-l, 24px);
   max-width: 1200px;
   margin: 0 auto;
 `;
 
-const StickyCartButton = styled(Link)`
-  /* ... your existing styles ... */
-  position: fixed;
-  bottom: var(--spacing-l, 24px);
-  left: 50%;
-  transform: translateX(-50%);
+// Renamed StickyCartButton to TopCartButton and adjusted styles
+const TopCartButton = styled(Link)`
   background-color: var(--color-secondary-peach, #FFDAB9);
   color: var(--color-text-dark, #333333);
-  padding: var(--spacing-m, 16px) var(--spacing-xl, 32px);
-  border-radius: var(--border-radius, 8px);
-  font-size: var(--font-size-large, 20px);
+  padding: var(--spacing-s, 10px) var(--spacing-l, 20px); /* Match category button padding */
+  border-radius: var(--border-radius-m, 6px); /* Match category button radius */
+  font-size: var(--font-size-large, 18px); /* Match category button font size */
+  font-family: var(--font-main); /* Or --font-heading if preferred */
   font-weight: bold;
   text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  z-index: 999;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* Prevent text wrapping */
+
+  &:hover {
+    background-color: var(--color-secondary-peach-dark, #FFA07A);
+  }
 `;
 
 const MessageText = styled.p`
   text-align: center;
   font-size: var(--font-size-large, 20px);
   margin-top: var(--spacing-xl, 32px);
-  color: var(--color-neutral-gray, #BDBDBD); /* Check var definition */
+  color: var(--color-neutral-gray, #BDBDBD);
 `;
 
-const Products = () => { // Renamed from Products
+const Products = () => {
   const { categoryName } = useParams();
   const navigate = useNavigate();
   const { 
@@ -122,16 +144,16 @@ const Products = () => { // Renamed from Products
     error, 
     categories, 
     currentCategory, 
-    filterAndSortProducts
+    // setCurrentCategory, // No longer directly using from here, context handles it
+    filterAndSortProducts 
   } = useProducts();
 
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const targetCategory = categoryName || 'All';
-    // No need to call setCurrentCategory here if filterAndSortProducts handles it
-    filterAndSortProducts(targetCategory); // Fetch/filter for this category
-  }, [categoryName, filterAndSortProducts]); // filterAndSortProducts will update currentCategory in context
+    filterAndSortProducts(targetCategory); 
+  }, [categoryName, filterAndSortProducts]);
 
   const handleCategorySelect = (category) => {
     setShowDropdown(false);
@@ -140,49 +162,52 @@ const Products = () => { // Renamed from Products
     } else {
       navigate(`/products/category/${encodeURIComponent(category)}`);
     }
-    // The useEffect above will trigger the filtering due to URL change
   };
   
   return (
     <PageWrapper>
-      <PageHeader>
-        <StickyCartButton to="/cart">Shopping cart</StickyCartButton>
-        <CategorySelectorWrapper>
-          <CategoryDisplayButton onClick={() => setShowDropdown(!showDropdown)}>
-            {currentCategory === "All" ? "All Products" : currentCategory}
-            <FaChevronDown />
-          </CategoryDisplayButton>
-          {showDropdown && (
-            <CategoryDropdownList>
-              {categories.map((cat) => (
-                <CategoryDropdownItem 
-                  key={cat} 
-                  onClick={() => handleCategorySelect(cat)}
-                >
-                  {cat === "All" ? "All Products" : cat}
-                </CategoryDropdownItem>
-              ))}
-            </CategoryDropdownList>
-          )}
-        </CategorySelectorWrapper>
-      </PageHeader>
+      <MainContent> {/* Wrap main content */}
+        <PageHeader>
+          <CategorySelectorWrapper>
+            <CategoryDisplayButton onClick={() => setShowDropdown(!showDropdown)}>
+              {currentCategory === "All" ? "All Products" : currentCategory}
+              <FaChevronDown /> {/* Add icon here */}
+            </CategoryDisplayButton>
+            {showDropdown && (
+              <CategoryDropdownList>
+                {categories.map((cat) => (
+                  <CategoryDropdownItem 
+                    key={cat} 
+                    onClick={() => handleCategorySelect(cat)}
+                  >
+                    {cat === "All" ? "All Products" : cat}
+                  </CategoryDropdownItem>
+                ))}
+              </CategoryDropdownList>
+            )}
+          </CategorySelectorWrapper>
+          <TopCartButton to="/cart">Shopping cart</TopCartButton> {/* Moved button here */}
+        </PageHeader>
 
-      {loading && <MessageText>Loading products...</MessageText>}
-      {error && <MessageText>Error: {error}</MessageText>}
-      
-      {!loading && !error && filteredProducts.length === 0 && (
-        <MessageText>No products found in this category.</MessageText>
-      )}
+        {loading && <MessageText>Loading products...</MessageText>}
+        {error && <MessageText>Error: {error}</MessageText>}
+        
+        {!loading && !error && filteredProducts.length === 0 && (
+          <MessageText>No products found in this category.</MessageText>
+        )}
 
-      {!loading && !error && filteredProducts.length > 0 && (
-        <ProductGrid>
-          {filteredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </ProductGrid>
-      )}
-
-      
+        {!loading && !error && filteredProducts.length > 0 && (
+          <ProductGrid>
+            {filteredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </ProductGrid>
+        )}
+      </MainContent>
+      {/* The Footer component should be rendered outside this PageWrapper by App.js 
+          or if it's inside, the PageWrapper flex properties will help.
+          If Footer is part of App.js, the margin-bottom on MainContent is key.
+      */}
     </PageWrapper>
   );
 };
