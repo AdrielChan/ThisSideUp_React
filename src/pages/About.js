@@ -67,40 +67,41 @@ const FooterSection = styled.footer`
   flex-wrap: wrap;
   background: linear-gradient(90deg, #3D0B52, #1A1A1A);
   color: #FFFFFF;
-  padding: 32px 24px;
+  padding: 24px 16px;
   justify-content: space-between;
 `;
 
 const FooterColumn = styled.div`
-  flex: 1 1 220px;
-  margin-bottom: 24px;
+  flex: 1 1 200px;
+  margin-bottom: 16px;
 `;
 
 const FooterHeading = styled.h3`
-  font-size: 20px;
+  font-size: 18px;
   color: #FFD9EB;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 `;
 
 const FooterDivider = styled.hr`
   border: none;
-  height: 2px;
+  height: 1.5px;
   background: #FFD9EB;
-  margin: 8px 0 16px 0;
-  width: 120px;
+  margin: 6px 0 12px 0;
+  width: 100px;
 `;
 
 const FooterText = styled.p`
-  font-size: 14px;
+  font-size: 13px;
   color: #E0E0E0;
-  line-height: 1.6;
+  line-height: 1.5;
+  margin-bottom: 6px;
 `;
 
 const FooterLink = styled.a`
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   color: #E0E0E0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-decoration: none;
 
   &:hover {
@@ -110,19 +111,19 @@ const FooterLink = styled.a`
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: 12px;
-  margin: 12px 0;
+  gap: 8px;
+  margin: 8px 0;
   align-items: center;
 `;
 
 const IconImage = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.08);
-    transition: 0.3s ease;
+    transform: scale(1.06);
+    transition: 0.25s ease;
   }
 `;
 
