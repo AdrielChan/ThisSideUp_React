@@ -108,7 +108,6 @@ const AboutPage = () => {
         </TextOverlayBox>
       </AboutHeroSection>
 
-      <Footer />
     </AboutPageWrapper>
   );
 };
