@@ -11,6 +11,7 @@ import Footer from './components/layout/Footer'; // Example
 // Lazy load pages for better performance
 const HomePage = lazy(() => import('./pages/Home')); // Example
 const Products = lazy(() => import('./pages/Products'));
+const About = lazy(() => import('./pages/About'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 // ... other page imports
 
@@ -24,6 +25,7 @@ function App() {
             <Suspense fallback={<div style={{textAlign: 'center', marginTop: '50px', color: 'white'}}>Loading Page...</div>}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/products/category/:categoryName" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} /> {/* Route for product detail */}
