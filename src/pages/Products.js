@@ -146,6 +146,7 @@ const Products = () => { // Renamed from Products
   return (
     <PageWrapper>
       <PageHeader>
+        <StickyCartButton to="/cart">Shopping cart</StickyCartButton>
         <CategorySelectorWrapper>
           <CategoryDisplayButton onClick={() => setShowDropdown(!showDropdown)}>
             {currentCategory === "All" ? "All Products" : currentCategory}
@@ -181,7 +182,7 @@ const Products = () => { // Renamed from Products
         </ProductGrid>
       )}
 
-      <StickyCartButton to="/cart">Shopping cart</StickyCartButton>
+      
     </PageWrapper>
   );
 };
