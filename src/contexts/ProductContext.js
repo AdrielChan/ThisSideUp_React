@@ -6,7 +6,7 @@ import {
     searchProductsAPI, 
     productCategories, 
     fetchProductById // Ensure Data.js exports this
-} from '../Data'; 
+} from '../Data'; // MAKE SURE THIS PATH IS CORRECT relative to ProductContext.js
 
 const ProductContext = createContext(null);
 
@@ -27,7 +27,8 @@ export const ProductProvider = ({ children }) => {
       const data = await fetchProducts();
       setProducts(data);
       // Apply initial filter (all products, default sort)
-      const initialFiltered = await searchProductsAPI('', 'All', sortBy);
+      // Pass empty search term for initial load of a category
+      const initialFiltered = await searchProductsAPI('', currentCategory, sortBy); 
       setFilteredProducts(initialFiltered);
     } catch (err) {
       setError(err.message || "Failed to fetch products.");
@@ -36,7 +37,7 @@ export const ProductProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [sortBy]); // Re-run if default sortBy changes, though unlikely
+  }, [currentCategory, sortBy]); // Include currentCategory and sortBy for initial filter logic
 
   useEffect(() => {
     loadAllProducts();
@@ -57,29 +58,33 @@ export const ProductProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [currentCategory, sortBy]); // Dependencies
+  }, [currentCategory, sortBy]); // These dependencies are for the default values if not provided
 
   const getProductById = useCallback(async (id) => {
-    // setLoading(true); // Optional: indicate loading for this specific fetch
+    setLoading(true); // Indicate loading when fetching a single product
+    setError(null);
     const productFromState = products.find(p => p._id === id);
     if (productFromState) {
-      // setLoading(false);
+      setLoading(false);
       return productFromState;
     }
     try {
       const fetchedProduct = await fetchProductById(id); // From Data.js
-      // setLoading(false);
+      setLoading(false);
+      if (!fetchedProduct) {
+        setError(`Product with ID ${id} not found.`);
+      }
       return fetchedProduct;
     } catch (err) {
       console.error(`Error fetching product by ID (${id}):`, err);
-      // setLoading(false);
+      setLoading(false);
       setError(err.message || `Failed to fetch product ${id}.`);
       return null;
     }
   }, [products]); // Depends on 'products' state to check cache first
 
   const value = {
-    products,             // All products
+    // products,             // All products (can be removed if not directly used by consumers)
     filteredProducts,     // Products to display
     loading,              // Boolean indicating data fetch state
     error,                // Error message string or null

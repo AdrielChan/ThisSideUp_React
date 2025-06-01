@@ -1,52 +1,41 @@
-import React, { useState, useEffect } from 'react';
-
+// File: src/components/products/ProductCard.js
+import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // To link to the detail page
 
-const CardWrapper = styled(Link)` // Link to product detail page
-  background-color: var(--color-input-background, #FFFFFF);
-  color: var(--color-text-dark, #333333);
+// Styled components for the card (can be adjusted to your preference)
+const CardWrapper = styled(Link)`
+  background-color: var(--color-background-dark-lighter, #2C2C2C); /* Example dark theme */
+  color: var(--color-text-light, #FFFFFF);
   border-radius: var(--border-radius, 8px);
-  overflow: hidden;
+  padding: var(--spacing-m, 16px);
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  gap: var(--spacing-s, 8px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
-`;
-
-const ProductImageWrapper = styled.div`
-  background-color: #f7f7f7;
-  padding: var(--spacing-s, 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1 / 1;
 `;
 
 const ProductImage = styled.img`
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-`;
-
-const ProductInfo = styled.div`
-  padding: var(--spacing-m, 16px);
-  text-align: left;
+  height: 180px; /* Adjust as needed */
+  object-fit: cover;
+  border-radius: calc(var(--border-radius, 8px) / 2);
+  background-color: var(--color-neutral-gray, #BDBDBD); /* Placeholder for missing images */
 `;
 
 const ProductName = styled.h3`
-  font-size: var(--font-size-small, 14px);
-  font-family: var(--font-main);
-  color: var(--color-text-dark, #333333);
-  margin: 0 0 var(--spacing-xs, 4px) 0;
+  font-size: var(--font-size-medium, 16px);
+  font-weight: 600;
+  margin: 0;
   line-height: 1.3;
-  min-height: 2.6em; 
+  min-height: 2.6em; /* Approx 2 lines */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -55,38 +44,23 @@ const ProductName = styled.h3`
 `;
 
 const ProductPrice = styled.p`
-  font-size: var(--font-size-medium, 16px);
+  font-size: var(--font-size-large, 18px);
   font-weight: bold;
-  color: var(--color-primary-purple, #5D3FD3);
+  color: var(--color-secondary-peach, #FFDAB9); /* Example price color */
   margin: 0;
 `;
 
 const ProductCard = ({ product }) => {
-  if (!product) return null;
-
-
-  // If your images are directly in public/Product Photos, 
-  let imagePath = product.imageUrl || '/assets/images/placeholder-product.png';
-  if (imagePath.startsWith('public/')) {
-    imagePath = `/${imagePath}`; // e.g., /public/Product Photos/Candy Camo.jpeg
-                                 // Make sure your server serves the public folder correctly
-  } else if (!imagePath.startsWith('/assets/')) {
-
+  if (!product) {
+    return null; // Or some placeholder
   }
 
-
   return (
-    
-
-    // Link to the unique product detail page
-    <CardWrapper to={`/product/${product._id}`}> 
-      <ProductImageWrapper>
-        <ProductImage src={imagePath} alt={product.name} />
-      </ProductImageWrapper>
-      <ProductInfo>
-        <ProductName>{product.name}</ProductName>
-        <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-      </ProductInfo>
+    <CardWrapper to={`/product/${product._id}`}> {/* Links to the detail page */}
+      <ProductImage src={product.imageUrl || '/images/placeholder-product.png'} alt={product.name} />
+      <ProductName>{product.name}</ProductName>
+      <ProductPrice>${product.price ? product.price.toFixed(2) : 'N/A'}</ProductPrice>
+      {/* You can add rating stars or other small details here if needed */}
     </CardWrapper>
   );
 };

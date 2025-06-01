@@ -1,25 +1,24 @@
-// File: src/pages/products/ProductsPage.js
+// File: src/pages/products/ProductsPage.js 
+// (Rename your existing Products.js to this and place it in src/pages/products/)
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-
+import { FaChevronDown } from 'react-icons/fa'; // For dropdown arrow
 
 // Corrected import paths assuming ProductsPage.js is in src/pages/products/
 import { useProducts } from '../contexts/ProductContext'; 
-import ProductCard from './ProductCard'; // CORRECTED PATH
+import ProductCard from '../pages/ProductCard'; // Import the REUSABLE CARD
 
-// --- STYLED COMPONENTS (Similar to your previous version) ---
+// --- STYLED COMPONENTS (Copied from your "Products.js" file in the prompt) ---
+// Ensure these styles are appropriate for a product listing page
 const PageWrapper = styled.div`
-  background-color: var(--color-primary-purple, #5D3FD3); /* Figma's dark purple page bg */
+  background-color: var(--color-primary-purple, #5D3FD3);
   color: var(--color-text-light, #FFFFFF);
-  min-height: calc(100vh - var(--header-height, 70px));
-  padding: var(--spacing-l, 24px) var(--spacing-m, 16px);
-  padding-bottom: 100px; /* More space for the sticky cart button */
 `;
 
 const PageHeader = styled.div`
   display: flex;
-  justify-content: flex-start; /* Category selector to the left */
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: var(--spacing-l, 24px);
   padding: 0 var(--spacing-m, 16px);
@@ -35,11 +34,11 @@ const CategorySelectorWrapper = styled.div`
 const CategoryDisplayButton = styled.button`
   background-color: var(--color-secondary-peach, #FFDAB9);
   color: var(--color-primary-purple, #5D3FD3);
-  padding: var(--spacing-s, 8px) var(--spacing-xl, 32px) var(--spacing-s, 8px) var(--spacing-m, 16px);
+  padding: var(--spacing-s, 8px) var(--spacing-m, 16px); /* Adjusted padding */
   border: none;
   border-radius: var(--border-radius, 8px);
   font-size: var(--font-size-large, 20px);
-  font-family: var(--font-heading);
+  font-family: var(--font-heading); /* Check var definition */
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -48,9 +47,8 @@ const CategoryDisplayButton = styled.button`
   justify-content: space-between;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 
-  svg {
-    margin-left: var(--spacing-m, 16px);
-    font-size: var(--font-size-medium, 16px);
+  svg { /* For FaChevronDown */
+    margin-left: var(--spacing-s, 8px);
   }
 `;
 
@@ -58,7 +56,7 @@ const CategoryDropdownList = styled.ul`
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  background-color: var(--color-secondary-peach-dark, #FFA07A); /* Darker peach for dropdown */
+  background-color: var(--color-secondary-peach-dark, #FFA07A);
   border: 1px solid var(--color-primary-purple, #5D3FD3);
   border-radius: var(--border-radius, 8px);
   list-style: none;
@@ -71,7 +69,7 @@ const CategoryDropdownList = styled.ul`
 
 const CategoryDropdownItem = styled.li`
   padding: var(--spacing-s, 8px) var(--spacing-m, 16px);
-  color: var(--color-text-dark, #333333); /* Dark text on peach */
+  color: var(--color-text-dark, #333333);
   cursor: pointer;
   font-size: var(--font-size-medium, 16px);
   font-weight: 500;
@@ -84,13 +82,15 @@ const CategoryDropdownItem = styled.li`
 
 const ProductGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted for Figma */
+  /* Ensure minmax is appropriate for your ProductCard size */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
   gap: var(--spacing-l, 24px);
   max-width: 1200px;
   margin: 0 auto;
 `;
 
 const StickyCartButton = styled(Link)`
+  /* ... your existing styles ... */
   position: fixed;
   bottom: var(--spacing-l, 24px);
   left: 50%;
@@ -104,21 +104,16 @@ const StickyCartButton = styled(Link)`
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   z-index: 999;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: var(--color-secondary-peach-dark, #FFA07A);
-  }
 `;
 
 const MessageText = styled.p`
   text-align: center;
   font-size: var(--font-size-large, 20px);
   margin-top: var(--spacing-xl, 32px);
-  color: var(--color-neutral-gray, #BDBDBD);
+  color: var(--color-neutral-gray, #BDBDBD); /* Check var definition */
 `;
 
-const Products = () => {
+const Products = () => { // Renamed from Products
   const { categoryName } = useParams();
   const navigate = useNavigate();
   const { 
@@ -127,38 +122,34 @@ const Products = () => {
     error, 
     categories, 
     currentCategory, 
-    setCurrentCategory, // Use this to set category in context
-    filterAndSortProducts // Use this to trigger filtering
+    filterAndSortProducts
   } = useProducts();
 
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const targetCategory = categoryName || 'All';
-    setCurrentCategory(targetCategory); // Update context so it knows the current category
+    // No need to call setCurrentCategory here if filterAndSortProducts handles it
     filterAndSortProducts(targetCategory); // Fetch/filter for this category
-  }, [categoryName, setCurrentCategory, filterAndSortProducts]);
+  }, [categoryName, filterAndSortProducts]); // filterAndSortProducts will update currentCategory in context
 
   const handleCategorySelect = (category) => {
     setShowDropdown(false);
-    // The useEffect above will handle the actual filtering when the URL changes
     if (category === "All") {
       navigate('/products');
     } else {
       navigate(`/products/category/${encodeURIComponent(category)}`);
     }
+    // The useEffect above will trigger the filtering due to URL change
   };
   
-  if (error) return <PageWrapper><MessageText>Error: {error}</MessageText></PageWrapper>;
-  // We are removing LoadingSpinner, so we'll show a message or just the empty grid if loading
-  // or rely on the initial empty state of filteredProducts.
-
   return (
     <PageWrapper>
       <PageHeader>
         <CategorySelectorWrapper>
           <CategoryDisplayButton onClick={() => setShowDropdown(!showDropdown)}>
             {currentCategory === "All" ? "All Products" : currentCategory}
+            <FaChevronDown />
           </CategoryDisplayButton>
           {showDropdown && (
             <CategoryDropdownList>
@@ -175,13 +166,14 @@ const Products = () => {
         </CategorySelectorWrapper>
       </PageHeader>
 
-      {loading && filteredProducts.length === 0 && <MessageText>Loading products...</MessageText>}
+      {loading && <MessageText>Loading products...</MessageText>}
+      {error && <MessageText>Error: {error}</MessageText>}
       
-      {!loading && filteredProducts.length === 0 && !error && (
+      {!loading && !error && filteredProducts.length === 0 && (
         <MessageText>No products found in this category.</MessageText>
       )}
 
-      {filteredProducts.length > 0 && (
+      {!loading && !error && filteredProducts.length > 0 && (
         <ProductGrid>
           {filteredProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
