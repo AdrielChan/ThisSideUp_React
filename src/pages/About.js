@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../index.css';
-import Footer from '../components/layout/Footer'; // Updated import path
+import Footer from '../components/layout/Footer';
 
 // Styled Components
 const AboutPageWrapper = styled.div`
