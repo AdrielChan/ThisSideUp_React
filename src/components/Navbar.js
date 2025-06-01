@@ -73,16 +73,17 @@ const ProductsDropdown = styled.div`
 const DropdownGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
+  gap: 0.25rem;
 `;
 
 const CategoryLink = styled(Link)`
   color: #333;
   text-decoration: none;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   display: block;
 
   &:hover {
@@ -98,6 +99,7 @@ const DropdownTitle = styled.h3`
   margin: 0 0 1rem 0;
   padding: 0 1rem;
   font-weight: 600;
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 0.5rem;
 `;
