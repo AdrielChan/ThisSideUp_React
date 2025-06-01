@@ -3,11 +3,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-
-
-
-
-
 const CardWrapper = styled(Link)` // Link to product detail page
   background-color: var(--color-input-background, #FFFFFF);
   color: var(--color-text-dark, #333333);
