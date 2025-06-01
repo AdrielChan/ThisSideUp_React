@@ -42,6 +42,7 @@ const PageTitle = styled.h1`
   color: #FFD9EB;
   margin-bottom: 24px;
   text-align: left;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 const AboutText = styled.p`
@@ -50,6 +51,7 @@ const AboutText = styled.p`
   line-height: 1.8;
   color: #e0e0e0;
   margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 
   &:first-of-type::first-letter {
     font-family: var(--font-heading);
@@ -59,6 +61,7 @@ const AboutText = styled.p`
     line-height: 1;
     margin-right: 8px;
     margin-top: -8px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 `;
 
