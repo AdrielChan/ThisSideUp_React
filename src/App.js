@@ -12,6 +12,7 @@ import Footer from './components/layout/Footer'; // Example
 const HomePage = lazy(() => import('./pages/Home')); // Example
 const Products = lazy(() => import('./pages/Products'));
 const About = lazy(() => import('./pages/About'));
+const FAQ = lazy(() => import('./pages/FAQ'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 // ... other page imports
 
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/faq" element={<FAQ />} />
                 <Route path="/products/category/:categoryName" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} /> {/* Route for product detail */}
                 {/* Add other routes here */}
