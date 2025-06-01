@@ -1,108 +1,120 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'; // Assuming you'll have links here
+import { Link } from 'react-router-dom';
 
-// Styled components for the footer based on Figma (Page 25)
-const FooterContainer = styled.footer`
-  background-color: var(--color-background-dark, #1A1A1A);
-  color: var(--color-text-light, #FFFFFF);
-  padding: var(--spacing-xl, 32px) var(--spacing-m, 16px);
-  font-size: var(--font-size-small, 14px);
-`;
-
-const FooterGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacing-l, 24px);
-  max-width: 1200px;
-  margin: 0 auto;
+// Styled Components
+const FooterSection = styled.footer`
+  display: flex;
+  flex-wrap: wrap;
+  background: linear-gradient(90deg, #3D0B52, #1A1A1A);
+  color: #FFFFFF;
+  padding: 24px 16px;
+  justify-content: space-between;
 `;
 
 const FooterColumn = styled.div`
-  h4 {
-    color: var(--color-secondary-peach, #FFDAB9);
-    font-family: var(--font-heading);
-    font-size: var(--font-size-large, 20px);
-    margin-bottom: var(--spacing-m, 16px);
-  }
-  p, a {
-    color: var(--color-neutral-gray, #BDBDBD);
-    line-height: 1.8;
-    text-decoration: none;
-  }
-  a:hover {
-    color: var(--color-text-light, #FFFFFF);
-    text-decoration: underline;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    margin-bottom: var(--spacing-s, 8px);
+  flex: 1 1 200px;
+  margin-bottom: 16px;
+`;
+
+const FooterHeading = styled.h3`
+  font-size: 18px;
+  color: #FFD9EB;
+  margin-bottom: 12px;
+  font-family: var(--font-heading);
+`;
+
+const FooterDivider = styled.hr`
+  border: none;
+  height: 1.5px;
+  background: #FFD9EB;
+  margin: 6px 0 12px 0;
+  width: 100px;
+`;
+
+const FooterText = styled.p`
+  font-size: 13px;
+  color: #E0E0E0;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  font-family: var(--font-main);
+`;
+
+const FooterLink = styled.a`
+  display: block;
+  font-size: 13px;
+  color: #E0E0E0;
+  margin-bottom: 6px;
+  text-decoration: none;
+  font-family: var(--font-main);
+
+  &:hover {
+    color: #FFD9EB;
   }
 `;
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: var(--spacing-m, 16px);
-  margin-top: var(--spacing-s, 8px);
-  a {
-    font-size: var(--font-size-xlarge, 24px); /* Adjust if you use actual icons */
-    color: var(--color-neutral-gray, #BDBDBD);
-    &:hover {
-      color: var(--color-secondary-peach, #FFDAB9);
-    }
+  gap: 8px;
+  margin: 8px 0;
+  align-items: center;
+`;
+
+const IconImage = styled.img`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.06);
+    transition: 0.25s ease;
   }
 `;
 
-const CopyrightText = styled.p`
-  text-align: center;
-  margin-top: var(--spacing-xl, 32px);
-  font-size: var(--font-size-small, 14px);
-  color: var(--color-text-gray, #757575);
-  border-top: 1px solid var(--color-background-dark-lighter, #2C2C2C);
-  padding-top: var(--spacing-m, 16px);
-`;
+const Footer = () => {
+  return (
+    <FooterSection id='font25'>
+      <FooterColumn>
+        <FooterHeading id='font2'>Our Slogan</FooterHeading>
+        <FooterDivider />
+        <FooterText>
+          "Ride the Shallow,<br />Rule the Shore."
+        </FooterText>
+      </FooterColumn>
 
-const Footer = () => (
-  <FooterContainer>
-    <FooterGrid>
       <FooterColumn>
-        <h4>Company Slogan</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis dignissim dolor.</p>
-      </FooterColumn>
-      <FooterColumn>
-        <h4>Social Medias</h4>
-        {/* Replace text with actual icons */}
+        <FooterHeading id='font2'>Social Medias</FooterHeading>
+        <FooterDivider />
         <SocialIcons>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">IG</a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">FB</a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">TT</a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
+            <IconImage src="/assets/icons/instagram.png" alt="Instagram" />
+          </a>
+          <a href="https://www.tiktok.com/@this_side_up.sg" target="_blank" rel="noopener noreferrer">
+            <IconImage src="/assets/icons/tiktok.png" alt="TikTok" />
+          </a>
         </SocialIcons>
-        <p>@this_side_up.sg</p>
+        <FooterText>@this_side_up.sg</FooterText>
       </FooterColumn>
+
       <FooterColumn>
-        <h4>Useful Links</h4>
-        <ul>
-          <li><Link to="/login">Your Account</Link></li>
-          <li><Link to="/affiliate">Become an Affiliate</Link></li>
-          <li><Link to="/shipping">Shipping Rates</Link></li>
-          <li><Link to="/faq">Help & Advice</Link></li>
-        </ul>
+        <FooterHeading id='font2'>Useful Links</FooterHeading>
+        <FooterDivider />
+        <FooterLink href="#">Your Account</FooterLink>
+        <FooterLink href="#">Become an Affiliate</FooterLink>
+        <FooterLink href="#">Shipping Rates</FooterLink>
+        <FooterLink href="#">Help & Advice</FooterLink>
       </FooterColumn>
+
       <FooterColumn>
-        <h4>Contact</h4>
-        <p>112 East Coast Road<br />#02-08 KANTONG MALL</p>
-        <p>+65 8900 2121</p>
-        <p>
-          <a href="mailto:inquiries@thissideup.com">inquiries@thissideup.com</a>
-        </p>
+        <FooterHeading id='font2'>Contact</FooterHeading>
+        <FooterDivider />
+        <FooterText>📍 112 East Coast Road, #02-08 KANTONG MALL</FooterText>
+        <FooterText>📞 +65 8900 2121</FooterText>
+        <FooterText>📠 53451524L</FooterText>
+        <FooterText>📧 inquiries@thissideup.com</FooterText>
       </FooterColumn>
-    </FooterGrid>
-    <CopyrightText>© {new Date().getFullYear()} This Side Up. All Rights Reserved.</CopyrightText>
-  </FooterContainer>
-);
+    </FooterSection>
+  );
+};
 
 export default Footer;
