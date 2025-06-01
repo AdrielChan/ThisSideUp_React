@@ -46,6 +46,15 @@
   align-self:center;
 }
 
+input {
+  margin-top: 105px;
+  margin-bottom: 40px;
+  width: 706px;
+  height: 61px;
+  color: white;
+  border-radius: 50px;
+}
+
 :root {
   /* Colors */
   --color-primary-purple: #5D3FD3;

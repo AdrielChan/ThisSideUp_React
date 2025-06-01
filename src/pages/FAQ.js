@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import '../index.css';
 
 const Wrapper = styled.div`
   padding: 0rem;
@@ -17,8 +18,15 @@ const FAQ = () => {
       height: '250px',
       padding: '0rem',
     }}>
-      <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '706px', height: '1000px',  position: 'relative', margin: 'auto', }}>
+      <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '706px', height: 'auto', paddingBottom: '80px',  position: 'relative', margin: 'auto', paddingTop:'50px'}}>
         <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center', textShadow: '2px 2px 5px rgba(0,0,0,0.25)'}}>Frequently Asked Questions (FAQs)</p>
+        <form>
+                <input 
+                type="text"
+                // onChange={}
+                value='Type your question'
+                />
+                </form>
         <div id='qn'>
           <p>How do I customise my skim board?</p>
         </div>
@@ -36,7 +44,7 @@ const FAQ = () => {
         </div>
       </div>
       </div>
-      <div style={{backgroundColor: '#222', height: '800px',}}>
+      <div style={{backgroundColor: '#222', height: '720px',}}>
       </div>
     </Wrapper>
   );
