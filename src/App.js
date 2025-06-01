@@ -14,6 +14,7 @@ const Products = lazy(() => import('./pages/Products'));
 const About = lazy(() => import('./pages/About'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const DesignSkimboardPage = lazy(() => import('./pages/DesignSkimboard')); // New design page
 // ... other page imports
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/products/category/:categoryName" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} /> {/* Route for product detail */}
+                <Route path="/design-skimboard" element={<DesignSkimboardPage />} /> {/* Route for design page */}
                 {/* Add other routes here */}
               </Routes>
             </Suspense>

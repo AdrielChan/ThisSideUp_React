@@ -56,7 +56,7 @@ const Home = () => {
           shop offers a simple and convenient way to get
           everything you need for your next beach adventure to the shore.
         </p>
-         <DesignButton to="/design-skimboard">
+         <DesignButton to="/design-skimboard"> {/* Link to the new design page */}
             Design Your Skimboard
           </DesignButton>
       </div>
