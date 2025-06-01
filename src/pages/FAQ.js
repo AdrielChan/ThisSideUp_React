@@ -17,7 +17,7 @@ const FAQ = () => {
       height: '250px',
       padding: '0rem',
     }}>
-      <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '650px', height: '1000px', paddingLeft: '30px', position: 'relative', margin: 'auto', }}>
+      <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '706px', height: '1000px',  position: 'relative', margin: 'auto', }}>
         <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center', textShadow: '2px 2px 5px rgba(0,0,0,0.25)'}}>Frequently Asked Questions (FAQs)</p>
         <div id='qn'>
           <p>How do I customise my skim board?</p>

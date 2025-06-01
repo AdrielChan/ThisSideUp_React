@@ -31,7 +31,7 @@
 #qn {
   font-family: "Inria Serif", serif;
   font-weight: bold;
-  width: 650px;
+  width: 706px;
   margin: auto;
   text-align: left;
   padding-left: 27px;
@@ -43,7 +43,7 @@
   line-height: 66px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 28px;
-  
+  align-self:center;
 }
 
 :root {
