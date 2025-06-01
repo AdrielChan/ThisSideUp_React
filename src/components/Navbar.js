@@ -176,9 +176,27 @@ const Navbar = () => {
         </NavItem>
       </NavLinks>
       <div style={{display: 'flex', marginRight:'20px',}}>
-        <img id='icon' src='./assets/icons/icons8-search.png' width='35px' height='35px' alt='Search icon'></img>
-        <img id='icon' src='./assets/icons/icons8-cart.png' width='40px' height='40px' alt='Search icon'></img>
-        <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='Search icon'></img>
+        <StyledLink 
+            id='icon'
+            to="/search" 
+            className={location.pathname === '/search' ? 'active' : ''}
+          >
+            <img  src='./assets/icons/icons8-search.png' width='40px' height='40px' alt='Search icon'></img>
+        </StyledLink>
+        <StyledLink 
+            id='icon'
+            to="/cart" 
+            className={location.pathname === '/cart' ? 'active' : ''}
+          >
+            <img id='icon' src='./assets/icons/icons8-cart.png' width='40px' height='40px' alt='Cart icon'></img>
+        </StyledLink>
+        <StyledLink 
+            id='icon'
+            to="/" 
+            className={location.pathname === '/' ? 'active' : ''}
+          >
+            <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='User icon'></img>
+        </StyledLink>
       </div>
     </Nav>
   );
