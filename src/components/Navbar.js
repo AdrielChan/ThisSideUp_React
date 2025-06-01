@@ -12,12 +12,16 @@ const Nav = styled.nav`
   align-items: center;
   position: relative;
   z-index: 1000;
+  height: 80px;
 `;
 
 const NavLinks = styled.div`
   display: flex;
-  gap: 2rem;
-  padding-right: 70px;
+  gap: 3rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
 `;
 
 const NavItem = styled.div`
@@ -27,8 +31,9 @@ const NavItem = styled.div`
 const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
   
   &:hover {
     color: #b19cd9;
@@ -61,12 +66,11 @@ const ProductsDropdown = styled.div`
     position: absolute;
     top: -6px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(45deg);
     width: 12px;
     height: 12px;
     background: white;
     border-radius: 2px;
-    transform: translateX(-50%) rotate(45deg);
   }
 `;
 
@@ -154,18 +158,22 @@ const Navbar = () => {
             </DropdownGrid>
           </ProductsDropdown>
         </NavItem>
-        <StyledLink 
-          to="/about" 
-          className={location.pathname === '/about' ? 'active' : ''}
-        >
-          About
-        </StyledLink>
-        <StyledLink 
-          to="/faq" 
-          className={location.pathname === '/faq' ? 'active' : ''}
-        >
-          FAQ
-        </StyledLink>
+        <NavItem>
+          <StyledLink 
+            to="/about" 
+            className={location.pathname === '/about' ? 'active' : ''}
+          >
+            About
+          </StyledLink>
+        </NavItem>
+        <NavItem>
+          <StyledLink 
+            to="/faq" 
+            className={location.pathname === '/faq' ? 'active' : ''}
+          >
+            FAQ
+          </StyledLink>
+        </NavItem>
       </NavLinks>
     </Nav>
   );
