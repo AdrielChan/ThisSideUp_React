@@ -12,7 +12,7 @@ const Nav = styled.nav`
   align-items: center;
   position: relative;
   z-index: 1000;
-  height: 80px;
+  height: 106px;
 `;
 
 const NavLinks = styled.div`
@@ -175,10 +175,10 @@ const Navbar = () => {
           </StyledLink>
         </NavItem>
       </NavLinks>
-      <div style={{display: 'flex', paddingRight:'20px'}}>
-        <img id='icon' src='./assets/icons/icons8-search.png' width='35px' alt='Search icon'></img>
-        <img id='icon' src='./assets/icons/icons8-cart.png' width='35px' alt='Search icon'></img>
-        <img id='icon' src='./assets/icons/icons8-user.png' width='35px' alt='Search icon'></img>
+      <div style={{display: 'flex', marginRight:'20px',}}>
+        <img id='icon' src='./assets/icons/icons8-search.png' width='35px' height='35px' alt='Search icon'></img>
+        <img id='icon' src='./assets/icons/icons8-cart.png' width='40px' height='40px' alt='Search icon'></img>
+        <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='Search icon'></img>
       </div>
     </Nav>
   );
