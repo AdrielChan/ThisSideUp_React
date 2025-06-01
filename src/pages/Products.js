@@ -110,23 +110,7 @@ const ProductGrid = styled.div`
 `;
 
 // Renamed StickyCartButton to TopCartButton and adjusted styles
-const TopCartButton = styled(Link)`
-  background-color: var(--color-secondary-peach, #FFDAB9);
-  color: var(--color-text-dark, #333333);
-  padding: var(--spacing-s, 10px) var(--spacing-l, 20px); /* Match category button padding */
-  border-radius: var(--border-radius-m, 6px); /* Match category button radius */
-  font-size: var(--font-size-large, 18px); /* Match category button font size */
-  font-family: var(--font-main); /* Or --font-heading if preferred */
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-  transition: background-color 0.2s ease;
-  white-space: nowrap; /* Prevent text wrapping */
 
-  &:hover {
-    background-color: var(--color-secondary-peach-dark, #FFA07A);
-  }
-`;
 
 const MessageText = styled.p`
   text-align: center;
@@ -186,7 +170,7 @@ const Products = () => {
               </CategoryDropdownList>
             )}
           </CategorySelectorWrapper>
-          <TopCartButton to="/cart">Shopping cart</TopCartButton> {/* Moved button here */}
+
         </PageHeader>
 
         {loading && <MessageText>Loading products...</MessageText>}
