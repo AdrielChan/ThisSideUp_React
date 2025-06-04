@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import '../index.css';
 
@@ -6,8 +6,38 @@ const Wrapper = styled.div`
   padding: 0rem;
 `;
 
+function QnOpen() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(prev => !prev); // Toggle the visibility
+  };
+
+  return (
+    <div>
+      <div 
+        onClick={handleClick} 
+        style={{ cursor: 'pointer', padding: '10px', background: '#eee', width: '200px' }}
+      >
+        Click me
+      </div>
+      
+      {isVisible && (
+        <div style={{ marginTop: '10px', background: '#ccc', padding: '10px', width: '200px' }}>
+          I appear below!
+        </div>
+      )}
+    </div>
+  );
+}
+
 const FAQ = () => {
   const backgroundImage = "homebanner.png";
+  const [qnOpen, setQnOpen] = useState(false);
+
+  
+  }
+  
   return (
     <Wrapper>
       <div style={{
@@ -24,7 +54,7 @@ const FAQ = () => {
                 <input 
                 type="text"
                 // onChange={}
-                value='Type your question'
+                placeholder='Type your question'
                 />
                 </form>
         <div id='qn'>
