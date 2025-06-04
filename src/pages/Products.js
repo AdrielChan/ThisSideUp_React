@@ -4,16 +4,8 @@ import styled from 'styled-components';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 
-// Corrected import paths assuming Products.js is in src/pages/
-// If Products.js is in src/pages/products/, then use:
-// import { useProducts } from '../../contexts/ProductContext'; 
-// import ProductCard from '../../components/products/ProductCard';
+
 import { useProducts } from '../contexts/ProductContext'; 
-// The ProductCard import in your provided Products.js was:
-// import ProductCard from './ProductCard'; 
-// This implies ProductCard.js is in the SAME FOLDER as Products.js (e.g., src/pages/ProductCard.js)
-// For a reusable component, it's better in src/components/products/ProductCard.js
-// Let's assume you've moved it as per best practice:
 import ProductCard from './ProductCard'; 
 
 
@@ -188,10 +180,7 @@ const Products = () => {
           </ProductGrid>
         )}
       </MainContent>
-      {/* The Footer component should be rendered outside this PageWrapper by App.js 
-          or if it's inside, the PageWrapper flex properties will help.
-          If Footer is part of App.js, the margin-bottom on MainContent is key.
-      */}
+
     </PageWrapper>
   );
 };
