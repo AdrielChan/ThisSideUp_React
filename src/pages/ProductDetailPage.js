@@ -141,11 +141,12 @@ const ProductDetailPage = () => {
             {/* Left Column: Image */}
             <div className="w-full lg:w-2/5 xl:w-1/3 flex-shrink-0 flex justify-center">
               {/* 4. Size control and styling for the image container */}
-              <div className="bg-white/10 p-3 sm:p-4 rounded-lg shadow-xl aspect-square max-w-md lg:max-w-none w-full">
+              <div className="bg-white/10 p-3 sm:p-4 rounded-lg shadow-xl aspect-square max-w-md lg:max-w-none w-full flex items-center justify-center" style={{ width: '400px', height: '400px', maxWidth: '100%' }}>
                 <img
                   src={product.imageUrl || "/images/placeholder-product.png"}
                   alt={product.name}
-                  className="w-full h-full object-contain rounded-md" // Image fills its container
+                  className="w-full h-full object-contain rounded-md"
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
             </div>
