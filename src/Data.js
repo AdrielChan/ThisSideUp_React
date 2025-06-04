@@ -298,7 +298,12 @@ export const fetchOrdersForUserAPI = async (userId) => {
 };
 
 export const productCategories = [
-    "All", "Skimboards", "Sunscreen", "Hats", "Beach Bags", "Beach Gear", "Beach Apparal", "Towels", "Sandals", "Flip-Flops", "Traction Pads"
+    "All", 
+    "Skimboards", 
+    "T-Shirts", 
+    "Jackets", 
+    "Boardshorts", 
+    "Accessories", 
 ];
 
 export const topSearchTerms = [
