@@ -1,10 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import '../index.css';
 
 const Wrapper = styled.div`
   padding: 0rem;
 `;
+
+function QnOpen(props) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(prev => !prev);
+  };
+
+  return (
+    <div onClick={handleClick}>
+      <div id='qn'>
+        <p>{props.question}</p>
+      </div>
+      
+      <div>
+        {isVisible ? 
+        <div>
+          <div style={{border: 'none', height: '1.5px', background: '#FFD9EB', margin: '20px 0 20px 0', width: 'auto'}}></div>
+          <div id='qnAns'>
+            {props.ans.split('\n').map((line, index) => (
+            <p key={index}>{line}</p>
+            ))}
+          </div>
+        </div> : <p></p>}
+      </div>
+    </div>
+  );
+}
 
 const FAQ = () => {
   const backgroundImage = "homebanner.png";
@@ -20,33 +48,36 @@ const FAQ = () => {
       height: '250px',
       padding: '0rem',
     }}>
-      <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '706px', height: 'auto', paddingBottom: '80px',  position: 'relative', margin: 'auto', paddingTop:'50px'}}>
-        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px', textAlign: 'center', textShadow: '2px 2px 5px rgba(0,0,0,0.25)'}}>Frequently Asked Questions (FAQs)</p>
+      <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '706px', height: 'auto', paddingBottom: '74px',  position: 'relative', margin: 'auto', paddingTop:'50px'}}>
+        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', textAlign: 'center', textShadow: '2px 2px 5px rgba(0,0,0,0.25)', height: 'auto'}}>Frequently Asked Questions (FAQs)</p>
+      </div>
+      </div>
+      <div style={{backgroundColor: '#222', height: 'auto',}}>
+        <div id='font1' style={{paddingTop: '15px',backgroundImage: 'linear-gradient(to right, rgba(27,0,39,0.6), rgba(96,0,141,0.6), rgba(96,0,141,0.6), rgba(27,0,39,0.6))', width: '706px', height: 'auto', paddingBottom: '80px',  position: 'relative', margin: 'auto', paddingTop:'-20px'}}>
         <form>
-                <input 
-                type="text"
-                // onChange={}
-                placeholder='Type your question'
-                />
-                </form>
-        <div id='qn'>
-          <p>How do I customise my skim board?</p>
-        </div>
-        <div id='qn'>
-          <p>How long does order processing take?</p>
-        </div>
-        <div id='qn'>
-          <p>What if my order arrives damaged?</p>
-        </div>
-        <div id='qn'>
-          <p>Do we ship internationally?</p>
-        </div>
-        <div id='qn'>
-          <p>Do we accept returns/refunds?</p>
-        </div>
+              <input 
+              type="text"
+              // onChange={}
+              placeholder='Type your question'
+              />
+        </form>
+        <QnOpen question="How do I customise my skim board?" ans="
+        1. Click 'Design Your Own Board' on the homepage.
+        2. Design as you please. 🎨
+        3. Add to cart & checkout!" />
+
+        <QnOpen question="How long does order processing take?" ans="
+        🚀 Order Processing: 1-2 business days (3-5 days for custom boards).
+        📦 Fast Shipping? Add Express at checkout!
+        📧 Questions? inquiries@thissideup.com" />
+
+        <QnOpen question="What if my order arrives damaged?" ans="
+        Please contact us immediately at inquiries@thissideup.com with photos for a quick resolution." />
+
+        <QnOpen question="Do we ship internationally?" ans="🌍 Yes, we ship worldwide! Shipping rates vary by destination." />
+
+        <QnOpen question="Do we accept returns/refunds?" ans="✅ Yes, we do! Returns/refunds are accepted within 30 days for unused items. Check our full policy for details." />
       </div>
-      </div>
-      <div style={{backgroundColor: '#222', height: '702px',}}>
       </div>
     </Wrapper>
   );

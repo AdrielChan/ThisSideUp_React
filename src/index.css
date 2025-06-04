@@ -42,11 +42,30 @@
   font-size: 24px;
   background-color: #78405B;
   color: white;
-  border-radius: 24px;
+  border-radius: 24px 24px 0px 0px;
   height: 66px;
   line-height: 66px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 28px;
+  align-self:center;
+}
+
+#qnAns {
+  font-family: "Inria Serif", serif;
+  font-weight: bold;
+  width: 706px;
+  margin: auto;
+  margin-top: 20px;
+  text-align: left;
+  padding-left: 27px;
+  font-size: 20px;
+  background-color: #be6892;
+  border-radius: 0px 0px 24px 24px;
+  color: white;
+  height: auto;
+  line-height: 66px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  margin-top: 0px;
   align-self:center;
 }
 
