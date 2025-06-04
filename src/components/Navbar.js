@@ -10,13 +10,13 @@ function SearchIcon() {
   const handleClick = () => {
     setIsVisible(prev => !prev);
   };
-
+// YOU STOPPED HEREEEEEE AT ICON FUNCTIONALITY
   return (
     <div>
       <div style={{alignItems: 'center'}}>
-        {isVisible ? 
+        {isVisible==false ? 
         <div>
-          <form style={{display: 'flex'}}>
+          <form>
               <p1>
                 <input 
               id='search'
@@ -38,30 +38,21 @@ function SearchIcon() {
 
 // User Dropdown
 function UserDropdown() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setIsVisible(prev => !prev);
+  const handleClick2 = () => {
+    setIsOpen(prev => !prev);
   };
 
   return (
     <div>
       <div style={{alignItems: 'center'}}>
-        {isVisible ? 
-        <div>
-          <form style={{display: 'flex'}}>
-              <p1>
-                <input 
-              id='search'
-              type="text"
-              // onChange={}
-              placeholder='Search'
-              />
-              <img  src='./assets/icons/icons8-close.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
-              </p1>
-        </form>
-        </div> : 
-            <img id='icon' src='./assets/icons/icons8-search.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
+        <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='User icon' onClick={handleClick2}></img>
+        {isOpen==false ? 
+        // <div style={{backgroundColor:'#1B1B1B', width:'260px'}}></div>
+        ''
+         : 
+            <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='User icon' onClick={handleClick2}></img>
             }
       </div>
     </div>
@@ -240,8 +231,12 @@ const Navbar = () => {
           </StyledLink>
         </NavItem>
       </NavLinks>
-      <div style={{display: 'flex', marginRight:'20px',}}>
-        <SearchIcon />
+      <div style={{display:'flex',flexDirection:'row', marginRight:'20px', width:'auto'}}>
+        <StyledLink 
+            id='icon'
+          >
+            <SearchIcon />
+        </StyledLink>
         <StyledLink 
             id='icon'
             to="/cart" 
@@ -251,10 +246,8 @@ const Navbar = () => {
         </StyledLink>
         <StyledLink 
             id='icon'
-            to="/" 
-            className={location.pathname === '/' ? 'active' : ''}
           >
-            <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='User icon'></img>
+            <UserDropdown />
         </StyledLink>
       </div>
     </Nav>
