@@ -99,13 +99,24 @@ export const DesignProvider = ({ children }) => {
     }));
   };
 
+  const loadDesign = (designToLoad) => {
+    // Make sure the structure of designToLoad matches initialDesignState
+    // You might want to merge carefully or spread selectively
+    setCurrentDesign({
+        ...initialDesignState, // Start with a clean base to ensure all fields are present
+        ...designToLoad,      // Override with the loaded design's properties
+        _id: designToLoad._id || null // Keep track of the original ID if it exists
+    });
+  };
+
   const resetDesign = () => {
-    setCurrentDesign(initialDesignState);
+    setCurrentDesign({initialDesignState, _id: null});
   };
 
   const value = {
     currentDesign,
     updateDesign,
+    loadDesign,
     updateGradientStop,
     addGradientStop,
     removeGradientStop,
