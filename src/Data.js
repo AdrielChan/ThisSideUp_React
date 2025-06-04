@@ -4,18 +4,18 @@ const generateId = (prefix = 'id') => `${prefix}_${nextId++}`;
 export const initialUsers = [
   {
     _id: generateId('user'),
-    name: "John Doe",
-    email: "john.doe@example.com",
-    passwordHash: "hashed_password123", // In a real app, never store plain text or weak hashes
+    name: "Edward Barry Robert",
+    email: "Edward_BR@rocketmail.com",
+    passwordHash: "E92f47e3", // In a real app, never store plain text or weak hashes
     role: "customer",
     createdAt: new Date().toISOString(),
   },
   {
     _id: generateId('user'),
-    name: "Admin User",
-    email: "admin@example.com",
-    passwordHash: "hashed_admin_password",
-    role: "employee",
+    name: "Keiko Villanueva",
+    email: "keikomori@gmail.com",
+    passwordHash: "K3ikoMori2025", // In a real app, never store plain text or weak hashes
+    role: "admin",
     createdAt: new Date().toISOString(),
   },
 ];
@@ -34,7 +34,7 @@ export const initialProducts = [
     tags: ["beginner", "wood", "radbug"],
     rating: 4.0,
     numRatings: 12,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -48,7 +48,7 @@ export const initialProducts = [
     tags: ["intermediate", "advanced", "foam", "wave"],
     rating: 4.7,
     numRatings: 25,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -62,7 +62,7 @@ export const initialProducts = [
     tags: ["all levels", "composite", "colorful"],
     rating: 4.3,
     numRatings: 18,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
   },
 
   // Sunscreen (from page 11)
@@ -78,7 +78,7 @@ export const initialProducts = [
     tags: ["spf50", "mineral", "sensitive skin", "cetaphil"],
     rating: 4.8,
     numRatings: 96,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -92,7 +92,7 @@ export const initialProducts = [
     tags: ["spf55", "dry-touch", "neutrogena"],
     rating: 4.5,
     numRatings: 150,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
   },
   
   // Beach Gear (from page 8/9)
@@ -108,7 +108,7 @@ export const initialProducts = [
     tags: ["tote bag", "canvas", "striped"],
     rating: 4.2,
     numRatings: 45,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 15).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -122,7 +122,7 @@ export const initialProducts = [
     tags: ["inflatable", "lounger", "float", "canopy"],
     rating: 4.6,
     numRatings: 33,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -136,7 +136,7 @@ export const initialProducts = [
     tags: ["bucket hat", "sun protection", "fishing hat"],
     rating: 4.4,
     numRatings: 19,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6).toISOString(),
   },
   // Add more products...
   // Example Sunglasses
@@ -152,7 +152,7 @@ export const initialProducts = [
     tags: ["sunglasses", "uv protection", "classic"],
     rating: 4.1,
     numRatings: 77,
-    
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(),
   }
 ];
 
