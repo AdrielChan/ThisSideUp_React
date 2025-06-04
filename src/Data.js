@@ -65,7 +65,7 @@ export const initialProducts = [
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
   },
 
-  // Sunscreens (from page 11)
+  // Sunscreen (from page 11)
   {
     _id: generateId('prod'),
     name: "Lime Swirl Skimboard",
