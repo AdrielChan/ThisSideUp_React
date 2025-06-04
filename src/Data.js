@@ -298,7 +298,7 @@ export const fetchOrdersForUserAPI = async (userId) => {
 };
 
 export const productCategories = [
-    "All", "Skimboards", "Sunscreen", "Hats", "Beach Bags", "Beach Gear", "Beach Apparel", "Towels", "Sandals", "Flip-Flops", "Traction Pads"
+    "All", "Skimboards", "Sunscreen", "Hats", "Beach Bags", "Beach Gear", "Beach Apparal", "Towels", "Sandals", "Flip-Flops", "Traction Pads"
 ];
 
 export const topSearchTerms = [
