@@ -6,12 +6,12 @@ const Wrapper = styled.div`
   padding: 0rem;
 `;
 
-function QnOpen() {
-  const [isVisible, setIsVisible] = useState(false);
+// function QnOpen() {
+//   const [isVisible, setIsVisible] = useState(false);
 
-  const handleClick = () => {
-    setIsVisible(prev => !prev); // Toggle the visibility
-  };
+//   const handleClick = () => {
+//     setIsVisible(prev => !prev); // Toggle the visibility
+//   };
 
   return (
     <div>
