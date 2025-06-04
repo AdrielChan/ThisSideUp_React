@@ -100,11 +100,17 @@ const ProductDetailPage = () => {
 
 
         <div className="flex items-start justify-between px-10 pt-16 pb-8">
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 flex justify-center items-center"> {/* Added flex to center image if it's smaller than container */}
             <img
               src={product.imageUrl || "/images/placeholder-product.png"}
               alt={product.name}
-              className="w-[500px] h-[500px] rounded-[10px] object-cover"
+              className="rounded-[10px] object-contain" // Use object-contain to see full image
+              style={{
+                maxWidth: '500px', // Max width for the image
+                maxHeight: '500px', // Max height for the image
+                width: 'auto',      // Allow image to shrink based on aspect ratio
+                height: 'auto'      // Allow image to shrink based on aspect ratio
+              }}
             />
           </div>
 
