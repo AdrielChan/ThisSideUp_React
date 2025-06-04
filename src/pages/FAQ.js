@@ -62,13 +62,13 @@ const FAQ = () => {
               />
         </form>
         <QnOpen question="How do I customise my skim board?" ans="
-        1. Click 'Design Your Own Board' on the homepage.
-        2. Design as you please. 🎨
+        1. Click 'Design Your Own Board' on the homepage. \n
+        2. Design as you please. 🎨 \n
         3. Add to cart & checkout!" />
 
         <QnOpen question="How long does order processing take?" ans="
-        🚀 Order Processing: 1-2 business days (3-5 days for custom boards).
-        📦 Fast Shipping? Add Express at checkout!
+        🚀 Order Processing: 1-2 business days (3-5 days for custom boards). \n
+        📦 Fast Shipping? Add Express at checkout! \n
         📧 Questions? inquiries@thissideup.com" />
 
         <QnOpen question="What if my order arrives damaged?" ans="

@@ -3,6 +3,71 @@ import { Link, useLocation } from 'react-router-dom';
 import '../index.css';
 import styled from 'styled-components';
 
+// Search Bar
+function SearchIcon() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(prev => !prev);
+  };
+
+  return (
+    <div>
+      <div style={{alignItems: 'center'}}>
+        {isVisible ? 
+        <div>
+          <form style={{display: 'flex'}}>
+              <p1>
+                <input 
+              id='search'
+              type="text"
+              // onChange={}
+              placeholder='Search'
+              />
+              <img  src='./assets/icons/icons8-close.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
+              </p1>
+        </form>
+        </div> : 
+            <img id='icon' src='./assets/icons/icons8-search.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
+            }
+      </div>
+    </div>
+  );
+}
+
+
+// User Dropdown
+function UserDropdown() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(prev => !prev);
+  };
+
+  return (
+    <div>
+      <div style={{alignItems: 'center'}}>
+        {isVisible ? 
+        <div>
+          <form style={{display: 'flex'}}>
+              <p1>
+                <input 
+              id='search'
+              type="text"
+              // onChange={}
+              placeholder='Search'
+              />
+              <img  src='./assets/icons/icons8-close.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
+              </p1>
+        </form>
+        </div> : 
+            <img id='icon' src='./assets/icons/icons8-search.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
+            }
+      </div>
+    </div>
+  );
+}
+
 const Nav = styled.nav`
   background: #222;
   color: white;
@@ -176,13 +241,7 @@ const Navbar = () => {
         </NavItem>
       </NavLinks>
       <div style={{display: 'flex', marginRight:'20px',}}>
-        <StyledLink 
-            id='icon'
-            to="/search" 
-            className={location.pathname === '/search' ? 'active' : ''}
-          >
-            <img  src='./assets/icons/icons8-search.png' width='40px' height='40px' alt='Search icon'></img>
-        </StyledLink>
+        <SearchIcon />
         <StyledLink 
             id='icon'
             to="/cart" 

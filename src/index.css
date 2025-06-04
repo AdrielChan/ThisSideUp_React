@@ -32,6 +32,12 @@
   line-height: 25px;
 }
 
+#search {
+  width: 400px;
+  height: 40px;
+  align-self: center;
+}
+
 #qn {
   font-family: "Inria Serif", serif;
   font-weight: bold;
@@ -109,8 +115,8 @@ input {
   --font-size-medium: 1rem;     /* 16px */
   --font-size-large: 1.25rem;   /* 20px */
   --font-size-xlarge: 1.5rem;   /* 24px */
-  --font-size-xxlarge: 2rem;    /* 32px */
-  --font-size-hero: 3rem;       /* 48px */
+  --font-size-xxlarge: 2rem;    
+  --font-size-hero: 3rem;      
 
   /* Spacing */
   --spacing-xs: 0.25rem; /* 4px */
@@ -127,7 +133,7 @@ input {
   --footer-height: 200px; /* Approximate */
 }
 
-/* Global Styles applying the custom properties */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -153,7 +159,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: var(--font-size-xxlarge); }
 h2 { font-size: var(--font-size-xlarge); }
 h3 { font-size: var(--font-size-large); }
-/* Add h4, h5, h6 if specific sizes are needed beyond browser defaults */
+
 
 a {
   color: var(--color-primary-purple);
@@ -181,8 +187,8 @@ button {
   border: none;
   padding: var(--spacing-s) var(--spacing-m);
   border-radius: var(--border-radius);
-  background-color: var(--color-primary-purple); /* Default button background */
-  color: var(--color-text-light); /* Default button text color */
+  background-color: var(--color-primary-purple);
+  color: var(--color-text-light);
   transition: background-color 0.2s ease-in-out, transform 0.1s ease;
 }
 
