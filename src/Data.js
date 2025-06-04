@@ -71,7 +71,7 @@ export const initialProducts = [
     name: "Lime Swirl Skimboard",
     description: "Broad Spectrum SPF 50. Gentle formula for sensitive skin. 3 FL OZ.",
     imageUrl: "/Product Photos/Lime Swirl.jpeg", // Replace with actual path
-    category: "Sunscreen",
+    category: "Skimboards",
     type: "Lotion",
     price: 27.60,
     stock: 50,
@@ -85,7 +85,7 @@ export const initialProducts = [
     name: "Marble Fish Skimboard",
     description: "Broad Spectrum SPF 55. Lightweight, non-greasy feel.",
     imageUrl: "/Product Photos/Marble Fish.jpeg", // Replace with actual path
-    category: "Sunscreen",
+    category: "Skimboards",
     type: "Lotion",
     price: 15.20,
     stock: 75,
@@ -101,7 +101,7 @@ export const initialProducts = [
     name: "Marble Skimboard",
     description: "Spacious and stylish rope handle tote bag for all your beach essentials. Durable canvas material.",
     imageUrl: "/Product Photos/Marble.jpeg", // Replace with actual path
-    category: "Beach Bags",
+    category: "Skimboards",
     type: "Tote",
     price: 19.50,
     stock: 30,
@@ -115,7 +115,7 @@ export const initialProducts = [
     name: "Purple Carbon Skimboard",
     description: "Relax in style on this large inflatable lounger featuring a sun canopy. Perfect for pools and calm beach waters.",
     imageUrl: "/Product Photos/Purple Carbon.jpeg", // Replace with actual path
-    category: "Beach Gear",
+    category: "Skimboards",
     type: "Floats",
     price: 59.50,
     stock: 10,
@@ -129,7 +129,7 @@ export const initialProducts = [
     name: "Rasta Skimboard",
     description: "Versatile black bucket hat with detachable neck cover and face shield for ultimate sun protection.",
     imageUrl: "/Product Photos/Rasta.jpeg",
-    category: "Hats",
+    category: "Skimboards",
     type: "Bucket Hat",
     price: 50.00, // Price seems high for a hat, might be a bundle
     stock: 22,
