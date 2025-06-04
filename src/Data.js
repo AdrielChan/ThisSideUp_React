@@ -24,7 +24,7 @@ export const initialProducts = [
   // Skimboards (from page 12)
   {
     _id: generateId('prod'),
-    name: "Candy Camo",
+    name: "Candy Camo Skimboard",
     description: "Classic wooden skimboard, perfect for beginners and calm waters. Features a natural wood finish.",
     imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Skimboards",
@@ -38,7 +38,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Carbon Fiber Pro",
+    name: "Carbon Fiber Pro Skimboard",
     description: "High-performance skimboard with a vibrant blue wave design. Suitable for intermediate to advanced riders.",
     imageUrl: "/Product Photos/Carbon Fiber Pro.jpeg", // Replace with actual path
     category: "Skimboards",
@@ -52,7 +52,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Green Island",
+    name: "Green Island Skimboard",
     description: "Colorful skimboard featuring a sunset orange gradient. Great for all skill levels.",
     imageUrl: "/Product Photos/Green Island.jpeg",
     category: "Skimboards",
@@ -68,7 +68,7 @@ export const initialProducts = [
   // Sunscreens (from page 11)
   {
     _id: generateId('prod'),
-    name: "Lime Swirl",
+    name: "Lime Swirl Skimboard",
     description: "Broad Spectrum SPF 50. Gentle formula for sensitive skin. 3 FL OZ.",
     imageUrl: "/Product Photos/Lime Swirl.jpeg", // Replace with actual path
     category: "Sunscreen",
@@ -82,7 +82,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Marble Fish",
+    name: "Marble Fish Skimboard",
     description: "Broad Spectrum SPF 55. Lightweight, non-greasy feel.",
     imageUrl: "/Product Photos/Marble Fish.jpeg", // Replace with actual path
     category: "Sunscreen",
@@ -98,7 +98,7 @@ export const initialProducts = [
   // Beach Gear (from page 8/9)
   {
     _id: generateId('prod'),
-    name: "Marble",
+    name: "Marble Skimboard",
     description: "Spacious and stylish rope handle tote bag for all your beach essentials. Durable canvas material.",
     imageUrl: "/Product Photos/Marble.jpeg", // Replace with actual path
     category: "Beach Bags",
@@ -112,7 +112,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Purple Carbon",
+    name: "Purple Carbon Skimboard",
     description: "Relax in style on this large inflatable lounger featuring a sun canopy. Perfect for pools and calm beach waters.",
     imageUrl: "/Product Photos/Purple Carbon.jpeg", // Replace with actual path
     category: "Beach Gear",
@@ -126,7 +126,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Rasta",
+    name: "Rasta Skimboard",
     description: "Versatile black bucket hat with detachable neck cover and face shield for ultimate sun protection.",
     imageUrl: "/Product Photos/Rasta.jpeg",
     category: "Hats",
@@ -142,7 +142,7 @@ export const initialProducts = [
   // Example Sunglasses
   {
     _id: generateId('prod'),
-    name: "Samurai",
+    name: "Samurai Skimboard",
     description: "Timeless black sunglasses with UV protection.",
     imageUrl: "/Product Photos/Samurai.jpeg",
     category: "Beach Apparel", // Or "Accessories"
