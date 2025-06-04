@@ -21,7 +21,7 @@ export const initialUsers = [
 ];
 
 export const initialProducts = [
-  // Skimboards (from page 12)
+  // Skimboards (from page)
   {
     _id: generateId('prod'),
     name: "Candy Camo Skimboard",
