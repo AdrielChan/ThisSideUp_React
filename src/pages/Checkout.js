@@ -1,5 +1,5 @@
 // File: src/pages/CheckoutPage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext'; // Assuming you have a CartContext
@@ -198,8 +198,8 @@ const CheckoutPage = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
   // const { currentUser } = useAuth(); // Assuming this provides { address: '...', ... }
 
-  const [shippingCost, setShippingCost] = useState(1.99); // Example shipping
-  const [voucherDiscount, setVoucherDiscount] = useState(0.00);
+  const [shippingCost] = useState(1.99); // Example shipping
+  const [voucherDiscount] = useState(0.00);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('PayNow'); // Default
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 

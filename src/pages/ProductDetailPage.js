@@ -16,6 +16,8 @@ const ProductDetailPage = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
   const [similarProducts, setSimilarProducts] = useState([]);
+
+  //colors and gradient test
   const pageBackground = "bg-gradient-to-br from-black via-purple-900 to-purple-800";
   const textColorPrimary = "text-white";
   const textColorSubtle = "text-gray-300";
@@ -28,7 +30,7 @@ const ProductDetailPage = () => {
         const fetchedProduct = await getProductById(productId);
         setProduct(fetchedProduct);
         if (fetchedProduct) {
-          setLikes(fetchedProduct.likesCount || 27);
+          setLikes(fetchedProduct.likesCount || 50);
           if (allProducts && allProducts.length > 0) {
             const related = allProducts
               .filter(p => p.category === fetchedProduct.category && p._id !== fetchedProduct._id)
@@ -118,6 +120,8 @@ const ProductDetailPage = () => {
       >
         <FaArrowLeft />
       </button>
+
+      
 
       <main className="relative pt-24 pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -220,10 +224,10 @@ const ProductDetailPage = () => {
         {/* Similar Products Section (remains outside the two-column layout) */}
          <section 
           className="mt-16 pt-10 pb-4 bg-black/30 backdrop-blur-sm mx-auto rounded-lg shadow-lg" 
-          style={{ maxWidth: '300px' , maxLength: '1000px' }} // Example: Set a max-width for the entire section
+          style={{ maxWidth: '300px' }} // Example: Set a max-width for the entire section
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className={`text-2xl sm:text-3xl font-bold ${textColorPrimary} font-instrument-sans mb-6`}>
+            <h2 className={`text-2xl sm:text-3xl font-bold ${textColorPrimary} font-instrument-sans mb-6 text-right lg:text-right`}>
               Similar Products
             </h2>
             {similarProducts.length > 0 ? (
