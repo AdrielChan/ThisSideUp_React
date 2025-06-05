@@ -35,7 +35,7 @@ function QnOpen(props) {
 }
 
 const FAQ = () => {
-  const backgroundImage = "homebanner.png";
+  const backgroundImage = "bannerHD.jpg";
 
   
   return (

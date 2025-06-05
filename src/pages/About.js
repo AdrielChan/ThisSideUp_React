@@ -78,6 +78,7 @@ const AboutPage = () => {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         height: '100vh',
+        width: 'auto',
         padding: '0rem'
       }}>
         <TextOverlayBox>
