@@ -60,10 +60,9 @@ const Home = () => {
     <Wrapper>
       <div style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundSize:'1950px',
+        backgroundSize: '1950px',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        height: '100vh',
         padding: '0rem'
       }}>
         <div id='font1' style={{
@@ -72,7 +71,7 @@ const Home = () => {
           width: '560px',
           paddingLeft: '30px',
           position: 'relative',
-          left: '110px',
+          left: '80px',
           textShadow: '2px 2px 5px rgba(0,0,0,0.50)'
         }}>
           <p style={{fontSize: 36, color: '#FE9C7F'}}>Skim & Ride</p>
