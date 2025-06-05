@@ -11,7 +11,7 @@ const AboutPageWrapper = styled.div`
 
 const AboutHeroSection = styled.section`
   min-height: calc(100vh - 160px);
-  background-image: url('/assets/images/homebanner.png');
+  background-image: url('aboutHD.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -68,7 +68,7 @@ const AboutText = styled.p`
 
 // Main Component
 const AboutPage = () => {
-  const backgroundImage = "homebanner.png";
+  const backgroundImage = "aboutHD.jpg";
 
   return (
     <AboutPageWrapper>

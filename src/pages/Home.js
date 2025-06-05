@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 `;
 
 const Home = () => {
-  const backgroundImage = "homebanner.png";
+  const backgroundImage = "bannerHD.jpg";
 
   const DesignButton = styled(Link)`
   display: inline-block;
