@@ -2,14 +2,12 @@ import {React} from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import '../index.css';
+
 const Wrapper = styled.div`
   padding: 0rem;
 `;
 
-const Home = () => {
-  const backgroundImage = "bannerHD.jpg";
-
-  const DesignButton = styled(Link)`
+const DesignButton = styled(Link)`
   display: inline-block;
   background-color: var(--color-primary-purple, #5D3FD3);
   color: var(--color-text-light, #FFFFFF);
@@ -31,37 +29,75 @@ const Home = () => {
   &:focus {
     outline: none;
     border-color: var(--color-secondary-peach, #FFDAB9);
-  }`;
+  }
+`;
+
+const Divider = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid #FE9C7F;
+    margin: 0 10px;
+  }
+
+  img {
+    width: 25px;
+    height: auto;
+  }
+`;
+
+const Home = () => {
+  const backgroundImage = "bannerHD.jpg";
+  const dividerIcon = "/assets/ccdc3b84-5d8e-4384-adab-fb360ae0875a.png"; // adjust path if needed
 
   return (
-    
     <Wrapper>
       <div style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize:'1950px',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      height: '100vh',
-      padding: '0rem'
-    }}>
-      <div id='font1' style={{padding: '2rem', backgroundColor: 'rgba(32, 32, 32, 0.6)', width: '560px', paddingLeft: '30px', position: 'relative', left: '110px', textShadow: '2px 2px 5px rgba(0,0,0,0.75)'}}>
-        <p style={{fontSize: 36, color: '#FE9C7F', textShadow: '2px 2px 5px rgba(0,0,0,0.7)'}}>Skim & Ride</p>
-        <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px'}}>Find Your Next Adventure</p>
-        <p style={{fontSize: 24, color: '#FE9C7F', lineHeight: '33px'}}>Premium skimboards and beach gear, crafted for wave chasers</p>
-        <p id='longpara' style={{fontSize: 20, color: '#FFFFFF'}}>
-          This Side Up is an online store for skimboards, beach
-          supplies, and custom board designs. The website
-          makes it easy for customers to shop for skim-
-          boarding gear and personalise their boards. This
-          shop offers a simple and convenient way to get
-          everything you need for your next beach adventure to the shore.
-        </p>
-         <DesignButton to="/design-skimboard"> {/* Link to the new design page */}
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize:'1950px',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        height: '100vh',
+        padding: '0rem'
+      }}>
+        <div id='font1' style={{
+          padding: '2rem',
+          backgroundColor: 'rgba(32, 32, 32, 0.8)',
+          width: '560px',
+          paddingLeft: '30px',
+          position: 'relative',
+          left: '110px',
+          textShadow: '2px 2px 5px rgba(0,0,0,0.50)'
+        }}>
+          <p style={{fontSize: 36, color: '#FE9C7F'}}>Skim & Ride</p>
+          <p style={{fontSize: 64, color: '#FFFFFF', lineHeight: '63px', paddingBottom: '20px'}}>Find Your Next Adventure</p>
+          <p style={{fontSize: 24, color: '#FE9C7F', lineHeight: '33px'}}>
+            Premium skimboards and beach gear, crafted for wave chasers
+          </p>
+
+          <Divider>
+            <img src={dividerIcon} alt="divider icon" />
+          </Divider>
+
+          <p id='longpara' style={{fontSize: 20, color: '#FFFFFF'}}>
+            This Side Up is an online store for skimboards, beach
+            supplies, and custom board designs. The website
+            makes it easy for customers to shop for skim-
+            boarding gear and personalise their boards. This
+            shop offers a simple and convenient way to get
+            everything you need for your next beach adventure to the shore.
+          </p>
+
+          <DesignButton to="/design-skimboard">
             Design Your Skimboard
           </DesignButton>
+        </div>
       </div>
-      </div>
-      
     </Wrapper>
   );
 };
