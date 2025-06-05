@@ -35,19 +35,20 @@ const DesignButton = styled(Link)`
 const Divider = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 25px 0;
 
   &::before,
   &::after {
     content: '';
-    flex: 1;
+    display: block;
+    width: 40%;
     border-bottom: 2px solid #FE9C7F;
-    margin: 0 10px;
   }
 
   img {
-    width: 25px;
+    width: 28px;
     height: auto;
+    margin: 0 16px;
   }
 `;
 
