@@ -53,7 +53,7 @@ const Divider = styled.div`
 
 const Home = () => {
   const backgroundImage = "bannerHD.jpg";
-  const dividerIcon = "/assets/ccdc3b84-5d8e-4384-adab-fb360ae0875a.png"; // adjust path if needed
+  const dividerIcon = "/assets/icons/icons8-surfguy.png"; 
 
   return (
     <Wrapper>
