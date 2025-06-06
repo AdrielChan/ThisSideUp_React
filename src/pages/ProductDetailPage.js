@@ -369,6 +369,7 @@ const ProductDetailPage = () => {
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [likes, setLikes] = useState(0); // Add likes state
   const [cartMessage, setCartMessage] = useState('');
 
   useEffect(() => {
@@ -439,11 +440,12 @@ const ProductDetailPage = () => {
       }
     }
   };
-
   const handleLike = () => {
     if (product) {
-      // Placeholder for like functionality
-      alert(`You liked ${product.name}!`);
+      setLikes(prevLikes => prevLikes + 1);
+      // Show a small notification instead of an alert
+      setCartMessage(`Thanks for liking ${product.name}!`);
+      setTimeout(() => setCartMessage(''), 2000);
     }
   };
 
@@ -502,7 +504,7 @@ const ProductDetailPage = () => {
               <FaShareAlt /> Share
             </BaseSocialButton>
             <BaseSocialButton onClick={handleLike}>
-              <FaHeart /> Likes ({product.likes})
+              <FaHeart /> Likes ({likes})
             </BaseSocialButton>
           </SocialActions>
         </ImageColumn>
