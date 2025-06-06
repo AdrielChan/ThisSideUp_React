@@ -66,6 +66,15 @@ const AboutText = styled.p`
   }
 `;
 
+const AccentHighlight = styled.span`
+  color: #FE9C7F;
+  font-weight: bold;
+  background: rgba(254, 156, 127, 0.08);
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+`;
+
 // Main Component
 const AboutPage = () => {
   const backgroundImage = "aboutHD.jpg";
@@ -82,29 +91,30 @@ const AboutPage = () => {
         padding: '0rem'
       }}>
         <TextOverlayBox>
-          <PageTitle id='font1' style={{ fontSize: '90' }}>About Us</PageTitle>
+          <PageTitle id='font1' style={{ fontSize: '90' }}>
+            <AccentHighlight>About Us</AccentHighlight>
+          </PageTitle>
           <AboutText id='aboot'>
-            This Side Up is a passionate skimboard company based in Singapore, dedicated to
-            bringing the thrill of skimboarding to enthusiasts of all skill levels. We
-            specialize in custom-designed skimboards, blending high-quality materials with
+            This Side Up is a passionate skimboard company based in <AccentHighlight>Singapore</AccentHighlight>, dedicated to
+            bringing the thrill of <AccentHighlight>skimboarding</AccentHighlight> to enthusiasts of all skill levels. We
+            specialize in <AccentHighlight>custom-designed skimboards</AccentHighlight>, blending high-quality materials with
             bold, personalized designs that not only perform exceptionally but also reflect
             your unique style.
           </AboutText>
           <AboutText id='aboot'>
             Rooted in Singapore's vibrant coastal culture, This Side Up was founded with a
-            vision to inspire a community of adventure seekers, wave chasers, and outdoor
-            lovers. More than just a brand, we're a movement — promoting an active, creative,
+            vision to inspire a community of <AccentHighlight>adventure seekers</AccentHighlight>, <AccentHighlight>wave chasers</AccentHighlight>, and <AccentHighlight>outdoor lovers</AccentHighlight>. More than just a brand, we're a movement — promoting an active, creative,
             and connected lifestyle by the shore.
           </AboutText>
           <AboutText id='aboot'>
             To further connect with our growing community, we're expanding our presence through
-            a dedicated e-commerce website. Here, you'll be able to shop our range of premium
+            a dedicated <AccentHighlight>e-commerce website</AccentHighlight>. Here, you'll be able to shop our range of premium
             skimboards, essential skimboarding supplies, stylish apparel, and even design your
-            own custom boards to ride your way.
+            own <AccentHighlight>custom boards</AccentHighlight> to ride your way.
           </AboutText>
           <AboutText id='aboot'>
             Whether you're a seasoned rider or new to the sport, This Side Up is your go-to
-            destination for everything skimboarding in Singapore and beyond.
+            destination for everything <AccentHighlight>skimboarding</AccentHighlight> in Singapore and beyond.
           </AboutText>
         </TextOverlayBox>
       </AboutHeroSection>

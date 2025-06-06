@@ -6,6 +6,15 @@ const Wrapper = styled.div`
   padding: 0rem;
 `;
 
+const AccentHighlight = styled.span`
+  color: #FE9C7F;
+  font-weight: bold;
+  background: rgba(254, 156, 127, 0.08);
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+`;
+
 function QnOpen(props) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -61,22 +70,15 @@ const FAQ = () => {
               placeholder='Type your question'
               />
         </form>
-        <QnOpen question="How do I customise my skim board?" ans="
-        1. Click 'Design Your Own Board' on the homepage. \n
-        2. Design as you please. 🎨 \n
-        3. Add to cart & checkout!" />
+        <QnOpen question={<><AccentHighlight>How do I customise my skim board?</AccentHighlight></>} ans={"1. Click 'Design Your Own Board' on the homepage. \n2. Design as you please. 🎨 \n3. Add to cart & checkout!"} />
 
-        <QnOpen question="How long does order processing take?" ans="
-        🚀 Order Processing: 1-2 business days (3-5 days for custom boards). \n
-        📦 Fast Shipping? Add Express at checkout! \n
-        📧 Questions? inquiries@thissideup.com" />
+        <QnOpen question={<><AccentHighlight>How long does order processing take?</AccentHighlight></>} ans={"🚀 Order Processing: 1-2 business days (3-5 days for custom boards). \n📦 Fast Shipping? Add Express at checkout! \n📧 Questions? "+<AccentHighlight>"inquiries@thissideup.com"</AccentHighlight>} />
 
-        <QnOpen question="What if my order arrives damaged?" ans="
-        Please contact us immediately at inquiries@thissideup.com with photos for a quick resolution." />
+        <QnOpen question={<><AccentHighlight>What if my order arrives damaged?</AccentHighlight></>} ans={"Please contact us immediately at "+<AccentHighlight>"inquiries@thissideup.com"</AccentHighlight>+" with photos for a quick resolution."} />
 
-        <QnOpen question="Do we ship internationally?" ans="🌍 Yes, we ship worldwide! Shipping rates vary by destination." />
+        <QnOpen question={<><AccentHighlight>Do we ship internationally?</AccentHighlight></>} ans={"🌍 Yes, we ship worldwide! Shipping rates vary by destination."} />
 
-        <QnOpen question="Do we accept returns/refunds?" ans="✅ Yes, we do! Returns/refunds are accepted within 30 days for unused items. Check our full policy for details." />
+        <QnOpen question={<><AccentHighlight>Do we accept returns/refunds?</AccentHighlight></>} ans={"✅ Yes, we do! Returns/refunds are accepted within 30 days for unused items. Check our full policy for details."} />
       </div>
       </div>
     </Wrapper>
