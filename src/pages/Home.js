@@ -32,6 +32,32 @@ const DesignButton = styled(Link)`
   }
 `;
 
+const AccentButton = styled(Link)`
+  display: inline-block;
+  background-color: #FE9C7F;
+  color: #1A1333;
+  padding: var(--spacing-m, 12px) var(--spacing-xl, 24px);
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: var(--border-radius, 8px);
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  margin-top: var(--spacing-l, 20px);
+  text-align: center;
+  border: 2px solid transparent;
+
+  &:hover {
+    background-color: #FFBFAF;
+    color: #1A1333;
+    transform: translateY(-2px);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #FE9C7F;
+  }
+`;
+
 const Divider = styled.div`
   display: flex;
   align-items: center;
@@ -93,9 +119,9 @@ const Home = () => {
             everything you need for your next beach adventure to the shore.
           </p>
 
-          <DesignButton to="/design-skimboard">
+          <AccentButton to="/design-skimboard">
             Design Your Skimboard
-          </DesignButton>
+          </AccentButton>
         </div>
       </div>
     </Wrapper>
