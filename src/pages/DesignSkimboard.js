@@ -1,5 +1,5 @@
 // File: src/pages/DesignSkimboard.js
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDesign } from '../contexts/DesignContext'; // To manage design state
@@ -106,11 +106,32 @@ const Inline = styled.div`
   margin-bottom: 10px;
 `;
 
+const GradientControlsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: flex-start;
+  width: 100%;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 8px;
+  }
+`;
+
+const GradientStopsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+`;
+
 const GradientStopRow = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 0;
 `;
 
 const AddStopBtn = styled.button`
@@ -166,21 +187,6 @@ const GradientPreview = styled.div`
   background: ${props => props.bg};
 `;
 
-function getGradientString(type, angle, stops) {
-  const stopsString = stops
-    .sort((a, b) => a.offset - b.offset)
-    .map(stop => `${stop.color} ${Math.round(stop.offset * 100)}%`)
-    .join(', ');
-  return type === 'linear'
-    ? `linear-gradient(${angle}deg, ${stopsString})`
-    : `radial-gradient(circle, ${stopsString})`;
-}
-
-const defaultStops = [
-  { id: 1, color: '#FFDAB9', offset: 0 },
-  { id: 2, color: '#5D3FD3', offset: 1 },
-];
-
 const DesignSkimboard = () => {
   const navigate = useNavigate();
   const {
@@ -192,52 +198,50 @@ const DesignSkimboard = () => {
     resetDesign
   } = useDesign();
 
-  // --- Local state for component ---
-  // Color mode: solid or gradient
-  const [colorMode, setColorMode] = useState('solid');
-  const [solidColor, setSolidColor] = useState('#FFDAB9');
-  const [gradientType, setGradientType] = useState('linear');
-  const [gradientAngle, setGradientAngle] = useState(90);
-  const [gradientStops, setGradientStops] = useState([...defaultStops]);
+  // Board color mode (solid/gradient)
+  const colorMode = currentDesign.baseType;
+  const setColorMode = (mode) => updateDesign({ baseType: mode });
 
-  // Feature mode: text, decal, or none
-  const [feature, setFeature] = useState('none');
+  // Solid color
+  const solidColor = currentDesign.solidColor || '#FFDAB9';
+  const setSolidColor = (color) => updateDesign({ solidColor: color });
 
-  // Text feature
-  const [text, setText] = useState('');
-  const [textColor, setTextColor] = useState('#fff');
-  const [textFont, setTextFont] = useState('Arial');
-  const [textSize, setTextSize] = useState(32);
-  const [textWeight, setTextWeight] = useState('bold');
+  // Gradient
+  const gradientType = currentDesign.gradientDetails.type;
+  const setGradientType = (type) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, type } });
+  const gradientAngle = currentDesign.gradientDetails.angle;
+  const setGradientAngle = (angle) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, angle } });
+  const gradientStops = currentDesign.gradientDetails.stops;
 
-  // Decal feature
-  const [decalUrl, setDecalUrl] = useState(null);
-  const [decalName, setDecalName] = useState('');
-
-  // Preview background
-  const previewBg = colorMode === 'solid'
-    ? solidColor
-    : getGradientString(gradientType, gradientAngle, gradientStops);
-
-  // --- Handlers for UI controls ---
-  const handleBaseTypeChange = (e) => updateDesign({ baseType: e.target.value });
-  const handleSolidColorChange = (color) => updateDesign({ solidColor: color });
-
-  const handleGradientTypeChange = (e) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, type: e.target.value }});
-  const handleGradientAngleChange = (e) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, angle: parseInt(e.target.value, 10) }});
-
-  const handleStopColorChange = (stopId, color) => updateGradientStop(stopId, { color });
-  const handleStopOffsetChange = (stopId, offset) => {
-    const newOffset = Math.max(0, Math.min(1, parseFloat(offset)));
-    updateGradientStop(stopId, { offset: newOffset });
+  // Feature: text, decal, or none (exclusive)
+  let feature = 'none';
+  if (currentDesign.isTextEnabled) feature = 'text';
+  else if (currentDesign.isDecalEnabled) feature = 'decal';
+  const setFeature = (f) => {
+    if (f === 'text') {
+      updateDesign({ isTextEnabled: true, isDecalEnabled: false });
+    } else if (f === 'decal') {
+      updateDesign({ isTextEnabled: false, isDecalEnabled: true });
+    } else {
+      updateDesign({ isTextEnabled: false, isDecalEnabled: false });
+    }
   };
 
-  const handleTextChange = (text) => updateDesign({ customText: { ...currentDesign.customText, text } });
-  const handleFontChange = (e) => updateDesign({ customText: { ...currentDesign.customText, font: e.target.value } });
-  const handleTextColorChange = (color) => updateDesign({ customText: { ...currentDesign.customText, color } });
-  const handleFontSizeChange = (e) => updateDesign({ customText: { ...currentDesign.customText, size: parseInt(e.target.value, 10) } });
-  const handleFontWeightChange = (e) => updateDesign({ customText: { ...currentDesign.customText, weight: e.target.value } });
+  // Text feature
+  const text = currentDesign.customText.text;
+  const setText = (val) => updateDesign({ customText: { ...currentDesign.customText, text: val } });
+  const textColor = currentDesign.customText.color;
+  const setTextColor = (val) => updateDesign({ customText: { ...currentDesign.customText, color: val } });
+  const textFont = currentDesign.customText.font;
+  const setTextFont = (val) => updateDesign({ customText: { ...currentDesign.customText, font: val } });
+  const textSize = currentDesign.customText.size;
+  const setTextSize = (val) => updateDesign({ customText: { ...currentDesign.customText, size: val } });
+  const textWeight = currentDesign.customText.weight;
+  const setTextWeight = (val) => updateDesign({ customText: { ...currentDesign.customText, weight: val } });
 
+  // Decal feature
+  const decalUrl = currentDesign.decal.url;
+  const decalName = currentDesign.decal.name;
   const handleDecalUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -245,45 +249,33 @@ const DesignSkimboard = () => {
       reader.onloadend = () => {
         updateDesign({
           decal: { ...currentDesign.decal, url: reader.result, name: file.name },
-          isDecalEnabled: true
+          isDecalEnabled: true,
+          isTextEnabled: false
         });
       };
       reader.readAsDataURL(file);
     }
   };
 
+  // Preview background
+  function getGradientString(type, angle, stops) {
+    const stopsString = stops
+      .sort((a, b) => a.offset - b.offset)
+      .map(stop => `${stop.color} ${Math.round(stop.offset * 100)}%`)
+      .join(', ');
+    return type === 'linear'
+      ? `linear-gradient(${angle}deg, ${stopsString})`
+      : `radial-gradient(circle, ${stopsString})`;
+  }
+  const previewBg = colorMode === 'solid'
+    ? solidColor
+    : getGradientString(gradientType, gradientAngle, gradientStops);
+
+  // Add to cart (stub)
   const handleAddToCart = () => {
-    const customSkimboardProduct = {
-      _id: `custom_${Date.now()}`,
-      name: currentDesign.name || "Custom Skimboard",
-      price: currentDesign.price || 150,
-      imageUrl: null,
-      category: "Skimboards",
-      type: "Custom",
-      description: "User-designed custom skimboard.",
-      isCustom: true,
-      designDetails: currentDesign,
-      quantity: 1,
-    };
-    alert(`${customSkimboardProduct.name} added to cart!`);
+    alert('Custom skimboard added to cart!');
     navigate('/cart');
   };
-
-  // --- Dynamic Styles for Preview ---
-  const getGradientString = () => {
-    const { type, angle, stops } = currentDesign.gradientDetails;
-    const stopsString = stops
-        .sort((a, b) => a.offset - b.offset)
-        .map(stop => `${stop.color} ${stop.offset * 100}%`)
-        .join(', ');
-    return type === 'linear'
-        ? `linear-gradient(${angle}deg, ${stopsString})`
-        : `radial-gradient(circle, ${stopsString})`;
-  };
-
-  const skimboardBackground = currentDesign.baseType === 'solid'
-    ? currentDesign.solidColor
-    : getGradientString();
 
   return (
     <PageWrapper>
@@ -292,22 +284,14 @@ const DesignSkimboard = () => {
       </h1>
       <Layout>
         <PreviewArea>
-          <SkimboardShape style={{ background: skimboardBackground }}>
-            {currentDesign.isTextEnabled && currentDesign.customText.text && (
-              <PreviewText
-                color={currentDesign.customText.color}
-                font={currentDesign.customText.font}
-                fontSize={`${currentDesign.customText.size}px`}
-                fontWeight={currentDesign.customText.weight}
-              >
-                {currentDesign.customText.text}
+          <SkimboardShape bg={previewBg}>
+            {feature === 'text' && text && (
+              <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight}>
+                {text}
               </PreviewText>
             )}
-            {currentDesign.isDecalEnabled && currentDesign.decal.url && (
-              <PreviewDecal
-                src={currentDesign.decal.url}
-                alt="Decal Preview"
-              />
+            {feature === 'decal' && decalUrl && (
+              <PreviewDecal src={decalUrl} alt="Decal Preview" />
             )}
           </SkimboardShape>
         </PreviewArea>
@@ -325,38 +309,40 @@ const DesignSkimboard = () => {
               </Inline>
             )}
             {colorMode === 'gradient' && (
-              <>
-                <Inline>
-                  <label>Type:</label>
-                  <select value={gradientType} onChange={e => setGradientType(e.target.value)}>
-                    <option value="linear">Linear</option>
-                    <option value="radial">Radial</option>
-                  </select>
-                  {gradientType === 'linear' && (
-                    <>
-                      <label>Angle:</label>
-                      <input
-                        type="number"
-                        value={gradientAngle}
-                        min={0}
-                        max={360}
-                        onChange={e => setGradientAngle(Number(e.target.value))}
-                        style={{ width: 60 }}
-                      />
-                      <span>deg</span>
-                    </>
-                  )}
-                </Inline>
-                <GradientPreview style={{ background: getGradientString() }} />
-                <div>
+              <GradientControlsRow>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <Inline>
+                    <label>Type:</label>
+                    <select value={gradientType} onChange={e => setGradientType(e.target.value)}>
+                      <option value="linear">Linear</option>
+                      <option value="radial">Radial</option>
+                    </select>
+                    {gradientType === 'linear' && (
+                      <>
+                        <label>Angle:</label>
+                        <input
+                          type="number"
+                          value={gradientAngle}
+                          min={0}
+                          max={360}
+                          onChange={e => setGradientAngle(Number(e.target.value))}
+                          style={{ width: 60 }}
+                        />
+                        <span>deg</span>
+                      </>
+                    )}
+                  </Inline>
+                  <GradientPreview bg={previewBg} />
+                </div>
+                <GradientStopsRow style={{ flex: 2, minWidth: 0 }}>
                   {gradientStops.map((stop, i) => (
                     <GradientStopRow key={stop.id}>
-                      <input type="color" value={stop.color} onChange={e => handleStopColorChange(stop.id, e.target.value)} />
+                      <input type="color" value={stop.color} onChange={e => updateGradientStop(stop.id, { color: e.target.value })} />
                       <input
                         type="range"
                         min={0} max={1} step={0.01}
                         value={stop.offset}
-                        onChange={e => handleStopOffsetChange(stop.id, e.target.value)}
+                        onChange={e => updateGradientStop(stop.id, { offset: Math.max(0, Math.min(1, parseFloat(e.target.value))) })}
                         style={{ width: 100 }}
                       />
                       <span>{Math.round(stop.offset * 100)}%</span>
@@ -368,8 +354,8 @@ const DesignSkimboard = () => {
                   {gradientStops.length < 5 && (
                     <AddStopBtn onClick={addGradientStop}>+ Add Stop</AddStopBtn>
                   )}
-                </div>
-              </>
+                </GradientStopsRow>
+              </GradientControlsRow>
             )}
           </Section>
 
