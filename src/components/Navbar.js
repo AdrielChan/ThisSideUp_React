@@ -83,14 +83,16 @@ function UserDropdown() {
         <div
           style={{
             position: 'absolute',
-            top: '50px',
+            top: '75px', // ensures it's below the icon
             right: 0,
-            backgroundColor: 'white',
+            backgroundColor: '#222222',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            borderRadius: '8px',
-            width: '160px',
+            width: '260px',
+            height: '100px',
             padding: '0.5rem 0',
             zIndex: 1001,
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Link
@@ -293,6 +295,7 @@ const Navbar = () => {
     flexWrap: 'nowrap',
     marginRight: '20px',
     width: 'auto',
+    height:'500px',
     alignItems: 'center',
     overflow: 'hidden',
   }}>
