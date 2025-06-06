@@ -43,7 +43,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Carbon Fiber Pro.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Foam",
-    price: 1351.54,
+    price: 968.54,
     stock: 8,
     tags: ["intermediate", "advanced", "foam", "wave"],
     rating: 4.7,
@@ -117,7 +117,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Purple Carbon.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Floats",
-    price: 1659.57,
+    price: 659.57,
     stock: 10,
     tags: ["inflatable", "lounger", "float", "canopy"],
     rating: 4.6,
