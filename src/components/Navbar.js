@@ -10,26 +10,47 @@ function SearchIcon() {
   const handleClick = () => {
     setIsVisible(prev => !prev);
   };
-// YOU STOPPED HEREEEEEE AT ICON FUNCTIONALITY
+
   return (
     <div>
-      <div style={{alignItems: 'center'}}>
-        {isVisible==false ? 
-        <div>
-          <form>
-              <p1>
-                <input 
-              id='search'
-              type="text"
-              // onChange={}
-              placeholder='Search'
+      <div style={{ alignItems: 'center' }}>
+        {isVisible ? (
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <form>
+              <input
+                id="search"
+                type="text"
+                placeholder="Search"
+
               />
-              <img  src='./assets/icons/icons8-close.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
-              </p1>
-        </form>
-        </div> : 
-            <img id='icon' src='./assets/icons/icons8-search.png' width='40px' height='40px' alt='Search icon' onClick={handleClick}></img>
-            }
+              <img
+                src="./assets/icons/icons8-close.png"
+                width="30px"
+                height="30px"
+                alt="Close icon"
+                onClick={handleClick}
+                style={{
+                  position: 'absolute',
+                  right: '8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  zIndex: 10, // ensures it sits above input
+                }}
+              />
+            </form>
+          </div>
+        ) : (
+          <img
+            id="icon"
+            src="./assets/icons/icons8-search.png"
+            width="40px"
+            height="40px"
+            alt="Search icon"
+            onClick={handleClick}
+            style={{ cursor: 'pointer' }}
+          />
+        )}
       </div>
     </div>
   );
@@ -45,19 +66,54 @@ function UserDropdown() {
   };
 
   return (
-    <div>
-      <div style={{alignItems: 'center'}}>
-        <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='User icon' onClick={handleClick2}></img>
-        {isOpen==false ? 
-        // <div style={{backgroundColor:'#1B1B1B', width:'260px'}}></div>
-        ''
-         : 
-            <img id='icon' src='./assets/icons/icons8-user.png' width='40px' height='40px' alt='User icon' onClick={handleClick2}></img>
-            }
-      </div>
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      {/* User Icon (always visible) */}
+      <img
+        id="icon"
+        src="./assets/icons/icons8-user.png"
+        width="40px"
+        height="40px"
+        alt="User icon"
+        onClick={handleClick2}
+        style={{ cursor: 'pointer' }}
+      />
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50px',
+            right: 0,
+            backgroundColor: 'white',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            borderRadius: '8px',
+            width: '160px',
+            padding: '0.5rem 0',
+            zIndex: 1001,
+          }}
+        >
+          <Link
+            to="/signin"
+            id='link'
+            
+          >
+            Sign In
+          </Link>
+          <Link
+            to="/signup"
+            id='link'
+            
+          >
+            Create an Account
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
+
+
 
 const Nav = styled.nav`
   background: #222;
@@ -231,24 +287,35 @@ const Navbar = () => {
           </StyledLink>
         </NavItem>
       </NavLinks>
-      <div style={{display:'flex',flexDirection:'row', marginRight:'20px', width:'auto'}}>
-        <StyledLink 
+      <div style={{
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    marginRight: '20px',
+    width: 'auto',
+    alignItems: 'center',
+    overflow: 'hidden',
+  }}>
+        <div 
             id='icon'
+            style={{marginLeft:'35px'}}
           >
             <SearchIcon />
-        </StyledLink>
-        <StyledLink 
+        </div>
+        <div 
             id='icon'
             to="/cart" 
             className={location.pathname === '/cart' ? 'active' : ''}
+            style={{marginLeft:'35px'}}
           >
             <img id='icon' src='./assets/icons/icons8-cart.png' width='40px' height='40px' alt='Cart icon'></img>
-        </StyledLink>
-        <StyledLink 
+        </div>
+        <div 
             id='icon'
+            style={{marginLeft:'35px'}}
           >
             <UserDropdown />
-        </StyledLink>
+        </div>
       </div>
     </Nav>
   );
