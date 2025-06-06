@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   FaArrowLeft,
-  FaShareAlt, // Using FaShareAlt as a generic share icon
+  FaShareAlt,
   FaHeart,
   FaShoppingCart,
   FaStar,
@@ -12,7 +12,7 @@ import {
   FaMinus
 } from 'react-icons/fa';
 import { useCart } from '../contexts/CartContext';
-import { ProductCard } from './ProductCard';
+import ProductCard from './ProductCard';
 import { useProducts } from '../contexts/ProductContext'; 
 
 // --- STYLED COMPONENTS ---
@@ -72,8 +72,8 @@ const ImageColumn = styled.div`
   }
 `;
 
-// ProductImage: Styles the main product image.
-const ProductImage = styled.img`
+// Rename ProductImage to MainProductImage since that's what we use in the component
+const MainProductImage = styled.img`
   width: 100%;
   max-width: 350px; /* Max width for the image */
   height: auto;
@@ -357,127 +357,132 @@ const SimilarProductPrice = styled.p`
 `;
 
 
-// --- MOCK DATA ---
-// This data would typically come from an API or props.
-const mockProduct = {
-  id: 'cetaphil-sunscreen-123',
-  name: 'Cetaphil Sheer Mineral Sunscreen Lotion', // Updated name to match image text better
-  price: 27.60,
-  imageUrl: '/images/cetaphil-sun-spf50.png', // Placeholder path, ensure this image exists in public/images
-  rating: 4.5, // 4.5 stars
-  reviews: 96,
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nibh lectus. Nullam ac enim blandit, gravida libero quis, convallis est. Ut eu velit nec odio tincidunt commodo. Sed ac massa convallis, sagittis tellus vitae, tempus massa. Duis hendrerit sit amet ante nec facilisis. Maecenas vel nunc ac orci fermentum.",
-  likes: 27,
-  bundleDeals: "Buy 3 Get 1 Free",
-  shippingInfo: "Within 1 Week, with $0.20 shipping fee",
-  shippingVoucher: "Obtain $1.00 voucher if order arrives late.",
-  shoppingGuarantee: "14-Day Free Returns",
-};
-
-const mockSimilarProducts = [
-  { id: 'similar-1', name: 'Cetaphil Sun SPF50 Liposomal', price: 19.99, imageUrl: '/images/similar-cetaphil-sun.png' },
-  { id: 'similar-2', name: 'Cetaphil Sun SPF50 Spray', price: 22.50, imageUrl: '/images/similar-cetaphil-spray.png' },
-  { id: 'similar-3', name: 'Cetaphil Moisturising Cream', price: 15.75, imageUrl: '/images/similar-cetaphil-cream.png' },
-  { id: 'similar-4', name: 'CeraVe Hydrating Sunscreen SPF50', price: 24.00, imageUrl: '/images/similar-cerave-sunscreen.png' },
-  { id: 'similar-5', name: 'CeraVe Ultra-Light Moisturizing Gel', price: 18.50, imageUrl: '/images/similar-cerave-gel.png' },
-];
-
-
 // --- REACT COMPONENT ---
 const ProductDetailPage = () => {
-  const { productId } = useParams(); // To get product ID if page is dynamic
+  const { id } = useParams();
   const navigate = useNavigate();
-  // const { addItemToCart } = useCart(); // If using CartContext
+  const cart = useCart();
+  const { getProductById, filteredProducts, loading: contextLoading, error: contextError } = useProducts();
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [cartMessage, setCartMessage] = useState('');
 
-  // Effect to load product data (simulated)
   useEffect(() => {
-    // In a real app, you'd fetch product data based on `productId`
-    // For now, we use the mock data.
-    // If you had multiple products, you'd filter or fetch here:
-    // e.g. const foundProduct = allProducts.find(p => p.id === productId);
-    setProduct(mockProduct);
-    setSimilarProducts(mockSimilarProducts);
-  }, [productId]);
+    const loadProductDetails = async () => {
+      if (!id) {
+        setError("No product ID provided.");
+        setLoading(false);
+        return;
+      }
 
-  // Handlers for quantity adjustment
+      setLoading(true);
+      setError(null);
+      try {
+        const fetchedProduct = await getProductById(id);
+        if (fetchedProduct) {
+          setProduct(fetchedProduct);
+          
+          // Find similar products from the same category
+          if (filteredProducts && filteredProducts.length > 0) {
+            const related = filteredProducts
+              .filter(p => p.category === fetchedProduct.category && p._id !== fetchedProduct._id)
+              .slice(0, 5); // Get up to 5 similar products
+            setSimilarProducts(related);
+          }
+        } else {
+          setError(`Product with ID ${id} not found.`);
+        }
+      } catch (err) {
+        console.error("Error fetching product details:", err);
+        setError(err.message || "An error occurred while fetching product details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProductDetails();
+  }, [id, getProductById, filteredProducts]);
+
   const handleIncrementQuantity = () => {
-    setQuantity(prev => prev + 1);
+    if (product && quantity < product.stock) {
+      setQuantity(prev => prev + 1);
+    }
   };
 
   const handleDecrementQuantity = () => {
     setQuantity(prev => (prev > 1 ? prev - 1 : 1));
   };
-
-  // Handler for adding to cart
   const handleAddToCart = () => {
     if (product) {
-      // addItemToCart({ ...product, quantity }); // Example with CartContext
-      console.log(`Added ${quantity} of ${product.name} to cart.`);
-      alert(`${quantity} x ${product.name} added to cart!`);
+      if (cart?.addItemToCart) {
+        cart.addItemToCart(product._id, quantity);
+        console.log(`Added ${quantity} of ${product.name} to cart.`);
+      } else {
+        setCartMessage('Cart functionality is currently unavailable.');
+        setTimeout(() => setCartMessage(''), 3000);
+      }
     }
   };
 
-  // Handler for "Buy Now"
   const handleBuyNow = () => {
     if (product) {
-      console.log(`Proceeding to buy ${quantity} of ${product.name}.`);
-      // Typically, this would add to cart and redirect to checkout
-      alert(`Redirecting to checkout for ${quantity} x ${product.name}.`);
-      // navigate('/checkout'); // Example navigation
+      if (cart?.addItemToCart) {
+        cart.addItemToCart(product._id, quantity);
+        navigate('/checkout');
+      } else {
+        setCartMessage('Cart functionality is currently unavailable.');
+        setTimeout(() => setCartMessage(''), 3000);
+      }
     }
   };
 
-  // Handler for liking a product
   const handleLike = () => {
-    // Placeholder for like functionality
-    alert(`You liked ${product.name}! (Likes: ${product.likes})`);
-    // In a real app, update likes count, possibly in backend
+    if (product) {
+      // Placeholder for like functionality
+      alert(`You liked ${product.name}!`);
+    }
   };
 
-  // Handler for sharing a product
   const handleShare = () => {
-    // Placeholder for share functionality
     if (navigator.share) {
       navigator.share({
         title: product.name,
-        text: `Check out ${product.name}!`,
+        text: product.description,
         url: window.location.href,
       })
-      .then(() => console.log('Successful share'))
-      .catch((error) => console.log('Error sharing', error));
+      .catch((error) => console.log('Error sharing:', error));
     } else {
-      alert(`Share ${product.name} via: ${window.location.href}`);
-      // Fallback for browsers that don't support Web Share API
+      alert('Share feature not supported by your browser');
     }
   };
 
-  // Render stars based on rating
   const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    // const halfStar = rating % 1 !== 0; // Not used as Figma shows full stars
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<FaStar key={`star-${i}`} />);
-      } else {
-        // Figma shows all filled stars if rating is high, or more nuanced if rating is lower.
-        // For simplicity, assuming Figma meant all 5 for a high rating.
-        // If product.rating = 4.5, it shows 5 stars in figma
-        // This logic can be adjusted if more precise star rendering (half/empty) is needed.
-        stars.push(<FaStar key={`star-${i}`} style={{ opacity: i < Math.round(rating) ? 1 : 0.3 }}/>);
-      }
+      stars.push(
+        <FaStar 
+          key={`star-${i}`} 
+          style={{ opacity: i < Math.round(rating) ? 1 : 0.3 }}
+        />
+      );
     }
     return stars;
   };
 
-
-  // Display loading state or if product not found
-  if (!product) {
+  if (loading || contextLoading) {
     return <PageWrapper><p>Loading product details...</p></PageWrapper>;
+  }
+
+  if (error || contextError) {
+    return <PageWrapper><p>Error: {error || contextError}</p></PageWrapper>;
+  }
+
+  if (!product) {
+    return <PageWrapper><p>Product not found.</p></PageWrapper>;
   }
 
   return (
@@ -491,7 +496,7 @@ const ProductDetailPage = () => {
       <ProductContentWrapper>
         {/* Left Column: Image and Social Actions */}
         <ImageColumn>
-          <ProductImage src={product.imageUrl} alt={product.name} />
+          <MainProductImage src={product.imageUrl} alt={product.name} />
           <SocialActions>
             <BaseSocialButton onClick={handleShare}>
               <FaShareAlt /> Share
@@ -518,12 +523,11 @@ const ProductDetailPage = () => {
           </InfoRow>
           <InfoRow>
             <InfoLabel>Shipping:</InfoLabel>
-            <InfoValue>
-              {product.shippingInfo.replace(/\$0\.20/g, '<span class="highlight">$0.20</span>')}
+            <InfoValue>              {product.shippingInfo?.replace(/\$0\.20/g, '<span class="highlight">$0.20</span>') || 'Standard shipping available'}
               <br />
-              <span style={{fontSize: 'var(--font-size-xsmall, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}
-                dangerouslySetInnerHTML={{ __html: product.shippingVoucher }} // Use with caution, ensure text is safe
-              />
+              <span style={{fontSize: 'var(--font-size-xsmall, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}>
+                {product.shippingVoucher || 'Free shipping for orders above $50'}
+              </span>
             </InfoValue>
           </InfoRow>
           <InfoRow>
@@ -540,9 +544,7 @@ const ProductDetailPage = () => {
             <QuantityButton onClick={handleIncrementQuantity}>
               <FaPlus />
             </QuantityButton>
-          </QuantityControl>
-
-          <ActionButtonsContainer>
+          </QuantityControl>          <ActionButtonsContainer>
             <AddToCartButton onClick={handleAddToCart}>
               <FaShoppingCart /> Add to cart
             </AddToCartButton>
@@ -550,22 +552,32 @@ const ProductDetailPage = () => {
               Buy Now
             </BuyNowButton>
           </ActionButtonsContainer>
+          {cartMessage && (
+            <div style={{ 
+              color: '#FFDAB9', 
+              textAlign: 'center', 
+              marginTop: 'var(--spacing-m, 16px)',
+              padding: 'var(--spacing-s, 8px)',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              borderRadius: 'var(--border-radius-s, 4px)'
+            }}>
+              {cartMessage}
+            </div>
+          )}
         </DetailsColumn>
       </ProductContentWrapper>
 
       {/* Similar Products Section */}
-      <SimilarProductsSection>
-        <SimilarProductsTitle>Similar Products</SimilarProductsTitle>
-        <SimilarProductsGrid>
-          {similarProducts.map(sp => (
-            <SimilarProductCard key={sp.id} onClick={() => navigate(`/product/${sp.id}`)}> {/* Navigate to other product */}
-              <SimilarProductImage src={sp.imageUrl} alt={sp.name} />
-              <SimilarProductName>{sp.name}</SimilarProductName>
-              <SimilarProductPrice>${sp.price.toFixed(2)}</SimilarProductPrice>
-            </SimilarProductCard>
-          ))}
-        </SimilarProductsGrid>
-      </SimilarProductsSection>
+      {similarProducts.length > 0 && (
+        <SimilarProductsSection>
+          <SimilarProductsTitle>Similar Products</SimilarProductsTitle>
+          <SimilarProductsGrid>
+            {similarProducts.map(sp => (
+              <ProductCard key={sp._id} product={sp} />
+            ))}
+          </SimilarProductsGrid>
+        </SimilarProductsSection>
+      )}
     </PageWrapper>
   );
 };
