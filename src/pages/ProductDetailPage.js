@@ -11,8 +11,8 @@ import {
   FaPlus,
   FaMinus
 } from 'react-icons/fa';
-// If you have a CartContext, you might import it here
-// import { useCart } from '../contexts/CartContext';
+import { useCart } from '../contexts/CartContext';
+import {ProductCard} from './ProductCard';
 
 // --- STYLED COMPONENTS ---
 // These components define the visual appearance of the page elements.
