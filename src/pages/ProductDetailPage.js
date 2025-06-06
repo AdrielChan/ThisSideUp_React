@@ -12,7 +12,8 @@ import {
   FaMinus
 } from 'react-icons/fa';
 import { useCart } from '../contexts/CartContext';
-import {ProductCard} from './ProductCard';
+import { ProductCard } from './ProductCard';
+import { useProducts } from '../contexts/ProductContext'; 
 
 // --- STYLED COMPONENTS ---
 // These components define the visual appearance of the page elements.
