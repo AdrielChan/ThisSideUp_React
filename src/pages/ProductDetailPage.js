@@ -1,248 +1,571 @@
 // File: src/pages/ProductDetailPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useProducts } from '../contexts/ProductContext';
-import ProductCard from './ProductCard';
-import { FaArrowLeft, FaShareAlt, FaHeart, FaShoppingCart, FaStar } from 'react-icons/fa';
+import styled from 'styled-components';
+import {
+  FaArrowLeft,
+  FaShareAlt, // Using FaShareAlt as a generic share icon
+  FaHeart,
+  FaShoppingCart,
+  FaStar,
+  FaPlus,
+  FaMinus
+} from 'react-icons/fa';
+// If you have a CartContext, you might import it here
+// import { useCart } from '../contexts/CartContext';
 
+// --- STYLED COMPONENTS ---
+// These components define the visual appearance of the page elements.
+
+// PageWrapper: The main container for the entire product detail page.
+// It sets the dark background color, text color, and minimum height.
+const PageWrapper = styled.div`
+  background-color: var(--color-background-dark, #121212); /* Very dark background */
+  color: var(--color-text-light, #FFFFFF);
+  min-height: 100vh;
+  padding: var(--spacing-m, 16px) var(--spacing-l, 24px) var(--spacing-xl, 32px);
+  font-family: var(--font-body, 'Arial', sans-serif);
+`;
+
+// BackButton: Styles the back arrow button for navigation.
+const BackButton = styled.button`
+  background: none;
+  border: none;
+  color: var(--color-text-light, #FFFFFF);
+  font-size: var(--font-size-xlarge, 24px); /* Larger icon */
+  cursor: pointer;
+  margin-bottom: var(--spacing-m, 16px);
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: var(--color-secondary-peach, #FFDAB9);
+  }
+`;
+
+// ProductContentWrapper: A container for the main product information (image and details).
+// It uses a purple background and flexbox for a two-column layout.
+const ProductContentWrapper = styled.div`
+  background-color: var(--color-primary-purple, #5D3FD3); /* Purple background */
+  padding: var(--spacing-xl, 32px);
+  border-radius: var(--border-radius-l, 12px);
+  display: flex;
+  gap: var(--spacing-xl, 32px);
+  margin-bottom: var(--spacing-xxl, 48px);
+
+  @media (max-width: 768px) { // Responsive: stacks columns on smaller screens
+    flex-direction: column;
+    padding: var(--spacing-l, 24px);
+  }
+`;
+
+// ImageColumn: The left column containing the product image and social action buttons.
+const ImageColumn = styled.div`
+  flex: 0 0 40%; /* Takes up 40% of the width, doesn't grow or shrink excessively */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex: 1; /* Takes full width when stacked */
+  }
+`;
+
+// ProductImage: Styles the main product image.
+const ProductImage = styled.img`
+  width: 100%;
+  max-width: 350px; /* Max width for the image */
+  height: auto;
+  object-fit: contain;
+  background-color: white; /* Background for the image container itself */
+  border-radius: var(--border-radius-m, 8px);
+  margin-bottom: var(--spacing-l, 24px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+`;
+
+// SocialActions: Container for the "Share" and "Likes" buttons.
+const SocialActions = styled.div`
+  display: flex;
+  justify-content: space-around; /* Spreads out Share and Likes */
+  width: 100%;
+  max-width: 350px;
+  margin-top: var(--spacing-m, 16px);
+`;
+
+// BaseSocialButton: A common base for Share and Like buttons.
+const BaseSocialButton = styled.button`
+  background-color: var(--color-secondary-peach, #FFDAB9);
+  color: var(--color-primary-purple-dark, #4B0082); /* Dark text for contrast */
+  border: none;
+  border-radius: var(--border-radius-m, 8px);
+  padding: var(--spacing-s, 10px) var(--spacing-m, 16px);
+  font-size: var(--font-size-medium, 16px);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs, 8px);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-secondary-peach-dark, #FFA07A);
+  }
+
+  svg {
+    font-size: var(--font-size-large, 18px);
+  }
+`;
+
+// DetailsColumn: The right column containing product name, price, description, etc.
+const DetailsColumn = styled.div`
+  flex: 1; /* Takes remaining space */
+  color: var(--color-text-light, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s, 10px); /* Spacing between detail items */
+`;
+
+// ProductName: Styles the product's name.
+const ProductName = styled.h1`
+  font-size: var(--font-size-xxlarge, 28px);
+  font-weight: bold;
+  margin-bottom: var(--spacing-xs, 4px);
+  font-family: var(--font-heading, 'Georgia', serif);
+`;
+
+// ProductPrice: Styles the product's price.
+const ProductPrice = styled.p`
+  font-size: var(--font-size-xlarge, 22px);
+  color: var(--color-secondary-peach, #FFDAB9); /* Peach color for price */
+  font-weight: 600;
+  margin-bottom: var(--spacing-s, 8px);
+`;
+
+// RatingContainer: Holds the star icons and rating text.
+const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs, 8px);
+  margin-bottom: var(--spacing-m, 16px);
+  font-size: var(--font-size-medium, 16px);
+
+  svg {
+    color: #FFD700; /* Gold color for stars */
+  }
+`;
+
+// ProductDescription: Styles the product description text.
+const ProductDescription = styled.p`
+  font-size: var(--font-size-small, 14px);
+  line-height: 1.6;
+  color: var(--color-neutral-gray-light, #E0E0E0); /* Lighter text for description */
+  margin-bottom: var(--spacing-m, 16px);
+`;
+
+// InfoRow: A row for displaying structured info like "Bundle Deals", "Shipping".
+const InfoRow = styled.div`
+  display: flex;
+  align-items: flex-start; /* Align items to the start if text wraps */
+  gap: var(--spacing-m, 16px);
+  margin-bottom: var(--spacing-s, 10px);
+  font-size: var(--font-size-medium, 16px);
+`;
+
+// InfoLabel: Styles the label part (e.g., "Shipping:").
+const InfoLabel = styled.span`
+  font-weight: 600;
+  color: var(--color-text-light, #FFFFFF);
+  min-width: 130px; /* Ensures alignment */
+`;
+
+// InfoValue: Styles the value part (e.g., "Within 1 Week...").
+const InfoValue = styled.span`
+  color: var(--color-neutral-gray-light, #E0E0E0);
+  .highlight { /* For highlighting parts like shipping fee */
+    color: var(--color-secondary-peach, #FFDAB9);
+    font-weight: 600;
+  }
+`;
+
+// QuantityControl: Container for the quantity adjuster.
+const QuantityControl = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s, 12px);
+  margin: var(--spacing-m, 16px) 0;
+`;
+
+// QuantityButton: Styles the "+" and "-" buttons for quantity.
+const QuantityButton = styled.button`
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-light, #FFFFFF);
+  border: none;
+  border-radius: var(--border-radius-s, 4px);
+  width: 30px;
+  height: 30px;
+  font-size: var(--font-size-large, 18px);
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+// QuantityDisplay: Shows the current quantity number.
+const QuantityDisplay = styled.span`
+  font-size: var(--font-size-large, 18px);
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+`;
+
+// ActionButtonsContainer: Holds "Add to cart" and "Buy Now" buttons.
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  gap: var(--spacing-m, 16px);
+  margin-top: var(--spacing-l, 24px);
+
+  @media (max-width: 480px) { // Stacks buttons on very small screens
+    flex-direction: column;
+  }
+`;
+
+// BaseActionButton: Common styles for action buttons.
+const BaseActionButton = styled.button`
+  flex-grow: 1; /* Buttons share space equally */
+  padding: var(--spacing-m, 14px);
+  border: none;
+  border-radius: var(--border-radius-m, 8px);
+  font-size: var(--font-size-medium, 16px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-s, 8px);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+// AddToCartButton: Specific style for the "Add to cart" button.
+const AddToCartButton = styled(BaseActionButton)`
+  background-color: var(--color-primary-purple-dark, #4B0082); /* Darker purple */
+  color: var(--color-text-light, #FFFFFF);
+
+  &:hover {
+    background-color: var(--color-primary-purple-darker, #3A006A); /* Even darker on hover */
+  }
+`;
+
+// BuyNowButton: Specific style for the "Buy Now" button.
+const BuyNowButton = styled(BaseActionButton)`
+  background-color: var(--color-neutral-gray-light, #E0E0E0);
+  color: var(--color-primary-purple-dark, #4B0082); /* Dark text for contrast */
+
+  &:hover {
+    background-color: var(--color-neutral-gray, #BDBDBD);
+  }
+`;
+
+// SimilarProductsSection: Container for the "Similar Products" area.
+const SimilarProductsSection = styled.section`
+  margin-top: var(--spacing-xxl, 48px);
+  padding: var(--spacing-l, 24px) 0; /* Padding only top/bottom */
+`;
+
+// SimilarProductsTitle: Title for the "Similar Products" section.
+const SimilarProductsTitle = styled.h2`
+  font-size: var(--font-size-xlarge, 24px);
+  font-weight: 600;
+  margin-bottom: var(--spacing-l, 24px);
+  color: var(--color-text-light, #FFFFFF);
+  font-family: var(--font-heading, 'Georgia', serif);
+`;
+
+// SimilarProductsGrid: A scrollable grid for similar product cards.
+const SimilarProductsGrid = styled.div`
+  display: flex;
+  gap: var(--spacing-l, 24px);
+  overflow-x: auto; /* Enables horizontal scrolling */
+  padding-bottom: var(--spacing-m, 16px); /* Space for scrollbar if needed */
+
+  /* Hide scrollbar for a cleaner look, but still scrollable */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+`;
+
+// SimilarProductCard: Styles a single card for a similar product.
+// (Normally this would be a separate component, but kept here due to the 1-file constraint)
+const SimilarProductCard = styled.div`
+  background-color: var(--color-surface-gray, #2a2a2a); /* Slightly lighter than page bg */
+  border-radius: var(--border-radius-m, 8px);
+  padding: var(--spacing-m, 16px);
+  min-width: 200px; /* Minimum width for each card */
+  max-width: 220px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+`;
+
+const SimilarProductImage = styled.img`
+  width: 100%;
+  height: 150px;
+  object-fit: contain; /* Changed to contain for better product visibility */
+  background-color: white; /* White background for the image part */
+  border-radius: var(--border-radius-s, 4px);
+  margin-bottom: var(--spacing-s, 12px);
+`;
+
+const SimilarProductName = styled.h3`
+  font-size: var(--font-size-medium, 16px);
+  font-weight: 500;
+  color: var(--color-text-light, #FFFFFF);
+  margin-bottom: var(--spacing-xs, 6px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const SimilarProductPrice = styled.p`
+  font-size: var(--font-size-medium, 16px);
+  font-weight: 600;
+  color: var(--color-secondary-peach, #FFDAB9);
+`;
+
+
+// --- MOCK DATA ---
+// This data would typically come from an API or props.
+const mockProduct = {
+  id: 'cetaphil-sunscreen-123',
+  name: 'Cetaphil Sheer Mineral Sunscreen Lotion', // Updated name to match image text better
+  price: 27.60,
+  imageUrl: '/images/cetaphil-sun-spf50.png', // Placeholder path, ensure this image exists in public/images
+  rating: 4.5, // 4.5 stars
+  reviews: 96,
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nibh lectus. Nullam ac enim blandit, gravida libero quis, convallis est. Ut eu velit nec odio tincidunt commodo. Sed ac massa convallis, sagittis tellus vitae, tempus massa. Duis hendrerit sit amet ante nec facilisis. Maecenas vel nunc ac orci fermentum.",
+  likes: 27,
+  bundleDeals: "Buy 3 Get 1 Free",
+  shippingInfo: "Within 1 Week, with $0.20 shipping fee",
+  shippingVoucher: "Obtain $1.00 voucher if order arrives late.",
+  shoppingGuarantee: "14-Day Free Returns",
+};
+
+const mockSimilarProducts = [
+  { id: 'similar-1', name: 'Cetaphil Sun SPF50 Liposomal', price: 19.99, imageUrl: '/images/similar-cetaphil-sun.png' },
+  { id: 'similar-2', name: 'Cetaphil Sun SPF50 Spray', price: 22.50, imageUrl: '/images/similar-cetaphil-spray.png' },
+  { id: 'similar-3', name: 'Cetaphil Moisturising Cream', price: 15.75, imageUrl: '/images/similar-cetaphil-cream.png' },
+  { id: 'similar-4', name: 'CeraVe Hydrating Sunscreen SPF50', price: 24.00, imageUrl: '/images/similar-cerave-sunscreen.png' },
+  { id: 'similar-5', name: 'CeraVe Ultra-Light Moisturizing Gel', price: 18.50, imageUrl: '/images/similar-cerave-gel.png' },
+];
+
+
+// --- REACT COMPONENT ---
 const ProductDetailPage = () => {
-  const { id: productId } = useParams();
+  const { productId } = useParams(); // To get product ID if page is dynamic
   const navigate = useNavigate();
-  const { getProductById, loading: contextLoading, error: contextError, products: allProducts } = useProducts();
+  // const { addItemToCart } = useCart(); // If using CartContext
 
   const [product, setProduct] = useState(null);
-  const [localLoading, setLocalLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [isLiked, setIsLiked] = useState(false);
-  const [likes, setLikes] = useState(0);
   const [similarProducts, setSimilarProducts] = useState([]);
 
-  //colors and gradient test
-  const pageBackground = "bg-gradient-to-br from-black via-purple-900 to-purple-800";
-  const textColorPrimary = "text-white";
-  const textColorSubtle = "text-gray-300";
-  const textColorHighlight = "text-pink-400";
-
+  // Effect to load product data (simulated)
   useEffect(() => {
-    const fetchProductDetails = async () => {
-      if (productId) {
-        setLocalLoading(true);
-        const fetchedProduct = await getProductById(productId);
-        setProduct(fetchedProduct);
-        if (fetchedProduct) {
-          setLikes(fetchedProduct.likesCount || 50);
-          if (allProducts && allProducts.length > 0) {
-            const related = allProducts
-              .filter(p => p.category === fetchedProduct.category && p._id !== fetchedProduct._id)
-              .slice(0, 5);
-            setSimilarProducts(related);
-          } else {
-            setSimilarProducts([
-              { _id: 'sim1', name: "Similar Product 1", imageUrl: "/images/img_cetaphilsheermineralsunscreenlotionspf50fragrancefree3oz31c4fa0fcbeb43d084ae168d51d38f5f0783adf0de938f2148f6902345bfee3b.png", price: 20.00, category: "Skincare" },
-              { _id: 'sim2', name: "Similar Product 2", imageUrl: "/images/img_5099164408201.png", price: 22.00, category: "Skincare" },
-              { _id: 'sim3', name: "Similar Product 3", imageUrl: "/images/placeholder-product.png", price: 25.00, category: "Skincare" },
-              { _id: 'sim4', name: "Similar Product 4", imageUrl: "/images/placeholder-product.png", price: 28.00, category: "Skincare" },
-              { _id: 'sim5', name: "Similar Product 5", imageUrl: "/images/placeholder-product.png", price: 19.00, category: "Skincare" },
-            ]);
-          }
-        }
-        setLocalLoading(false);
-      }
-    };
-    fetchProductDetails();
-  }, [productId, getProductById, allProducts]);
+    // In a real app, you'd fetch product data based on `productId`
+    // For now, we use the mock data.
+    // If you had multiple products, you'd filter or fetch here:
+    // e.g. const foundProduct = allProducts.find(p => p.id === productId);
+    setProduct(mockProduct);
+    setSimilarProducts(mockSimilarProducts);
+  }, [productId]);
 
-  const handleQuantityChange = (change) => {
-    const newQuantity = quantity + change;
-    if (newQuantity >= 1) {
-      setQuantity(newQuantity);
+  // Handlers for quantity adjustment
+  const handleIncrementQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const handleDecrementQuantity = () => {
+    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+  };
+
+  // Handler for adding to cart
+  const handleAddToCart = () => {
+    if (product) {
+      // addItemToCart({ ...product, quantity }); // Example with CartContext
+      console.log(`Added ${quantity} of ${product.name} to cart.`);
+      alert(`${quantity} x ${product.name} added to cart!`);
     }
   };
 
+  // Handler for "Buy Now"
+  const handleBuyNow = () => {
+    if (product) {
+      console.log(`Proceeding to buy ${quantity} of ${product.name}.`);
+      // Typically, this would add to cart and redirect to checkout
+      alert(`Redirecting to checkout for ${quantity} x ${product.name}.`);
+      // navigate('/checkout'); // Example navigation
+    }
+  };
+
+  // Handler for liking a product
   const handleLike = () => {
-    setIsLiked(!isLiked);
-    setLikes(isLiked ? likes - 1 : likes + 1);
+    // Placeholder for like functionality
+    alert(`You liked ${product.name}! (Likes: ${product.likes})`);
+    // In a real app, update likes count, possibly in backend
   };
 
-  const renderStars = (ratingValue) => {
-    const totalStars = 5;
-    let stars = [];
-    const numRating = parseFloat(ratingValue);
-    for (let i = 1; i <= totalStars; i++) {
-      if (i <= numRating) {
-        stars.push(<FaStar key={`full-${i}`} className="text-yellow-400" />);
-      } else if (i === Math.ceil(numRating) && !Number.isInteger(numRating)) {
-        stars.push(<FaStar key={`half-${i}`} className="text-yellow-400 opacity-60" />);
+  // Handler for sharing a product
+  const handleShare = () => {
+    // Placeholder for share functionality
+    if (navigator.share) {
+      navigator.share({
+        title: product.name,
+        text: `Check out ${product.name}!`,
+        url: window.location.href,
+      })
+      .then(() => console.log('Successful share'))
+      .catch((error) => console.log('Error sharing', error));
+    } else {
+      alert(`Share ${product.name} via: ${window.location.href}`);
+      // Fallback for browsers that don't support Web Share API
+    }
+  };
+
+  // Render stars based on rating
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    // const halfStar = rating % 1 !== 0; // Not used as Figma shows full stars
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        stars.push(<FaStar key={`star-${i}`} />);
       } else {
-        stars.push(<FaStar key={`empty-${i}`} className="text-gray-600" />);
+        // Figma shows all filled stars if rating is high, or more nuanced if rating is lower.
+        // For simplicity, assuming Figma meant all 5 for a high rating.
+        // If product.rating = 4.5, it shows 5 stars in figma
+        // This logic can be adjusted if more precise star rendering (half/empty) is needed.
+        stars.push(<FaStar key={`star-${i}`} style={{ opacity: i < Math.round(rating) ? 1 : 0.3 }}/>);
       }
     }
-    return <div className="flex items-center text-xl">{stars}</div>;
+    return stars;
   };
 
-  if (localLoading || contextLoading) {
-    return (
-      <div className={`min-h-screen ${pageBackground} ${textColorPrimary} flex justify-center items-center`}>
-        <p>Loading product details...</p>
-      </div>
-    );
-  }
 
-  if (contextError) {
-    return (
-      <div className={`min-h-screen ${pageBackground} ${textColorPrimary} flex justify-center items-center`}>
-        <p>Error: {contextError}</p>
-      </div>
-    );
-  }
-
+  // Display loading state or if product not found
   if (!product) {
-    return (
-      <div className={`min-h-screen ${pageBackground} ${textColorPrimary} flex justify-center items-center`}>
-        <button
-            onClick={() => navigate(-1)}
-            aria-label="Go back"
-            className="absolute top-6 left-6 z-20 text-white text-3xl p-3 bg-black/30 hover:bg-black/50 rounded-full transition-colors"
-        >
-          <FaArrowLeft />
-        </button>
-        <p className="text-center text-xl">Product not found.</p>
-      </div>
-    );
+    return <PageWrapper><p>Loading product details...</p></PageWrapper>;
   }
 
   return (
-    <div className={`min-h-screen ${pageBackground} ${textColorPrimary} selection:bg-pink-500 selection:text-white`}>
-      <button
-        onClick={() => navigate(-1)}
-        aria-label="Go back"
-        className="fixed top-6 left-6 z-50 text-white text-2xl sm:text-3xl p-2 sm:p-3 bg-black/40 hover:bg-black/60 rounded-full transition-colors backdrop-blur-sm"
-      >
+    <PageWrapper>
+      {/* Back Button */}
+      <BackButton onClick={() => navigate(-1)}> {/* navigate(-1) goes to previous page */}
         <FaArrowLeft />
-      </button>
+      </BackButton>
 
-      
+      {/* Main Product Content: Image on left, Details on right */}
+      <ProductContentWrapper>
+        {/* Left Column: Image and Social Actions */}
+        <ImageColumn>
+          <ProductImage src={product.imageUrl} alt={product.name} />
+          <SocialActions>
+            <BaseSocialButton onClick={handleShare}>
+              <FaShareAlt /> Share
+            </BaseSocialButton>
+            <BaseSocialButton onClick={handleLike}>
+              <FaHeart /> Likes ({product.likes})
+            </BaseSocialButton>
+          </SocialActions>
+        </ImageColumn>
 
-      <main className="relative pt-24 pb-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+        {/* Right Column: Product Details */}
+        <DetailsColumn>
+          <ProductName>{product.name}</ProductName>
+          <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
+          <RatingContainer>
+            {renderStars(product.rating)}
+            <span>{product.reviews} Ratings</span>
+          </RatingContainer>
+          <ProductDescription>{product.description}</ProductDescription>
+          
+          <InfoRow>
+            <InfoLabel>Bundle Deals:</InfoLabel>
+            <InfoValue>{product.bundleDeals}</InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoLabel>Shipping:</InfoLabel>
+            <InfoValue>
+              {product.shippingInfo.replace(/\$0\.20/g, '<span class="highlight">$0.20</span>')}
+              <br />
+              <span style={{fontSize: 'var(--font-size-xsmall, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}
+                dangerouslySetInnerHTML={{ __html: product.shippingVoucher }} // Use with caution, ensure text is safe
+              />
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoLabel>Shopping Guarantee:</InfoLabel>
+            <InfoValue>{product.shoppingGuarantee}</InfoValue>
+          </InfoRow>
 
-            {/* Left Column: Image */}
-            <div className="w-full lg:w-2/5 xl:w-1/3 flex-shrink-0 flex justify-center">
-              <div className="bg-white/10 p-3 sm:p-4 rounded-lg shadow-xl aspect-square max-w-md lg:max-w-none w-full flex items-center justify-center" style={{ width: '400px', height: '400px', maxWidth: '100%' }}>
-                <img
-                  src={product.imageUrl || "/images/placeholder-product.png"}
-                  alt={product.name}
-                  className="w-full h-full object-contain rounded-md"
-                />
-              </div>
-            </div>
+          <QuantityControl>
+            <InfoLabel>Quantity:</InfoLabel>
+            <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
+              <FaMinus />
+            </QuantityButton>
+            <QuantityDisplay>{quantity}</QuantityDisplay>
+            <QuantityButton onClick={handleIncrementQuantity}>
+              <FaPlus />
+            </QuantityButton>
+          </QuantityControl>
 
-            {/* Right Column: Details & Actions */}
-            <div className="w-full lg:w-3/5 xl:w-2/3 flex flex-col"> {/* Ensure this column takes remaining space and arranges its content vertically */}
-              <h1 className={`text-3xl sm:text-4xl font-bold ${textColorPrimary} font-instrument-sans mb-2`}>
-                {product.name || "Product Name"}
-              </h1>
+          <ActionButtonsContainer>
+            <AddToCartButton onClick={handleAddToCart}>
+              <FaShoppingCart /> Add to cart
+            </AddToCartButton>
+            <BuyNowButton onClick={handleBuyNow}>
+              Buy Now
+            </BuyNowButton>
+          </ActionButtonsContainer>
+        </DetailsColumn>
+      </ProductContentWrapper>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-x-5 gap-y-1 mb-4">
-                <span className={`text-3xl font-semibold ${textColorHighlight}`}>
-                  ${product.price ? product.price.toFixed(2) : '27.60'}
-                </span>
-                <div className="flex items-center gap-2">
-                  {renderStars(product.rating || 4.5)}
-                  <span className={`text-base sm:text-lg ${textColorSubtle}`}>
-                    {product.numRatings || 96} Ratings
-                  </span>
-                </div>
-              </div>
-
-              <p className={`text-sm sm:text-base ${textColorSubtle} mb-6 max-w-2xl leading-relaxed`}>
-                {product.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nibh lectus. Nullam ac enim blandit, gravida libero quis, convallis est. Ut eu velit nec odio tincidunt commodo. Sed ac massa convallis, sagittis tellus vitae, tempus massa. Duis hendrerit sit amet ante nec facilisis. Maecenas vel nunc ac orci fermentum."}
-              </p>
-
-              {/* Info Sections: Bundle, Shipping, Guarantee */}
-              <div className="space-y-4 mb-8">
-                {[
-                  { label: "Bundle Deals", value: product.bundleDeals || "Buy 3 Get 1 Free" },
-                  { label: "Shipping", value: product.shippingInfo?.time || "Within 1 Week, with $0.20 shipping fee", subValue: product.shippingInfo?.voucher || "Obtain $1.00 voucher if order arrives late." },
-                  { label: "Shopping Guarantee", value: product.guarantee || "14-Day Free Returns" },
-                ].map(item => (
-                  <div key={item.label} className="flex flex-col sm:flex-row sm:items-start">
-                    <span className={`text-base sm:text-lg font-medium ${textColorHighlight} w-full sm:w-1/3 xl:w-1/4 mb-1 sm:mb-0 flex-shrink-0`}>{item.label}</span>
-                    <div className="w-full sm:w-2/3 xl:w-3/4">
-                        <span className={`text-base sm:text-lg ${textColorPrimary}`}>{item.value}</span>
-                        {item.subValue && <p className={`text-xs sm:text-sm ${textColorSubtle} mt-0.5`}>{item.subValue}</p>}
-                    </div>
-                  </div>
-                ))}
-
-                {/* Quantity Selector */}
-                <div className="flex flex-col sm:flex-row sm:items-center pt-2">
-                  <span className={`text-base sm:text-lg font-medium ${textColorHighlight} w-full sm:w-1/3 xl:w-1/4 mb-2 sm:mb-0 flex-shrink-0`}>Quantity</span>
-                  <div className="flex items-center bg-gray-800/70 border border-gray-700 rounded-md h-9 sm:h-10">
-                    <button onClick={() => handleQuantityChange(-1)} className="w-9 sm:w-10 h-full flex items-center justify-center text-xl hover:bg-gray-700/80 transition-colors rounded-l-md" disabled={quantity <=1}>-</button>
-                    <div className="w-10 sm:w-12 h-full flex items-center justify-center border-x border-gray-700">
-                      <span className={`text-md sm:text-lg font-bold ${textColorPrimary}`}>{quantity}</span>
-                    </div>
-                    <button onClick={() => handleQuantityChange(1)} className="w-9 sm:w-10 h-full flex items-center justify-center text-xl hover:bg-gray-700/80 transition-colors rounded-r-md">+</button>
-                  </div>
-                </div>
-              </div>
-
-              {/* === MOVED ACTION BUTTONS HERE === */}
-              <div className="mt-auto pt-6 border-t border-purple-700/50"> {/* `mt-auto` will push this section to the bottom if the content above is short */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-y-4 gap-x-3">
-                    {/* Left Aligned Buttons: Share, Likes */}
-                    <div className="flex items-center gap-x-3 sm:gap-x-4">
-                    <button className="flex items-center gap-1.5 text-white bg-pink-500 hover:bg-pink-600 px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors">
-                        <FaShareAlt />
-                        <span>Share</span>
-                    </button>
-                    <button onClick={handleLike} className="flex items-center gap-1.5 text-white py-2 px-2 rounded-md hover:bg-white/10 transition-colors">
-                        {isLiked ? <FaHeart className="text-pink-500 text-lg sm:text-xl" /> : <FaHeart className="text-gray-400 text-lg sm:text-xl hover:text-pink-400" />}
-                        <span className="text-xs sm:text-sm">Likes ({likes})</span>
-                    </button>
-                    </div>
-                    {/* Right Aligned Buttons: Add to Cart, Buy Now */}
-                    <div className="flex items-center gap-x-2 sm:gap-x-3 w-full sm:w-auto">
-                    <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 text-white bg-purple-600 hover:bg-purple-700 px-4 py-2.5 rounded-md font-semibold text-sm sm:text-base transition-colors">
-                        <FaShoppingCart />
-                        <span>Add to cart</span>
-                    </button>
-                    <button className="flex-1 sm:flex-none text-purple-700 bg-pink-400 hover:bg-pink-500 px-4 py-2.5 rounded-md font-semibold text-sm sm:text-base transition-colors">
-                        <span>Buy Now</span>
-                    </button>
-                    </div>
-                </div>
-              </div>
-              {/* === END OF MOVED ACTION BUTTONS === */}
-
-            </div> {/* End Right Column */}
-          </div> {/* End Main Two-Column Layout */}
-        </div> {/* End Container */}
-
-        {/* Similar Products Section (remains outside the two-column layout) */}
-         <section 
-          className="mt-16 pt-10 pb-4 bg-black/30 backdrop-blur-sm mx-auto rounded-lg shadow-lg" 
-          style={{ maxWidth: '300px' }} // Example: Set a max-width for the entire section
-        >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className={`text-2xl sm:text-3xl font-bold ${textColorPrimary} font-instrument-sans mb-6 text-right lg:text-right`}>
-              Similar Products
-            </h2>
-            {similarProducts.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-                {similarProducts.map((simProduct) => (
-                  <ProductCard key={simProduct._id} product={simProduct} />
-                ))}
-              </div>
-            ) : (
-              <p className={`${textColorSubtle} text-center`}>No similar products found.</p>
-            )}
-          </div>
-        </section>
-      </main>
-    </div>
+      {/* Similar Products Section */}
+      <SimilarProductsSection>
+        <SimilarProductsTitle>Similar Products</SimilarProductsTitle>
+        <SimilarProductsGrid>
+          {similarProducts.map(sp => (
+            <SimilarProductCard key={sp.id} onClick={() => navigate(`/product/${sp.id}`)}> {/* Navigate to other product */}
+              <SimilarProductImage src={sp.imageUrl} alt={sp.name} />
+              <SimilarProductName>{sp.name}</SimilarProductName>
+              <SimilarProductPrice>${sp.price.toFixed(2)}</SimilarProductPrice>
+            </SimilarProductCard>
+          ))}
+        </SimilarProductsGrid>
+      </SimilarProductsSection>
+    </PageWrapper>
   );
 };
 
