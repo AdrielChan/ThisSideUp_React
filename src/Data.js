@@ -131,7 +131,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Rasta.jpeg",
     category: "Skimboards",
     type: "Bucket Hat",
-    price: 132.01, // Price seems high for a hat, might be a bundle
+    price: 92.01, // Price seems high for a hat, might be a bundle
     stock: 22,
     tags: ["bucket hat", "sun protection", "fishing hat"],
     rating: 4.4,

@@ -10,7 +10,7 @@ import ProductCard from './ProductCard';
 
 
 const PageWrapper = styled.div`
-  background-color: var(--color-primary-purple, #5D3FD3);
+  background-color:rgb(0, 0, 0); /* Updated to a dark, rich purple matching the site scheme */
   color: var(--color-text-light, #FFFFFF);
   min-height: 100vh; /* Ensure it takes at least full viewport height */
   padding: var(--spacing-l, 24px) var(--spacing-m, 16px);
