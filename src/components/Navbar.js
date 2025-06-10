@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../index.css';
 import styled from 'styled-components';
+import TSULogo from '../icons/this-side-up-logo_white.png';
+import SearchPNG from '../icons/icons8-search.png';
+import CloseIcon from '../icons/icons8-close.png';
+import CartIcon from '../icons/icons8-cart.png';
+import UserIcon from '../icons/icons8-user.png';
 
 // Search Bar
 function SearchIcon() {
@@ -25,7 +30,7 @@ function SearchIcon() {
 
               />
               <img
-                src="./assets/icons/icons8-close.png"
+                src={CloseIcon}
                 width="30px"
                 height="30px"
                 alt="Close icon"
@@ -41,7 +46,7 @@ function SearchIcon() {
         ) : (
           <img
             id="icon"
-            src="./assets/icons/icons8-search.png"
+            src={SearchPNG}
             width="40px"
             height="40px"
             alt="Search icon"
@@ -68,7 +73,7 @@ function UserDropdown() {
       {/* User Icon (always visible) */}
       <img
         id="icon"
-        src="./assets/icons/icons8-user.png"
+        src={UserIcon}
         width="40px"
         height="40px"
         alt="User icon"
@@ -238,7 +243,7 @@ const Navbar = () => {
     <Nav id='font1'>
       <StyledLink to="/">
         <img 
-          src="this-side-up-logo_white.png" 
+          src={TSULogo} 
           alt="This Side Up logo" 
           style={{padding: '13px 10px 13px 90px'}} 
           width="290px"
@@ -309,7 +314,7 @@ const Navbar = () => {
             className={location.pathname === '/cart' ? 'active' : ''}
             style={{marginLeft:'35px'}}
           >
-            <img id='icon' src='./assets/icons/icons8-cart.png' width='40px' height='40px' alt='Cart icon'></img>
+            <img id='icon' src={CartIcon} width='40px' height='40px' alt='Cart icon'></img>
         </div>
         <div 
             id='icon'
