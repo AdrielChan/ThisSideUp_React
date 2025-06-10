@@ -313,10 +313,6 @@ const SimilarProductsGrid = styled.div`
   scrollbar-width: none;  /* Firefox */
 `;
 
-
-
-
-
 // --- REACT COMPONENT ---
 const ProductDetailPage = () => {
   const { id } = useParams();
