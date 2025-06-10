@@ -6,7 +6,7 @@ export const initialUsers = [
     _id: generateId('user'),
     name: "Edward Barry Robert",
     email: "Edward_BR@rocketmail.com",
-    passwordHash: "E92f47e3", // In a real app, never store plain text or weak hashes
+    passwordHash: "E92f47e3",
     role: "customer",
     createdAt: new Date().toISOString(),
   },
@@ -14,14 +14,13 @@ export const initialUsers = [
     _id: generateId('user'),
     name: "Keiko Villanueva",
     email: "keikomori@gmail.com",
-    passwordHash: "K3ikoMori2025", // In a real app, never store plain text or weak hashes
+    passwordHash: "K3ikoMori2025",
     role: "admin",
     createdAt: new Date().toISOString(),
   },
 ];
 
 export const initialProducts = [
-  // Skimboards (from page)
   {
     _id: generateId('prod'),
     name: "Candy Camo Skimboard",
@@ -65,7 +64,6 @@ export const initialProducts = [
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
   },
 
-  // Sunscreen (from page 11)
   {
     _id: generateId('prod'),
     name: "Lime Swirl Skimboard",
@@ -95,7 +93,6 @@ export const initialProducts = [
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
   },
   
-  // Beach Gear (from page 8/9)
   {
     _id: generateId('prod'),
     name: "Marble Skimboard",
@@ -138,8 +135,7 @@ export const initialProducts = [
     numRatings: 19,
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6).toISOString(),
   },
-  // Add more products...
-  // Example Sunglasses
+
   {
     _id: generateId('prod'),
     name: "Samurai Skimboard",
