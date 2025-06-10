@@ -440,10 +440,9 @@ const ProductDetailPage = () => {
       }
     }
   };
-  const handleLike = () => {
+   const handleLike = () => {
     if (product) {
       setLikes(prevLikes => prevLikes + 1);
-      // Show a small notification instead of an alert
       setCartMessage(`Thanks for liking ${product.name}!`);
       setTimeout(() => setCartMessage(''), 2000);
     }
@@ -539,13 +538,17 @@ const ProductDetailPage = () => {
 
           <QuantityControl>
             <InfoLabel>Quantity:</InfoLabel>
+            {/* Quantity buttons to increment/decrement quantity */}
+              <FaMinus />
             <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
               <FaMinus />
+            </QuantityButton>           
+            <QuantityDisplay>{quantity}</QuantityDisplay>  
+                  
+            <QuantityButton onClick={handleIncrementQuantity}>     
+              <FaPlus />       
             </QuantityButton>
-            <QuantityDisplay>{quantity}</QuantityDisplay>
-            <QuantityButton onClick={handleIncrementQuantity}>
-              <FaPlus />
-            </QuantityButton>
+            <FaPlus /> 
           </QuantityControl>          <ActionButtonsContainer>
             <AddToCartButton onClick={handleAddToCart}>
               <FaShoppingCart /> Add to cart
