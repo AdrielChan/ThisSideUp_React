@@ -73,7 +73,7 @@ const AccentHighlight = styled.span`
 
 // Main Component
 const AboutPage = () => {
-  const backgroundImage = "aboutHD.jpg";
+  const backgroundImage = "AbootHD.jpg";
 
   return (
     <AboutPageWrapper>
