@@ -39,6 +39,7 @@ function SearchIcon() {
                   position: 'absolute',
                   right: '8px',
                   top: '45%',
+                  cursor:'pointer'
                 }}
               />
             </form>
@@ -308,14 +309,18 @@ const Navbar = () => {
           >
             <SearchIcon />
         </div>
-        <div 
+        <Link 
             id='icon'
             to="/cart" 
             className={location.pathname === '/cart' ? 'active' : ''}
-            style={{marginLeft:'35px'}}
+            style={{marginLeft:'35px', cursor: 'pointer'}}
           >
-            <img id='icon' src={CartIcon} width='40px' height='40px' alt='Cart icon'></img>
-        </div>
+            <img id='icon' src={CartIcon}
+            width='40px'
+            height='40px'
+            alt='Cart icon'
+            ></img>
+        </Link>
         <div 
             id='icon'
             style={{marginLeft:'35px'}}
