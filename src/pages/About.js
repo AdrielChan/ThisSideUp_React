@@ -57,13 +57,18 @@ const AboutText = styled.p`
   &:first-of-type::first-letter {
     font-family: var(--font-heading);
     font-size: 64px;
-    color: #FFD9EB;
+    color: #FE9C7F; /* Only the big T is orange */
     float: left;
     line-height: 1;
     margin-right: 8px;
     margin-top: -8px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
+`;
+
+const AccentHighlight = styled.span`
+  color: #FE9C7F;
+  font-weight: bold;
 `;
 
 // Main Component
@@ -82,7 +87,9 @@ const AboutPage = () => {
         padding: '0rem'
       }}>
         <TextOverlayBox>
-          <PageTitle id='font1' style={{ fontSize: '90' }}>About Us</PageTitle>
+          <PageTitle id='font1' style={{ fontSize: '90' }}>
+            <AccentHighlight>About Us</AccentHighlight>
+          </PageTitle>
           <AboutText id='aboot'>
             This Side Up is a passionate skimboard company based in Singapore, dedicated to
             bringing the thrill of skimboarding to enthusiasts of all skill levels. We

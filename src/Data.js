@@ -29,7 +29,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Wood",
-    price: 20.60,
+    price: 275.63,
     stock: 15,
     tags: ["beginner", "wood", "radbug"],
     rating: 4.0,
@@ -43,7 +43,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Carbon Fiber Pro.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Foam",
-    price: 35.00,
+    price: 968.54,
     stock: 8,
     tags: ["intermediate", "advanced", "foam", "wave"],
     rating: 4.7,
@@ -57,7 +57,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Green Island.jpeg",
     category: "Skimboards",
     type: "Composite",
-    price: 30.50,
+    price: 832.19,
     stock: 20,
     tags: ["all levels", "composite", "colorful"],
     rating: 4.3,
@@ -73,7 +73,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Lime Swirl.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Lotion",
-    price: 27.60,
+    price: 427.68,
     stock: 50,
     tags: ["spf50", "mineral", "sensitive skin", "cetaphil"],
     rating: 4.8,
@@ -87,7 +87,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Marble Fish.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Lotion",
-    price: 15.20,
+    price: 195.36,
     stock: 75,
     tags: ["spf55", "dry-touch", "neutrogena"],
     rating: 4.5,
@@ -103,7 +103,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Marble.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Tote",
-    price: 19.50,
+    price: 941.25,
     stock: 30,
     tags: ["tote bag", "canvas", "striped"],
     rating: 4.2,
@@ -117,7 +117,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Purple Carbon.jpeg", // Replace with actual path
     category: "Skimboards",
     type: "Floats",
-    price: 59.50,
+    price: 659.57,
     stock: 10,
     tags: ["inflatable", "lounger", "float", "canopy"],
     rating: 4.6,
@@ -131,7 +131,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Rasta.jpeg",
     category: "Skimboards",
     type: "Bucket Hat",
-    price: 50.00, // Price seems high for a hat, might be a bundle
+    price: 92.01, // Price seems high for a hat, might be a bundle
     stock: 22,
     tags: ["bucket hat", "sun protection", "fishing hat"],
     rating: 4.4,
@@ -147,7 +147,7 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Samurai.jpeg",
     category: "Beach Apparel", // Or "Accessories"
     type: "Sunglasses",
-    price: 10.98,
+    price: 742.98,
     stock: 100,
     tags: ["sunglasses", "uv protection", "classic"],
     rating: 4.1,
