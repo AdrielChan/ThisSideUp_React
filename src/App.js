@@ -4,8 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 import { ProductProvider } from './contexts/ProductContext'; 
 import { DesignProvider } from './contexts/DesignContext'; // Ensure path is correct
 import { AuthProvider } from './contexts/AuthContext'; // Ensure path is correct
+import { CartProvider } from './contexts/CartContext'; // Ensure path is correct
 
-// Import other necessary contexts (e.g., CartProvider)
 
 // Layout components
 import Navbar from './components/Navbar'; // Example
@@ -27,7 +27,7 @@ function App() {
 
       <ProductProvider> {/* ProductContext wraps routes that need product data */}
          <AuthProvider> 
-          {/* <CartProvider> */}
+          <CartProvider> 
             <DesignProvider>
               <Navbar />
               <Suspense fallback={<div style={{textAlign: 'center', marginTop: '50px', color: 'white'}}>Loading Page...</div>}>
@@ -47,7 +47,7 @@ function App() {
               </Suspense>
               <Footer />
             </DesignProvider>
-          {/* </CartProvider> */}
+           </CartProvider> 
          </AuthProvider> 
       </ProductProvider>
 

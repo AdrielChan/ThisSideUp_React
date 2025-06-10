@@ -313,48 +313,8 @@ const SimilarProductsGrid = styled.div`
   scrollbar-width: none;  /* Firefox */
 `;
 
-// SimilarProductCard: Styles a single card for a similar product.
-// (Normally this would be a separate component, but kept here due to the 1-file constraint)
-const SimilarProductCard = styled.div`
-  background-color: var(--color-surface-gray, #2a2a2a); /* Slightly lighter than page bg */
-  border-radius: var(--border-radius-m, 8px);
-  padding: var(--spacing-m, 16px);
-  min-width: 200px; /* Minimum width for each card */
-  max-width: 220px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  }
-`;
 
-const SimilarProductImage = styled.img`
-  width: 100%;
-  height: 150px;
-  object-fit: contain; /* Changed to contain for better product visibility */
-  background-color: white; /* White background for the image part */
-  border-radius: var(--border-radius-s, 4px);
-  margin-bottom: var(--spacing-s, 12px);
-`;
-
-const SimilarProductName = styled.h3`
-  font-size: var(--font-size-medium, 16px);
-  font-weight: 500;
-  color: var(--color-text-light, #FFFFFF);
-  margin-bottom: var(--spacing-xs, 6px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const SimilarProductPrice = styled.p`
-  font-size: var(--font-size-medium, 16px);
-  font-weight: 600;
-  color: var(--color-secondary-peach, #FFDAB9);
-`;
 
 
 // --- REACT COMPONENT ---
@@ -543,8 +503,7 @@ const ProductDetailPage = () => {
             <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
               <FaMinus />
             </QuantityButton>           
-            <QuantityDisplay>{quantity}</QuantityDisplay>  
-                  
+            <QuantityDisplay>{quantity}</QuantityDisplay>            
             <QuantityButton onClick={handleIncrementQuantity}>     
               <FaPlus />       
             </QuantityButton>
