@@ -18,7 +18,7 @@ const About = lazy(() => import('./pages/About'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 const DesignSkimboardPage = lazy(() => import('./pages/DesignSkimboard')); // New design page
-const CartPage = lazy(() => import('./pages/Checkout'));
+const CheckoutPage = lazy(() => import('./pages/Checkout'));
 const SignUpPage = lazy (() => import ('./pages/auth/SignUpPage'));
 const SignInPage = lazy (() => import ('./pages/auth/LoginPage'));  // Example, if you have a cart page
  // Example, if you have a sign-up page
@@ -39,7 +39,7 @@ function App() {
                   <Route path="/products/category/:categoryName" element={<Products />} />
                   <Route path="/product/:id" element={<ProductDetailPage />} /> {/* Route for product detail */}
                   <Route path="/design-skimboard" element={<DesignSkimboardPage />} /> {/* Route for design page */}
-                  <Route path="/cart" element={<CartPage />} /> {/* Route for cart page */}
+                  <Route path="/cart" element={<CheckoutPage />} /> {/* Route for cart page */}
                   <Route path="/signup" element={<SignUpPage />} /> {/* Route for sign-up page */}
                   <Route path="/signin" element={<SignInPage />} /> {/* Route for sign-in page */}
                   {/* Add other routes here */}

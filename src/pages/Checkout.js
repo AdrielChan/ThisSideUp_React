@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext'; // Assuming you have a CartContext
-// import { useAuth } from '../contexts/AuthContext'; // Assuming you have an AuthContext for user details
+
 
 // Styled Components
 const PageWrapper = styled.div`

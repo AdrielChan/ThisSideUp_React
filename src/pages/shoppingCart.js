@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-// Import global styles.
-// Adjust the path if your index.css file is located elsewhere relative to this file.
-// If index.css is in 'src/' and this file is in 'src/components/ShoppingCartPage/',
-// then '../../index.css' is a common way to reference it.
 import '../../index.css'; // <--- ADD THIS LINE (adjust path as needed)
-
-import './shoppingCart.css'; // Component-specific styles
 import { initialShoppingCartPageItems } from './Data'; // Import data from Data.js
 
 const CartItem = ({ item, onQuantityChange, onSelect }) => {
