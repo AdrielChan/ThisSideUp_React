@@ -1,8 +1,26 @@
 // File: src/pages/DesignSkimboard.js
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDesign } from '../contexts/DesignContext'; // To manage design state
+import { SketchPicker } from 'react-color';
+import { GradientPicker } from 'react-linear-gradient-picker';
+import 'react-linear-gradient-picker/dist/index.css';
+
+const rgbToRgba = (rgb, a = 1) => rgb.replace('rgb(', 'rgba(').replace(')', `, ${a})`);
+
+const WrappedSketchPicker = ({ onSelect, ...rest }) => {
+  return (
+    <SketchPicker
+      {...rest}
+      color={rgbToRgba(rest.color, rest.opacity)}
+      onChange={c => {
+        const { r, g, b, a } = c.rgb;
+        onSelect(`rgb(${r}, ${g}, ${b})`, a);
+      }}
+    />
+  );
+};
 
 // --- STYLED COMPONENTS for the Design Page ---
 const PageWrapper = styled.div`
@@ -14,7 +32,7 @@ const PageWrapper = styled.div`
 
 const Layout = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
@@ -25,8 +43,9 @@ const Layout = styled.div`
 `;
 
 const PreviewArea = styled.div`
+  background-image: url('/aboutHD.jpg');
+  background-size: cover;
   flex: 1 1 0;
-  background: #232323;
   border-radius: 12px;
   padding: 32px 16px;
   display: flex;
@@ -73,6 +92,13 @@ const PreviewDecal = styled.img`
   pointer-events: none;
 `;
 
+const ControlsParent = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 20px;
+`;
+
 const Controls = styled.div`
   flex: 1 1 0;
   background: #5D3FD3;
@@ -80,9 +106,9 @@ const Controls = styled.div`
   padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 15px;
   min-width: 320px;
-  max-width: 420px;
+
   @media (max-width: 900px) {
     max-width: 100%;
     min-width: 0;
@@ -104,46 +130,6 @@ const Inline = styled.div`
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
-`;
-
-const GradientControlsRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
-  align-items: flex-start;
-  width: 100%;
-  @media (max-width: 600px) {
-    flex-direction: column;
-    gap: 8px;
-  }
-`;
-
-const GradientStopsRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-`;
-
-const GradientStopRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 0;
-`;
-
-const AddStopBtn = styled.button`
-  background: #232323;
-  color: #FFDAB9;
-  border: 1px solid #FFDAB9;
-  border-radius: 4px;
-  padding: 4px 12px;
-  cursor: pointer;
-  font-size: 0.95em;
-  margin-top: 6px;
-  &:hover { background: #FFDAB9; color: #232323; }
 `;
 
 const ToggleGroup = styled.div`
@@ -178,26 +164,47 @@ const AddToCartBtn = styled.button`
   &:hover { background: #FFA07A; }
 `;
 
-const GradientPreview = styled.div`
+const ResetButton = styled.button`
+  background: #232323;
+  color: #FFDAB9;
+  border: 1px solid #FFDAB9;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  padding: 14px 0;
+  margin-top: 10px;
   width: 100%;
-  height: 36px;
-  border-radius: 6px;
-  border: 1px solid #fff;
-  margin: 8px 0 12px 0;
-  background: ${props => props.bg};
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background: #2d2d2d;
+    border-color: #FFA07A;
+    color: #FFA07A;
+  }
 `;
+
+
 
 const DesignSkimboard = () => {
   const navigate = useNavigate();
   const {
     currentDesign,
     updateDesign,
-    updateGradientStop,
-    addGradientStop,
-    removeGradientStop,
+    updateGradientStop2,
     resetDesign
   } = useDesign();
 
+  
+
+  const [palette, setPalette] = useState([
+    { offset: 0, color: "#F2C2CE", opacity: 1 },
+    { offset: 0.5, color: "#BDCE62", opacity: 1 },
+    { offset: 1, color: "#A0C888", opacity: 1 },
+  ]);
+
+  const updatePalette = (newPalette) => {
+    setPalette(newPalette);
+    updateGradientStop2(newPalette);
+  }
   // Board color mode (solid/gradient)
   const colorMode = currentDesign.baseType;
   const setColorMode = (mode) => updateDesign({ baseType: mode });
@@ -279,11 +286,12 @@ const DesignSkimboard = () => {
 
   return (
     <PageWrapper>
-      <h1 style={{ textAlign: 'center', color: '#FFDAB9', marginBottom: 32, fontSize: 36 }}>
-        Design Your Custom Skimboard
-      </h1>
+      
       <Layout>
-        <PreviewArea>
+        <PreviewArea >
+          <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36 }}>
+            Customise Your Skimboard
+          </h1>
           <SkimboardShape bg={previewBg}>
             {feature === 'text' && text && (
               <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight}>
@@ -295,7 +303,9 @@ const DesignSkimboard = () => {
             )}
           </SkimboardShape>
         </PreviewArea>
-        <Controls>
+        
+        <ControlsParent>
+          <Controls>
           <Section>
             <SectionTitle>Board Colour</SectionTitle>
             <ToggleGroup>
@@ -309,11 +319,13 @@ const DesignSkimboard = () => {
               </Inline>
             )}
             {colorMode === 'gradient' && (
-              <GradientControlsRow>
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <Inline>
+              <div>
+                
+                 
+                <div style={{  width: '100%' , marginBottom: 10}}>
+                  
                     <label>Type:</label>
-                    <select value={gradientType} onChange={e => setGradientType(e.target.value)}>
+                    <select value={gradientType} onChange={e => setGradientType(e.target.value)} style={{ width: 200 }}>
                       <option value="linear">Linear</option>
                       <option value="radial">Radial</option>
                     </select>
@@ -326,40 +338,32 @@ const DesignSkimboard = () => {
                           min={0}
                           max={360}
                           onChange={e => setGradientAngle(Number(e.target.value))}
-                          style={{ width: 60 }}
+                          style={{ width: 60, marginTop: 5 }}
                         />
                         <span>deg</span>
                       </>
                     )}
-                  </Inline>
-                  <GradientPreview bg={previewBg} />
+                 
                 </div>
-                <GradientStopsRow style={{ flex: 2, minWidth: 0 }}>
-                  {gradientStops.map((stop, i) => (
-                    <GradientStopRow key={stop.id}>
-                      <input type="color" value={stop.color} onChange={e => updateGradientStop(stop.id, { color: e.target.value })} />
-                      <input
-                        type="range"
-                        min={0} max={1} step={0.01}
-                        value={stop.offset}
-                        onChange={e => updateGradientStop(stop.id, { offset: Math.max(0, Math.min(1, parseFloat(e.target.value))) })}
-                        style={{ width: 100 }}
-                      />
-                      <span>{Math.round(stop.offset * 100)}%</span>
-                      {gradientStops.length > 2 && (
-                        <button onClick={() => removeGradientStop(stop.id)} style={{ color: 'red', background: 'none', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>X</button>
-                      )}
-                    </GradientStopRow>
-                  ))}
-                  {gradientStops.length < 5 && (
-                    <AddStopBtn onClick={addGradientStop}>+ Add Stop</AddStopBtn>
-                  )}
-                </GradientStopsRow>
-              </GradientControlsRow>
+                <GradientPicker
+                    {...{
+                      width: 320,
+                      paletteHeight: 32,
+                      palette,
+                      onPaletteChange: updatePalette,
+                    }}
+                  >
+                    <WrappedSketchPicker />
+                  </GradientPicker>
+                
+              </div>
             )}
           </Section>
 
-          <Section>
+          
+        </Controls>
+        <Controls>
+            <Section>
             <SectionTitle>Feature</SectionTitle>
             <ToggleGroup>
               <ToggleBtn active={feature === 'none'} onClick={() => setFeature('none')}>None</ToggleBtn>
@@ -409,10 +413,10 @@ const DesignSkimboard = () => {
                 {decalUrl && <div style={{ color: '#FFDAB9', fontSize: 14, marginTop: 4 }}>Uploaded: {decalName}</div>}
               </>
             )}
-          </Section>
-
-          <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
+          </Section>          <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
+          <ResetButton onClick={resetDesign}>Reset Design</ResetButton>
         </Controls>
+        </ControlsParent>
       </Layout>
     </PageWrapper>
   );
