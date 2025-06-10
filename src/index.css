@@ -52,6 +52,9 @@
   border-radius: 6px;
   border: 1px solid #ccc;
   width: 400px;
+  position: relative;
+  bottom: 27px;
+  right: auto;
 }
 
 #qn {

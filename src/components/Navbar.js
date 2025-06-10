@@ -33,8 +33,7 @@ function SearchIcon() {
                 style={{
                   position: 'absolute',
                   right: '8px',
-                  top: '60%',
-
+                  top: '45%',
                 }}
               />
             </form>
