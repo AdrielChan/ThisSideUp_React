@@ -21,6 +21,7 @@ function SearchIcon() {
                 id="search"
                 type="text"
                 placeholder="Search"
+                
 
               />
               <img
@@ -32,10 +33,8 @@ function SearchIcon() {
                 style={{
                   position: 'absolute',
                   right: '8px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  cursor: 'pointer',
-                  zIndex: 10, // ensures it sits above input
+                  top: '60%',
+
                 }}
               />
             </form>
@@ -83,7 +82,7 @@ function UserDropdown() {
         <div
           style={{
             position: 'absolute',
-            top: '75px', // ensures it's below the icon
+            top: '75px',
             right: 0,
             backgroundColor: '#222222',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
