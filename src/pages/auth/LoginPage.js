@@ -10,7 +10,7 @@ const PageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('LoginHD.jpg'); /* Ensure this image is in public/images */
+  background-image: url('LoginHD.jpg');
   background-size: cover;
   background-position: center;
   padding: var(--spacing-m, 16px);

@@ -10,7 +10,7 @@ const PageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/images/beach-sunset-background.jpg'); /* Replace with your actual image path */
+  background-image: url('CreateAccountHD.jpg');
   background-size: cover;
   background-position: center;
   padding: var(--spacing-m, 16px);
