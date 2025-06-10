@@ -68,6 +68,16 @@ export const DesignProvider = ({ children }) => {
         }
     }));
   };
+  
+  const updateGradientStop2 = (newStopProps) => {
+    setCurrentDesign(prev => ({
+        ...prev,
+        gradientDetails: {
+            ...prev.gradientDetails,
+            stops: [...newStopProps]
+        }
+    }));
+  }
 
   const addGradientStop = () => {
     setCurrentDesign(prev => {
@@ -108,9 +118,8 @@ export const DesignProvider = ({ children }) => {
         _id: designToLoad._id || null // Keep track of the original ID if it exists
     });
   };
-
   const resetDesign = () => {
-    setCurrentDesign({initialDesignState, _id: null});
+    setCurrentDesign({ ...initialDesignState, _id: null });
   };
 
   const value = {
@@ -118,6 +127,7 @@ export const DesignProvider = ({ children }) => {
     updateDesign,
     loadDesign,
     updateGradientStop,
+    updateGradientStop2,
     addGradientStop,
     removeGradientStop,
     resetDesign,
