@@ -300,6 +300,14 @@ const Navbar = () => {
         </NavItem>
         <NavItem>
           <StyledLink 
+            to="/design-skimboard" 
+            className={location.pathname === '/design-skimboard' ? 'active' : ''}
+          >
+            Customise
+          </StyledLink>
+        </NavItem>
+        <NavItem>
+          <StyledLink 
             to="/faq" 
             className={location.pathname === '/faq' ? 'active' : ''}
           >

@@ -92,9 +92,11 @@ const Home = () => {
         padding: '0rem'
       }}>
         <div id='font1' style={{
+          marginLeft: '35px',
           padding: '2rem',
           backgroundColor: 'rgba(32, 32, 32, 0.8)',
           width: '560px',
+          height: '700px',
           paddingLeft: '30px',
           position: 'relative',
           left: '80px',
@@ -119,9 +121,9 @@ const Home = () => {
             everything you need for your next beach adventure to the shore.
           </p>
 
-          <AccentButton to="/design-skimboard">
+          {/* <AccentButton to="/design-skimboard">
             Design Your Skimboard
-          </AccentButton>
+          </AccentButton> */}
         </div>
       </div>
     </Wrapper>
