@@ -29,9 +29,7 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                 <p id={`item-name-${itemId}`} className="item-name" title={itemData.name}>
                     {itemData.name}
                 </p>
-                {/* Remove button is not in the header in the new Figma, 
-                    but if it were, this is where it would go.
-                    The new Figma shows it below the image/price. */}
+                
             </div>
             <div className="item-body">
                 <div className="item-visuals-and-price">
@@ -69,8 +67,6 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
     );
 };
 
-// ... (ActualShoppingCartPage component remains largely the same)
-// The onRemove={handleRemoveItem} prop is already correctly passed.
 
 const ActualShoppingCartPage = () => {
     const navigate = useNavigate();
@@ -80,7 +76,17 @@ const ActualShoppingCartPage = () => {
         removeItemFromCart,
     } = useCart();
 
-    const [selectedItemsMap, setSelectedItemsMap] = useState({});
+    const [selectedItemsMap, setSelectedItemsMap] = useState(() => {
+        // Initialize with all items selected
+        const initialSelected = {};
+        cartItems.forEach(item => {
+            const itemId = item.product?._id || item.customDesign?._id;
+            if (itemId) {
+                initialSelected[itemId] = true;
+            }
+        });
+        return initialSelected;
+    });
     const [totalPriceOfSelected, setTotalPriceOfSelected] = useState(0);
 
     useEffect(() => {
