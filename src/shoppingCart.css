@@ -1,68 +1,67 @@
-/* File: src/pages/shoppingCart.css (or wherever shoppingCart.js is located) */
+/* src/pages/shoppingCart.css */
 
-/* The .shopping-cart-container might already have a black background from a global style or body style.
-   If not, or to ensure it, you can add it here.
-   However, typically the body tag in index.css would set the #000000 background.
-*/
-.shopping-cart-container {
-  max-width: 1200px; /* Or your preferred max-width */
-  margin: 0 auto;   /* Center the content */
-  padding: 40px 20px; /* Add some padding around the main content area */
-  /* background-color: #000000; /* Ensure page background is black if not globally set */
-  color: #FFFFFF; /* Default text color for the page */
-  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+/* This class applies to the main div in shoppingCart.js */
+.shopping-cart-page-container {
+  background-color: #000000; /* Pure black page background */
+  color: #FFFFFF;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  padding: 40px 20px; /* Overall padding for the page content */
+  box-sizing: border-box;
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Default font */
 }
 
-.shopping-cart-main {
-  /* Main content area specific styles if needed */
+.shopping-cart-main-content {
+  max-width: 1200px; /* Max width for the content area */
+  margin: 0 auto;   /* Center the content area */
 }
 
 .cart-title-section {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 30px; /* Space below "Total price:" */
 }
 
 .cart-main-title {
-  font-family: 'Inria Serif', Georgia, 'Times New Roman', Times, serif; /* As per Figma */
-  font-size: clamp(40px, 6vw, 56px); /* Large, responsive */
-  font-weight: normal; /* As per Figma's "Shopping cart" text */
+  font-family: 'Inria Serif', Georgia, 'Times New Roman', Times, serif; /* Font from Figma */
+  font-size: clamp(40px, 6vw, 56px); /* Responsive title size */
+  font-weight: normal; /* As per Figma text styling */
   color: #FFFFFF;
   margin-bottom: 10px;
   position: relative;
-  display: inline-block; /* For the ::after pseudo-element */
+  display: inline-block;
 }
 
 .cart-main-title::after {
   content: '';
   display: block;
-  width: 150px; /* Width of the underline from Figma */
+  width: 150px; /* Width of the underline */
   height: 2px;
-  background-color: #BE7D4D; /* Brownish-orange color from Figma */
-  margin: 15px auto 0; /* Spacing and centering */
+  background-color: #BE7D4D; /* Brownish-orange underline color from Figma */
+  margin: 15px auto 0; /* Spacing and centering of the underline */
 }
 
 .total-price-display {
-  font-family: 'Instrument Sans', sans-serif; /* As per Figma */
-  font-size: clamp(20px, 4vw, 28px); /* Large, responsive */
+  font-family: 'Instrument Sans', sans-serif; /* Font from Figma */
+  font-size: clamp(20px, 4vw, 28px); /* Responsive total price text */
   color: #FFFFFF;
-  margin-bottom: 40px; /* Space before the item grid */
+  margin-top: 20px; /* Space above this text */
+  margin-bottom: 40px; /* Space below this text, before item grid */
 }
 
 .cart-items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 25px;
-  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive columns */
+  gap: 25px; /* Gap between cards */
+  margin-bottom: 50px; /* Space before the checkout button */
 }
 
-@media (min-width: 768px) { /* Adjust for 2 columns on tablets */
+@media (min-width: 768px) {
   .cart-items-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
   }
 }
-@media (min-width: 1024px) { /* Adjust for 3 columns on desktops */
+@media (min-width: 1024px) {
   .cart-items-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for desktops */
   }
 }
 
@@ -77,35 +76,36 @@
   text-decoration: underline;
 }
 
+/* Individual Cart Item Card Styling */
 .cart-item-card {
-  background-color: #2C003E; /* Dark purple from Figma */
-  border-radius: 10px;
+  background-color: #2C003E; /* Dark purple card background from Figma */
+  border-radius: 10px; /* Rounded corners for the card */
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Space between header and body of card */
-  border: 1px dotted rgba(147, 0, 255, 0.45); /* Figma's dotted border */
+  gap: 15px; /* Space between card header and body */
+  border: 1px dotted rgba(147, 0, 255, 0.45); /* Dotted border from Figma */
 }
 
 .item-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 12px; /* Space between checkbox and item name */
 }
 
-.custom-checkbox-input { /* This is the actual <input type="checkbox"> */
+.custom-checkbox-input { /* Actual HTML checkbox, hidden */
   position: absolute;
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.custom-checkbox-label { /* This is the styled <label> that looks like a checkbox */
+.custom-checkbox-label { /* Styled label that acts as the visible checkbox */
   min-width: 22px; /* Size from Figma */
   width: 22px;
   height: 22px;
-  background-color: #4B4B4B; /* Unchecked color from Figma */
-  border: 1px solid #6F6F6F; /* Border for unchecked state from Figma */
+  background-color: #4B4B4B; /* Unchecked state background from Figma */
+  border: 1px solid #6F6F6F; /* Unchecked state border from Figma */
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
@@ -115,50 +115,52 @@
 }
 
 .custom-checkbox-input:checked + .custom-checkbox-label {
-  background-color: #9300FF; /* Checked color from Figma */
-  border-color: #9300FF;
+  background-color: #9300FF; /* Checked state background from Figma */
+  border-color: #9300FF; /* Checked state border from Figma */
 }
 
 .custom-checkbox-input:focus-visible + .custom-checkbox-label {
-  outline: 2px solid var(--color-secondary-peach, #FFB366); /* Focus outline */
+  outline: 2px solid #FFB366; /* Accessibility focus outline */
   outline-offset: 2px;
 }
 
 .custom-checkbox-input:checked + .custom-checkbox-label::after {
-  content: '✔';
+  content: '✔'; /* Checkmark symbol */
   color: white;
-  font-size: 15px; /* Adjust checkmark size if needed */
+  font-size: 15px; /* Adjust size of checkmark if needed */
 }
 
 .item-name {
-  flex-grow: 1; /* Allow name to take available space */
-  font-size: 1rem; /* 16px */
+  flex-grow: 1; /* Allows the name to take up remaining space */
+  font-size: 1rem; /* 16px default */
   font-family: 'Instrument Sans', sans-serif;
+  color: #FFFFFF;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4;
-  color: #FFFFFF;
+  text-overflow: ellipsis; /* For long names */
+  line-height: 1.4; /* Improve readability */
 }
 
-.remove-item-button {
+/* If you add a remove button inside item-header */
+.remove-item-button { 
   background: none;
   border: none;
-  color: #FF8A80; /* Light red, adjust if needed */
-  font-size: 1.5rem; /* Make the '×' larger */
+  color: #FF8A80;
+  font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
   padding: 0 5px;
-  line-height: 1; /* Helps with vertical alignment */
-  margin-left: auto; /* Push to the far right */
+  line-height: 1;
+  margin-left: auto; /* Pushes it to the right if space allows */
 }
 .remove-item-button:hover {
-  color: #FF5252; /* Darker red on hover */
+  color: #FF5252;
 }
+
 
 .item-body {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Pushes image/price left, quantity right */
   align-items: center;
   gap: 10px;
 }
@@ -166,19 +168,19 @@
 .item-visuals-and-price {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 15px; /* Space between image and its price */
 }
 
 .item-image {
-  width: 70px; /* Size from Figma */
+  width: 70px; /* Image size from Figma */
   height: 70px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 6px; /* Rounded corners for image */
 }
 
 .item-price {
   font-size: 1rem; /* 16px */
-  font-weight: 500;
+  font-weight: 500; /* Medium weight */
   font-family: 'Instrument Sans', sans-serif;
   color: #FFFFFF;
 }
@@ -186,65 +188,65 @@
 .quantity-selector {
   display: flex;
   align-items: center;
-  background-color: #383838; /* Background from Figma */
+  background-color: #383838; /* Background of quantity selector from Figma */
   border-radius: 5px; /* Rounded corners from Figma */
-  padding: 4px;
+  padding: 4px; /* Internal padding */
 }
 
 .quantity-selector button {
-  background-color: transparent;
+  background-color: transparent; /* No background for +/- buttons */
   color: #FFFFFF;
   border: none;
-  font-size: 1.25rem; /* 20px, for '-' and '+' */
+  font-size: 1.25rem; /* 20px, for '-' and '+' symbols */
   font-weight: normal; /* As per Figma */
   cursor: pointer;
   padding: 4px 10px;
   line-height: 1;
 }
 .quantity-selector button:hover:not(:disabled) {
-  color: #CCCCCC;
+  color: #CCCCCC; /* Slight hover effect for buttons */
 }
 .quantity-selector button:disabled {
-  color: #666666;
+  color: #666666; /* Muted color for disabled state */
   cursor: not-allowed;
 }
 
-.quantity-selector span { /* The quantity number */
-  margin: 0 10px;
+.quantity-selector span { /* The quantity number itself */
+  margin: 0 10px; /* Space around the number */
   font-size: 1rem; /* 16px */
   font-family: 'Instrument Sans', sans-serif;
-  min-width: 20px; /* Ensure space for 2-digit numbers */
+  min-width: 20px; /* To prevent squishing with multi-digit numbers */
   text-align: center;
   color: #FFFFFF;
 }
 
 .checkout-button-container {
-  text-align: center;
-  margin-top: 40px;
+  text-align: center; /* Center the button */
+  margin-top: 40px; /* Space above the button */
 }
 
 .checkout-button {
-  background-color: #FFB366; /* Peach color from Figma */
-  color: #000000; /* Black text from Figma */
+  background-color: #FFB366; /* Peach/orange button color from Figma */
+  color: #000000; /* Black text on button from Figma */
   border: none;
-  padding: 16px 50px;
+  padding: 16px 50px; /* Generous padding for a prominent button */
   font-size: 1.125rem; /* 18px */
   font-weight: bold;
   font-family: 'Instrument Sans', sans-serif;
-  border-radius: 30px; /* Pill shape */
+  border-radius: 30px; /* Pill shape from Figma */
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Subtle shadow */
 }
 
 .checkout-button:hover:not(:disabled) {
-  background-color: #FFA04D; /* Darker peach on hover */
-  transform: translateY(-1px) scale(1.02);
+  background-color: #FFA04D; /* Darker shade on hover */
+  transform: translateY(-1px) scale(1.02); /* Slight lift and scale effect */
 }
 .checkout-button:disabled {
-  background-color: #585858; /* Dark grey for disabled state */
+  background-color: #585858; /* Darker grey for disabled state */
   color: #888888;
   cursor: not-allowed;
   box-shadow: none;
-  transform: none;
+  transform: none; /* No hover effect when disabled */
 }

@@ -1,19 +1,18 @@
-// File: src/pages/shoppingCart.js (or wherever ActualShoppingCartPage is located)
+// src/pages/shoppingCart.js (or your chosen path)
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../index.css'; // Global styles (ensure path is correct if this file is not in src/pages)
-import '../shoppingCart.css'; // Component-specific styles (MUST be in the same directory or path updated)
-import { useCart } from '../contexts/CartContext'; // Crucial import for live cart data
+import '../index.css'; // Assuming index.css is in src/
+import '../shoppingCart.css'; // Styles specific to this page
+import { useCart } from '../contexts/CartContext'; // Ensure this path is correct
 
-// CartItem component: Renders individual items from the cart.
 const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected }) => {
     const itemData = cartEntry.product || cartEntry.customDesign;
 
     if (!itemData) {
-        console.warn("CartItem received an entry without product or customDesign data:", cartEntry);
+        console.warn("CartItem: Missing itemData in cartEntry", cartEntry);
         return null;
     }
-    const itemId = itemData._id;
+    const itemId = itemData._id; // Ensure all items (product/custom) have a unique _id
 
     return (
         <div className="cart-item-card">
@@ -30,19 +29,14 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                 <p id={`item-name-${itemId}`} className="item-name" title={itemData.name}>
                     {itemData.name}
                 </p>
-                <button
-                    onClick={() => onRemove(itemId)}
-                    className="remove-item-button"
-                    aria-label={`Remove ${itemData.name} from cart`}
-                >
-                    ×
-                </button>
+                {/* Optional: Add remove button if desired, not explicitly in Figma for this view of card header */}
+                {/* <button onClick={() => onRemove(itemId)} className="remove-item-button">×</button> */}
             </div>
             <div className="item-body">
                 <div className="item-visuals-and-price">
                     <img
-                        src={itemData.imageUrl || '/placeholder-image.png'} // Ensure you have a fallback
-                        alt={itemData.name ? itemData.name.substring(0, 30) : 'Cart item'}
+                        src={itemData.imageUrl || '/images/placeholder-product.png'} // Provide a fallback image
+                        alt={itemData.name ? itemData.name.substring(0, 30) : 'Cart item image'}
                         className="item-image"
                     />
                     <p className="item-price">${itemData.price ? itemData.price.toFixed(2) : '0.00'}</p>
@@ -64,13 +58,12 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
     );
 };
 
-// Main Shopping Cart Page Component
 const ActualShoppingCartPage = () => {
     const navigate = useNavigate();
     const {
-        cartItems,          // Live cart array from CartContext
+        cartItems,
         updateItemQuantity,
-        removeItemFromCart,
+        removeItemFromCart, // We might not use remove directly in CartItem as per Figma
     } = useCart();
 
     const [selectedItemsMap, setSelectedItemsMap] = useState({});
@@ -81,18 +74,17 @@ const ActualShoppingCartPage = () => {
         cartItems.forEach(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
             if (itemId) {
-                newSelectionMap[itemId] = selectedItemsMap[itemId] || false; // Preserve selection or default to false
+                newSelectionMap[itemId] = selectedItemsMap[itemId] || false;
             }
         });
         setSelectedItemsMap(newSelectionMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cartItems]); // Re-initialize selection map if cartItems from context changes
+    }, [cartItems]);
 
     useEffect(() => {
         const newTotal = cartItems.reduce((sum, cartEntry) => {
             const itemData = cartEntry.product || cartEntry.customDesign;
-            if (!itemData || !itemData.price) return sum;
-
+            if (!itemData || typeof itemData.price !== 'number') return sum;
             const itemId = itemData._id;
             if (selectedItemsMap[itemId]) {
                 return sum + (itemData.price * cartEntry.quantity);
@@ -119,30 +111,23 @@ const ActualShoppingCartPage = () => {
             alert("Please select items to checkout.");
             return;
         }
-
         navigate('/checkout', {
-            state: {
-                itemsForCheckout: itemsToPassToCheckout,
-                total: totalPriceOfSelected,
-            }
+            state: { itemsForCheckout: itemsToPassToCheckout, total: totalPriceOfSelected }
         });
     };
-
-    const handleQuantityChange = (itemId, newQuantity) => {
-        updateItemQuantity(itemId, newQuantity); // Call context function
-    };
-
-    const handleRemoveItem = (itemId) => {
-        removeItemFromCart(itemId); // Call context function
-        setSelectedItemsMap(prevMap => {
-            const { [itemId]: _, ...restOfMap } = prevMap;
-            return restOfMap;
-        });
-    };
+    
+    // If you add a remove button to CartItem, you'd use this:
+    // const handleRemoveItem = (itemId) => {
+    //     removeItemFromCart(itemId);
+    //     setSelectedItemsMap(prevMap => {
+    //         const { [itemId]: _, ...rest } = prevMap;
+    //         return rest;
+    //     });
+    // };
 
     return (
-        <div className="shopping-cart-container"> {/* This class needs styles from shoppingCart.css */}
-            <main className="shopping-cart-main">
+        <div className="shopping-cart-page-container"> {/* Updated class name */}
+            <main className="shopping-cart-main-content"> {/* Updated class name */}
                 <div className="cart-title-section">
                     <h1 className="cart-main-title">Shopping cart</h1>
                     <p className="total-price-display">Total price: ${totalPriceOfSelected.toFixed(2)}</p>
@@ -150,18 +135,17 @@ const ActualShoppingCartPage = () => {
 
                 {cartItems.length > 0 ? (
                     <div className="cart-items-grid">
-                        {cartItems.map(cartEntry => { // Use cartItems from CartContext
+                        {cartItems.map(cartEntry => {
                             const itemData = cartEntry.product || cartEntry.customDesign;
                             if (!itemData) return null;
                             const itemId = itemData._id;
-
                             return (
                                 <CartItem
                                     key={itemId}
                                     cartEntry={cartEntry}
-                                    onQuantityChange={handleQuantityChange}
+                                    onQuantityChange={updateItemQuantity} // Directly pass context function
                                     onSelect={handleToggleSelectItem}
-                                    onRemove={handleRemoveItem}
+                                    onRemove={removeItemFromCart} // Directly pass context function if remove btn added
                                     isSelected={!!selectedItemsMap[itemId]}
                                 />
                             );
