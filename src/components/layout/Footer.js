@@ -83,7 +83,7 @@ const Footer = () => {
       </FooterColumn>
 
       <FooterColumn>
-        <FooterHeading id='font2'>Social Medias</FooterHeading>
+        <FooterHeading id='font2'>Social Media</FooterHeading>
         <FooterDivider />
         <SocialIcons>
           <a href="https://www.instagram.com/this_side_up.sg/" target="_blank" rel="noopener noreferrer">
