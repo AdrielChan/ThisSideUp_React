@@ -93,7 +93,7 @@ function UserDropdown() {
         height="40px"
         alt="User icon"
         onClick={handleClick2}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', position: 'relative' }}
       />
 
       {/* Dropdown Menu */}
