@@ -1,22 +1,19 @@
+// File: src/pages/shoppingCart.js (or wherever ActualShoppingCartPage is located)
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../index.css'; // Global styles
+import '../index.css'; // Global styles (ensure path is correct if this file is not in src/pages)
+import '../shoppingCart.css'; // Component-specific styles (MUST be in the same directory or path updated)
 import { useCart } from '../contexts/CartContext'; // Crucial import for live cart data
 
 // CartItem component: Renders individual items from the cart.
-// It receives the full cart entry (item) which includes quantity and product/customDesign details.
-// It also receives handlers for quantity changes, selection, and removal.
 const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected }) => {
-    // Determine the actual item details (product or custom design)
     const itemData = cartEntry.product || cartEntry.customDesign;
 
-    // If itemData is somehow undefined (shouldn't happen with proper CartContext structure), don't render.
     if (!itemData) {
         console.warn("CartItem received an entry without product or customDesign data:", cartEntry);
         return null;
     }
-
-    const itemId = itemData._id; // Unique ID of the product or custom design
+    const itemId = itemData._id;
 
     return (
         <div className="cart-item-card">
@@ -24,8 +21,8 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                 <input
                     type="checkbox"
                     id={`select-${itemId}`}
-                    checked={isSelected} // Controlled by isSelected prop
-                    onChange={() => onSelect(itemId)} // Calls parent handler to update selection map
+                    checked={isSelected}
+                    onChange={() => onSelect(itemId)}
                     className="custom-checkbox-input"
                     aria-labelledby={`item-name-${itemId}`}
                 />
@@ -34,21 +31,21 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                     {itemData.name}
                 </p>
                 <button
-                    onClick={() => onRemove(itemId)} // Calls parent handler to remove item
+                    onClick={() => onRemove(itemId)}
                     className="remove-item-button"
                     aria-label={`Remove ${itemData.name} from cart`}
                 >
-                    × {/* Simple X for remove icon */}
+                    ×
                 </button>
             </div>
             <div className="item-body">
                 <div className="item-visuals-and-price">
                     <img
-                        src={itemData.imageUrl || '/placeholder-image.png'} // Provide a fallback image path
-                        alt={itemData.name.substring(0, 30)}
+                        src={itemData.imageUrl || '/placeholder-image.png'} // Ensure you have a fallback
+                        alt={itemData.name ? itemData.name.substring(0, 30) : 'Cart item'}
                         className="item-image"
                     />
-                    <p className="item-price">${itemData.price.toFixed(2)}</p>
+                    <p className="item-price">${itemData.price ? itemData.price.toFixed(2) : '0.00'}</p>
                 </div>
                 <div className="quantity-selector">
                     <button
@@ -71,62 +68,51 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
 const ActualShoppingCartPage = () => {
     const navigate = useNavigate();
     const {
-        cartItems,          // THIS IS THE LIVE CART ARRAY from CartContext
-        updateItemQuantity, // Function to update quantity in CartContext
-        removeItemFromCart, // Function to remove item from CartContext
+        cartItems,          // Live cart array from CartContext
+        updateItemQuantity,
+        removeItemFromCart,
     } = useCart();
 
-    // Local state for managing which items are *selected* for checkout on this page
     const [selectedItemsMap, setSelectedItemsMap] = useState({});
-    // Local state for the total price of *selected* items
     const [totalPriceOfSelected, setTotalPriceOfSelected] = useState(0);
 
-    // Effect to initialize or update the local `selectedItemsMap` when `cartItems` from context change.
-    // This ensures that new items added to the cart get an entry in the selection map (defaulting to not selected),
-    // and items removed from the cart are implicitly removed from selection consideration.
     useEffect(() => {
         const newSelectionMap = {};
         cartItems.forEach(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
             if (itemId) {
-                // Preserve existing selection status if item is still in map, otherwise default to false (not selected)
-                newSelectionMap[itemId] = selectedItemsMap[itemId] || false;
+                newSelectionMap[itemId] = selectedItemsMap[itemId] || false; // Preserve selection or default to false
             }
         });
         setSelectedItemsMap(newSelectionMap);
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
-    }, [cartItems]); // Dependency: cartItems from context. IMPORTANT: Do not add selectedItemsMap here to avoid infinite loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cartItems]); // Re-initialize selection map if cartItems from context changes
 
-    // Effect to recalculate the `totalPriceOfSelected` whenever the `cartItems` (from context)
-    // or the local `selectedItemsMap` changes.
     useEffect(() => {
         const newTotal = cartItems.reduce((sum, cartEntry) => {
             const itemData = cartEntry.product || cartEntry.customDesign;
-            if (!itemData) return sum; // Safety check
+            if (!itemData || !itemData.price) return sum;
 
             const itemId = itemData._id;
-            if (selectedItemsMap[itemId]) { // Check if the item is marked as selected in our local map
+            if (selectedItemsMap[itemId]) {
                 return sum + (itemData.price * cartEntry.quantity);
             }
             return sum;
         }, 0);
         setTotalPriceOfSelected(newTotal);
-    }, [cartItems, selectedItemsMap]); // Dependencies: cartItems from context and local selectedItemsMap
+    }, [cartItems, selectedItemsMap]);
 
-    // Handler to toggle the selection status of an item in the local `selectedItemsMap`
     const handleToggleSelectItem = (itemIdToToggle) => {
         setSelectedItemsMap(prevMap => ({
             ...prevMap,
-            [itemIdToToggle]: !prevMap[itemIdToToggle], // Toggle the boolean value
+            [itemIdToToggle]: !prevMap[itemIdToToggle],
         }));
     };
 
-    // Handler for proceeding to checkout
     const handleActualCheckout = () => {
-        // Filter the `cartItems` from context to get only those marked as selected in `selectedItemsMap`
         const itemsToPassToCheckout = cartItems.filter(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
-            return itemId && selectedItemsMap[itemId]; // Item must have an ID and be selected
+            return itemId && selectedItemsMap[itemId];
         });
 
         if (itemsToPassToCheckout.length === 0) {
@@ -134,56 +120,49 @@ const ActualShoppingCartPage = () => {
             return;
         }
 
-        // Navigate to the checkout page, passing the selected items and their total price
-        // The CheckoutPage will then use this data.
         navigate('/checkout', {
             state: {
                 itemsForCheckout: itemsToPassToCheckout,
-                total: totalPriceOfSelected, // Pass the already calculated total of selected items
+                total: totalPriceOfSelected,
             }
         });
     };
 
-    // Wrapper for CartContext's updateItemQuantity
     const handleQuantityChange = (itemId, newQuantity) => {
-        updateItemQuantity(itemId, newQuantity);
+        updateItemQuantity(itemId, newQuantity); // Call context function
     };
 
-    // Wrapper for CartContext's removeItemFromCart
     const handleRemoveItem = (itemId) => {
-        removeItemFromCart(itemId);
-        // Also, update the local selection map to remove the item if it was there
-        // This prevents issues if the item is re-added later.
+        removeItemFromCart(itemId); // Call context function
         setSelectedItemsMap(prevMap => {
-            const { [itemId]: _, ...restOfMap } = prevMap; // Destructure to remove the item
+            const { [itemId]: _, ...restOfMap } = prevMap;
             return restOfMap;
         });
     };
 
     return (
-        <div className="shopping-cart-container">
+        <div className="shopping-cart-container"> {/* This class needs styles from shoppingCart.css */}
             <main className="shopping-cart-main">
                 <div className="cart-title-section">
                     <h1 className="cart-main-title">Shopping cart</h1>
-                    {/* Display the total price of only the items currently selected */}
                     <p className="total-price-display">Total price: ${totalPriceOfSelected.toFixed(2)}</p>
                 </div>
 
                 {cartItems.length > 0 ? (
                     <div className="cart-items-grid">
-                        {cartItems.map(cartEntry => { // Iterate over cartItems from CartContext
+                        {cartItems.map(cartEntry => { // Use cartItems from CartContext
                             const itemData = cartEntry.product || cartEntry.customDesign;
-                            if (!itemData) return null; // Should not occur
+                            if (!itemData) return null;
                             const itemId = itemData._id;
 
                             return (
                                 <CartItem
-                                    key={itemId} // IMPORTANT: Key should be stable and unique (product/customDesign ID)
-                                    cartEntry={cartEntry} // Pass the entire cart entry
+                                    key={itemId}
+                                    cartEntry={cartEntry}
                                     onQuantityChange={handleQuantityChange}
-                                    onSelect={handleToggleSelectItem} // Use the toggle handler
+                                    onSelect={handleToggleSelectItem}
                                     onRemove={handleRemoveItem}
-                                    isSelected={!!selectedItemsMap[itemId]} // Pass current selection status
+                                    isSelected={!!selectedItemsMap[itemId]}
                                 />
                             );
                         })}
@@ -198,7 +177,6 @@ const ActualShoppingCartPage = () => {
                     <button
                         className="checkout-button"
                         onClick={handleActualCheckout}
-                        // Disable button if no items are in the cart OR if no items are selected
                         disabled={cartItems.length === 0 || Object.values(selectedItemsMap).every(isSelected => !isSelected)}
                     >
                         Check Out
