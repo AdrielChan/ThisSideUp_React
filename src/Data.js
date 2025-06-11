@@ -48,6 +48,20 @@ export const initialProducts = [
     rating: 4.7,
     numRatings: 25,
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
+  }, 
+  {
+    _id: generateId('prod'),
+    name: "Blue Palm Tree T-Shirt",
+    description: "Tween boy casual palm tree & sunset print revere collar short sleeve shirt, suitable For summer.",
+    imageUrl: "/Product Photos/BluePalmTreeShirt.png", // Replace with actual path
+    category: "T-Shirts",
+    type: "T-Shirts",
+    price: 6.99,
+    stock: 28,
+    tags: ["tree", "palm", "beach", "shirt", "blue"],
+    rating: 4.2,
+    numRatings: 83,
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
   },
   {
     _id: generateId('prod'),
