@@ -292,18 +292,18 @@ const Navbar = () => {
         </NavItem>
         <NavItem>
           <StyledLink 
-            to="/about" 
-            className={location.pathname === '/about' ? 'active' : ''}
-          >
-            About
-          </StyledLink>
-        </NavItem>
-        <NavItem>
-          <StyledLink 
             to="/design-skimboard" 
             className={location.pathname === '/design-skimboard' ? 'active' : ''}
           >
             Customise
+          </StyledLink>
+        </NavItem>
+        <NavItem>
+          <StyledLink 
+            to="/about" 
+            className={location.pathname === '/about' ? 'active' : ''}
+          >
+            About
           </StyledLink>
         </NavItem>
         <NavItem>
