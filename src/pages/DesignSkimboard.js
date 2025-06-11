@@ -43,7 +43,7 @@ const Layout = styled.div`
 `;
 
 const PreviewArea = styled.div`
-  background-image: url('/aboutHD.jpg');
+  background-image: url('/waves-beach.jpg');
   background-size: cover;
   flex: 1 1 0;
   border-radius: 12px;

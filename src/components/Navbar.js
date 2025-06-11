@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import '../index.css';
 import styled from 'styled-components';
 import TSULogo from '../icons/this-side-up-logo_white.png';
@@ -7,14 +7,28 @@ import SearchPNG from '../icons/icons8-search.png';
 import CloseIcon from '../icons/icons8-close.png';
 import CartIcon from '../icons/icons8-cart.png';
 import UserIcon from '../icons/icons8-user.png';
+import { queryAllByAltText } from '@testing-library/react';
 
 // Search Bar
 function SearchIcon() {
   const [isVisible, setIsVisible] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const handleClick = () => {
     setIsVisible(prev => !prev);
   };
+
+  const handleInputChange = (e) => {
+    setKeyword(e.target.value);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      Navigate(`/search?q={encodeURIComponent(query)}`);
+      setIsVisible(false);
+    }
+  }
 
   return (
     <div>
@@ -26,8 +40,8 @@ function SearchIcon() {
                 id="search"
                 type="text"
                 placeholder="Search"
-                
-
+                value={keyword}
+                onChange={handleInputChange}
               />
               <img
                 src={CloseIcon}
