@@ -311,8 +311,8 @@ const Navbar = () => {
         </div>
         <Link 
             id='icon'
-            to="/cart" 
-            className={location.pathname === '/cart' ? 'active' : ''}
+            to="/shoppingCart" 
+            className={location.pathname === '/shoppingCart' ? 'active' : ''}
             style={{marginLeft:'35px', cursor: 'pointer'}}
           >
             <img id='icon' src={CartIcon}
