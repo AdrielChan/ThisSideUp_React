@@ -5,17 +5,16 @@ const DesignContext = createContext(null);
 
 export const DesignProvider = ({ children }) => {
   const initialDesignState = {
-    name: "My Custom Skimboard",
-    boardShape: "classic_oval", // e.g., 'classic_oval', 'pro_pointed', 'wide_stable'
-    baseType: "gradient", // 'solid', 'gradient'
+    _id: null, // Will be generated when added to cart for a specific instance
+    name: "My Custom Skimboard", // Default name for a custom design
+    boardShape: "classic_oval",
+    baseType: "gradient",
     
-    // Solid Color
     solidColor: "#FFFFFF",
 
-    // Gradient
     gradientDetails: {
-      type: "linear", // 'linear', 'radial'
-      angle: 90, // degrees for linear
+      type: "linear",
+      angle: 90,
       stops: [
         { id: 'stop1', offset: 0, color: "#F2C2CE", opacity: 1 },
         { id: 'stop2', offset: 0.5, color: "#BDCE62", opacity: 1 },
@@ -23,32 +22,33 @@ export const DesignProvider = ({ children }) => {
       ],
     },
 
-    // Text
     customText: {
       text: "Enter text here",
-      font: "Arial", // Default font
+      font: "Arial",
       color: "#333333",
-      size: 24, // in px
-      position: { x: 50, y: 50 }, // Percentage or absolute, define convention
-      alignment: 'center', // 'left', 'center', 'right'
-      style: 'normal', // 'normal', 'italic'
-      weight: 'normal', // 'normal', 'bold'
+      size: 24,
+      position: { x: 50, y: 50 },
+      alignment: 'center',
+      style: 'normal',
+      weight: 'normal',
     },
     isTextEnabled: false,
 
-    // Decal
     decal: {
-      url: null, // Data URL or path to uploaded image
-      name: null, // Filename of decal
-      position: { x: 50, y: 50 }, // Percentage or absolute
-      size: { width: 100, height: 100 }, // in px or percentage
-      rotation: 0, // degrees
+      url: null,
+      name: null,
+      position: { x: 50, y: 50 },
+      size: { width: 100, height: 100 },
+      rotation: 0,
     },
     isDecalEnabled: false,
 
-    // This will be calculated based on choices or a base price
-    price: 70.00, // Base price for a custom board, can be adjusted by features
-    isCustom: true, // To distinguish in cart
+    // Placeholder image for custom designs in cart/checkout
+    imageUrl: "/images/custom-board-placeholder.png", // ADD THIS LINE (ensure you have this image in public/images)
+                                                      // Or use a more generic one like: 'https://picsum.photos/seed/customboard/80/80'
+
+    price: 70.00, // Base price, can be adjusted by features later
+    isCustom: true, // Crucial flag for CartContext
   };
 
   const [currentDesign, setCurrentDesign] = useState(initialDesignState);
@@ -74,7 +74,7 @@ export const DesignProvider = ({ children }) => {
         ...prev,
         gradientDetails: {
             ...prev.gradientDetails,
-            stops: [...newStopProps]
+            stops: [...newStopProps] // Assumes newStopProps is the full array of stops
         }
     }));
   }
@@ -82,7 +82,6 @@ export const DesignProvider = ({ children }) => {
   const addGradientStop = () => {
     setCurrentDesign(prev => {
         const newId = `stop${prev.gradientDetails.stops.length + 1}`;
-        // Add new stop typically in the middle or end, adjust offset accordingly
         const newOffset = prev.gradientDetails.stops.length > 0 
             ? Math.min(1, prev.gradientDetails.stops[prev.gradientDetails.stops.length - 1].offset + 0.2)
             : 0.5;
@@ -93,7 +92,7 @@ export const DesignProvider = ({ children }) => {
                 stops: [
                     ...prev.gradientDetails.stops,
                     { id: newId, offset: newOffset, color: "#CCCCCC", opacity: 1 }
-                ].sort((a,b) => a.offset - b.offset) // Keep stops sorted by offset
+                ].sort((a,b) => a.offset - b.offset)
             }
         };
     });
@@ -110,15 +109,15 @@ export const DesignProvider = ({ children }) => {
   };
 
   const loadDesign = (designToLoad) => {
-    // Make sure the structure of designToLoad matches initialDesignState
-    // You might want to merge carefully or spread selectively
     setCurrentDesign({
-        ...initialDesignState, // Start with a clean base to ensure all fields are present
-        ...designToLoad,      // Override with the loaded design's properties
-        _id: designToLoad._id || null // Keep track of the original ID if it exists
+        ...initialDesignState, 
+        ...designToLoad,      
+        _id: designToLoad._id || null 
     });
   };
+
   const resetDesign = () => {
+    // When resetting, also reset the local palette in DesignSkimboard if it's not directly tied
     setCurrentDesign({ ...initialDesignState, _id: null });
   };
 
@@ -131,6 +130,7 @@ export const DesignProvider = ({ children }) => {
     addGradientStop,
     removeGradientStop,
     resetDesign,
+    initialDesignState // Expose initial state for reset if needed elsewhere
   };
 
   return <DesignContext.Provider value={value}>{children}</DesignContext.Provider>;

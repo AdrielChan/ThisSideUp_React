@@ -1,5 +1,5 @@
 let nextId = 1;
-const generateId = (prefix = 'id') => `${prefix}_${nextId++}`;
+export const generateId = (prefix = 'id') => `${prefix}_${nextId++}`;
 
 export const initialUsers = [
   {

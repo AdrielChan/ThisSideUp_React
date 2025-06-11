@@ -1,8 +1,11 @@
 // File: src/pages/DesignSkimboard.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Added useEffect
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useDesign } from '../contexts/DesignContext'; // To manage design state
+import { useDesign } from '../contexts/DesignContext';
+import { useCart } from '../contexts/CartContext'; // <<<<<<<<<<< ADD THIS IMPORT
+// Assuming generateId is exported from Data.js and Data.js is in src/
+import { generateId } from '../Data'; // <<<<<<<<<<< ADD THIS IMPORT (adjust path if Data.js is elsewhere)
 import { SketchPicker } from 'react-color';
 import { GradientPicker } from 'react-linear-gradient-picker';
 import 'react-linear-gradient-picker/dist/index.css';
@@ -13,6 +16,7 @@ const WrappedSketchPicker = ({ onSelect, ...rest }) => {
   return (
     <SketchPicker
       {...rest}
+      width="220px"
       color={rgbToRgba(rest.color, rest.opacity)}
       onChange={c => {
         const { r, g, b, a } = c.rgb;
@@ -22,7 +26,7 @@ const WrappedSketchPicker = ({ onSelect, ...rest }) => {
   );
 };
 
-// --- STYLED COMPONENTS for the Design Page ---
+// --- STYLED COMPONENTS (Keep your existing styled components) ---
 const PageWrapper = styled.div`
   min-height: 100vh;
   background: #181818;
@@ -36,6 +40,7 @@ const Layout = styled.div`
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 16px; 
   @media (max-width: 900px) {
     flex-direction: column;
     gap: 24px;
@@ -43,8 +48,9 @@ const Layout = styled.div`
 `;
 
 const PreviewArea = styled.div`
-  background-image: url('/waves-beach.jpg');
+  background-image: url('/waves-beach.jpg'); // Ensure this image is in public folder
   background-size: cover;
+  background-position: center;
   flex: 1 1 0;
   border-radius: 12px;
   padding: 32px 16px;
@@ -67,13 +73,18 @@ const SkimboardShape = styled.div`
   justify-content: center;
   background: ${props => props.bg};
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
+   @media (max-width: 480px) {
+    width: 300px;
+    height: 150px;
+    border-radius: 150px / 75px;
+  }
 `;
 
 const PreviewText = styled.div`
   position: absolute;
-  color: ${props => props.color || '#fff'};
+  color: ${props => props.color || '#000'};
   font-family: ${props => props.font || 'Arial'};
-  font-size: ${props => props.size || 28}px;
+  font-size: ${props => props.size || 36}px;
   font-weight: ${props => props.weight || 'bold'};
   width: 80%;
   text-align: center;
@@ -81,15 +92,17 @@ const PreviewText = styled.div`
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  word-wrap: break-word;
 `;
 
 const PreviewDecal = styled.img`
   position: absolute;
-  max-width: 80%;
-  max-height: 80%;
-  left: 10%;
-  top: 10%;
+  max-width: 70%; 
+  max-height: 70%; 
+  left: 15%; 
+  top: 15%; 
   pointer-events: none;
+  object-fit: contain;
 `;
 
 const ControlsParent = styled.div`
@@ -97,156 +110,202 @@ const ControlsParent = styled.div`
   flex-direction: row;
   width: 100%;
   gap: 20px;
+  @media (max-width: 768px) { 
+    flex-direction: column;
+  }
 `;
 
 const Controls = styled.div`
   flex: 1 1 0;
-  background: #5D3FD3;
+  background: #3F2A56; 
   border-radius: 12px;
-  padding: 32px 24px;
+  padding: 24px; 
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  min-width: 320px;
+  gap: 20px; 
+  min-width: 0; 
 
-  @media (max-width: 900px) {
-    max-width: 100%;
-    min-width: 0;
+  input[type="text"],
+  input[type="number"],
+  select {
+    background-color: #FFF; 
+    color: #333; 
+    border: 1px solid #D1C4E9; 
+    border-radius: 6px;
+    padding: 10px 12px; 
+    font-size: 1rem; 
+    width: 100%; 
+    box-sizing: border-box;
+    margin-top: 4px; 
+  }
+  
+  input[type="color"] {
+    height: 40px; 
+    width: 60px; 
+    padding: 2px;
+    border-radius: 4px;
+  }
+
+  input[type="file"] {
+    color: #FFDAB9; 
+    font-size: 0.9rem;
+  }
+  input[type="file"]::file-selector-button {
+    background: #FFDAB9;
+    color: #232323;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
   }
 `;
 
 const Section = styled.div`
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.2rem;
-  color: #FFDAB9;
-  margin-bottom: 10px;
+  font-size: 1.5rem; 
+  color: #FFDAB9; 
+  margin-bottom: 12px;
+  font-family: 'Inria Serif', serif; 
+`;
+
+const StyledLabel = styled.label`
+  font-size: 1.1rem; 
+  color: #EDE7F6; 
+  display: block; 
+  margin-bottom: 6px; 
+  font-family: 'Instrument Sans', sans-serif; 
 `;
 
 const Inline = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap; 
 `;
 
 const ToggleGroup = styled.div`
   display: flex;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 const ToggleBtn = styled.button`
-  background: ${props => props.active ? '#FFDAB9' : '#232323'};
-  color: ${props => props.active ? '#232323' : '#FFDAB9'};
+  background: ${props => props.active ? '#FFDAB9' : 'rgba(255,255,255,0.1)'};
+  color: ${props => props.active ? '#3F2A56' : '#FFDAB9'};
   border: 1px solid #FFDAB9;
-  border-radius: 4px;
-  padding: 6px 16px;
+  border-radius: 6px; 
+  padding: 10px 20px; 
+  font-size: 1rem; 
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
+  flex-grow: 1; 
+  font-family: 'Instrument Sans', sans-serif;
 `;
 
 const AddToCartBtn = styled.button`
-  background: #FFDAB9;
-  color: #232323;
+  background: #9C27B0; 
+  color: #FFFFFF;
   border: none;
   border-radius: 8px;
-  font-size: 1.1rem;
+  font-size: 1.25rem; 
   font-weight: bold;
-  padding: 14px 0;
-  margin-top: 18px;
+  padding: 16px 0; 
+  margin-top: 24px;
   width: 100%;
   cursor: pointer;
   transition: background 0.2s;
-  &:hover { background: #FFA07A; }
+  font-family: 'Instrument Sans', sans-serif;
+  &:hover { background: #7B1FA2; } 
 `;
 
 const ResetButton = styled.button`
-  background: #232323;
+  background: transparent;
   color: #FFDAB9;
-  border: 1px solid #FFDAB9;
+  border: 2px solid #FFDAB9; 
   border-radius: 8px;
-  font-size: 1.1rem;
-  padding: 14px 0;
-  margin-top: 10px;
+  font-size: 1.25rem; 
+  padding: 14px 0; 
+  margin-top: 12px;
   width: 100%;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: 'Instrument Sans', sans-serif;
   &:hover {
-    background: #2d2d2d;
+    background: rgba(255, 218, 185, 0.1); 
     border-color: #FFA07A;
     color: #FFA07A;
   }
 `;
 
-
-
 const DesignSkimboard = () => {
   const navigate = useNavigate();
   const {
-    currentDesign,
+    currentDesign, // This is the object with all design configurations
     updateDesign,
-    updateGradientStop2,
-    resetDesign
+    // updateGradientStop2, // We'll use palette from local state to drive this
+    resetDesign: resetContextDesign, // Renamed to avoid conflict
+    initialDesignState // Get initial state for resetting palette
   } = useDesign();
-
   
+  const { addItemToCart } = useCart(); // <<<<<<<<<<< GET addItemToCart from CartContext
 
-  const [palette, setPalette] = useState([
-    { offset: 0, color: "#F2C2CE", opacity: 1 },
-    { offset: 0.5, color: "#BDCE62", opacity: 1 },
-    { offset: 1, color: "#A0C888", opacity: 1 },
-  ]);
+  // Local state for the gradient palette, initialized from context or default
+  const [palette, setPalette] = useState(
+    currentDesign.gradientDetails.stops || initialDesignState.gradientDetails.stops
+  );
 
-  const updatePalette = (newPalette) => {
+  // Sync local palette changes back to DesignContext
+  const updatePaletteAndContext = (newPalette) => {
     setPalette(newPalette);
-    updateGradientStop2(newPalette);
+    updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, stops: newPalette } });
   }
-  // Board color mode (solid/gradient)
+
+  // Ensure an effect updates local palette if currentDesign.gradientDetails.stops changes from elsewhere (e.g., loading a design)
+  useEffect(() => {
+    setPalette(currentDesign.gradientDetails.stops);
+  }, [currentDesign.gradientDetails.stops]);
+
+
   const colorMode = currentDesign.baseType;
   const setColorMode = (mode) => updateDesign({ baseType: mode });
 
-  // Solid color
-  const solidColor = currentDesign.solidColor || '#FFDAB9';
-  const setSolidColor = (color) => updateDesign({ solidColor: color });
+  const solidColor = currentDesign.solidColor || '#FFDAB9'; // Fallback just in case
+  const setSolidColor = (color) => updateDesign({ solidColor: color.hex || color }); // react-color might pass object
 
-  // Gradient
   const gradientType = currentDesign.gradientDetails.type;
   const setGradientType = (type) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, type } });
   const gradientAngle = currentDesign.gradientDetails.angle;
-  const setGradientAngle = (angle) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, angle } });
-  const gradientStops = currentDesign.gradientDetails.stops;
+  const setGradientAngle = (angle) => updateDesign({ gradientDetails: { ...currentDesign.gradientDetails, angle: Number(angle) } });
+  // gradientStops are now managed by local `palette` state, synced to context
 
-  // Feature: text, decal, or none (exclusive)
   let feature = 'none';
   if (currentDesign.isTextEnabled) feature = 'text';
   else if (currentDesign.isDecalEnabled) feature = 'decal';
+
   const setFeature = (f) => {
-    if (f === 'text') {
-      updateDesign({ isTextEnabled: true, isDecalEnabled: false });
-    } else if (f === 'decal') {
-      updateDesign({ isTextEnabled: false, isDecalEnabled: true });
-    } else {
-      updateDesign({ isTextEnabled: false, isDecalEnabled: false });
-    }
+    updateDesign({ 
+      isTextEnabled: f === 'text', 
+      isDecalEnabled: f === 'decal' 
+    });
   };
 
-  // Text feature
   const text = currentDesign.customText.text;
   const setText = (val) => updateDesign({ customText: { ...currentDesign.customText, text: val } });
   const textColor = currentDesign.customText.color;
-  const setTextColor = (val) => updateDesign({ customText: { ...currentDesign.customText, color: val } });
+  const setTextColor = (color) => updateDesign({ customText: { ...currentDesign.customText, color: color.hex || color } });
   const textFont = currentDesign.customText.font;
   const setTextFont = (val) => updateDesign({ customText: { ...currentDesign.customText, font: val } });
   const textSize = currentDesign.customText.size;
-  const setTextSize = (val) => updateDesign({ customText: { ...currentDesign.customText, size: val } });
+  const setTextSize = (val) => updateDesign({ customText: { ...currentDesign.customText, size: Number(val) } });
   const textWeight = currentDesign.customText.weight;
   const setTextWeight = (val) => updateDesign({ customText: { ...currentDesign.customText, weight: val } });
 
-  // Decal feature
   const decalUrl = currentDesign.decal.url;
   const decalName = currentDesign.decal.name;
   const handleDecalUpload = (event) => {
@@ -256,7 +315,7 @@ const DesignSkimboard = () => {
       reader.onloadend = () => {
         updateDesign({
           decal: { ...currentDesign.decal, url: reader.result, name: file.name },
-          isDecalEnabled: true,
+          isDecalEnabled: true, // Automatically enable decal feature on upload
           isTextEnabled: false
         });
       };
@@ -264,38 +323,53 @@ const DesignSkimboard = () => {
     }
   };
 
-  // Preview background
-  function getGradientString(type, angle, stops) {
-    const stopsString = stops
-      .sort((a, b) => a.offset - b.offset)
-      .map(stop => `${stop.color} ${Math.round(stop.offset * 100)}%`)
+  function getGradientString(type, angle, stopsArray) {
+    const sortedStops = [...stopsArray].sort((a, b) => parseFloat(a.offset) - parseFloat(b.offset));
+    const stopsString = sortedStops
+      .map(stop => `${stop.color} ${Math.round(parseFloat(stop.offset) * 100)}%`)
       .join(', ');
     return type === 'linear'
       ? `linear-gradient(${angle}deg, ${stopsString})`
       : `radial-gradient(circle, ${stopsString})`;
   }
+  
   const previewBg = colorMode === 'solid'
     ? solidColor
-    : getGradientString(gradientType, gradientAngle, gradientStops);
+    : getGradientString(gradientType, gradientAngle, palette); // Use local palette for preview
 
-  // Add to cart (stub)
   const handleAddToCart = () => {
+    // Prepare the custom design object to be added to the cart
+    const designToAdd = {
+      ...currentDesign, // Spread all properties of the current design
+      _id: generateId('custom_design'), // Generate a NEW unique ID for this cart item instance
+      name: currentDesign.name || "Custom Skimboard", // Use default or current name
+      // imageUrl is already in currentDesign from DesignContext's initial state
+      // price is already in currentDesign
+      isCustom: true // This flag is important for CartContext
+    };
+
+    // console.log("Adding custom design to cart:", designToAdd);
+    addItemToCart(designToAdd, 1); // Add one unit of this custom design
     alert('Custom skimboard added to cart!');
-    navigate('/shoppingCart');
+    navigate('/shoppingCart'); // Navigate to the shopping cart page
+  };
+
+  const handleResetDesign = () => {
+    resetContextDesign(); // Resets the design in the context
+    setPalette(initialDesignState.gradientDetails.stops); // Reset local palette to initial
   };
 
   return (
     <PageWrapper>
-      
       <Layout>
         <PreviewArea >
-          <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36 }}>
-            Customise Your Skimboard
+          <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 'clamp(30px, 5vw, 42px)', fontFamily: "'Lilita One', cursive" }}>
+            Design your Skimboard
           </h1>
           <SkimboardShape bg={previewBg}>
             {feature === 'text' && text && (
               <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight}>
-                {text}
+                {text || "Enter text here"}
               </PreviewText>
             )}
             {feature === 'decal' && decalUrl && (
@@ -313,108 +387,123 @@ const DesignSkimboard = () => {
               <ToggleBtn active={colorMode === 'gradient'} onClick={() => setColorMode('gradient')}>Gradient</ToggleBtn>
             </ToggleGroup>
             {colorMode === 'solid' && (
-              <Inline>
-                <label>Pick Colour:</label>
-                <input type="color" value={solidColor} onChange={e => setSolidColor(e.target.value)} />
-              </Inline>
+              <>
+                <StyledLabel htmlFor="solidColorPicker">Pick Colour:</StyledLabel>
+                <SketchPicker 
+                    id="solidColorPicker"
+                    color={solidColor}
+                    onChangeComplete={(color) => setSolidColor(color.hex)} // Use onChangeComplete for less frequent updates
+                    width="100%" // Make picker responsive
+                />
+              </>
             )}
             {colorMode === 'gradient' && (
               <div>
-                
-                 
-                <div style={{  width: '100%' , marginBottom: 10}}>
-                  
-                    <label>Type:</label>
-                    <select value={gradientType} onChange={e => setGradientType(e.target.value)} style={{ width: 200 }}>
+                <Inline style={{ alignItems: 'flex-end', marginBottom: '16px' }}>
+                  <div style={{ flex: 1 }}>
+                    <StyledLabel htmlFor="gradientTypeSelect">Type:</StyledLabel>
+                    <select id="gradientTypeSelect" value={gradientType} onChange={e => setGradientType(e.target.value)}>
                       <option value="linear">Linear</option>
                       <option value="radial">Radial</option>
                     </select>
-                    {gradientType === 'linear' && (
-                      <>
-                        <label>Angle:</label>
+                  </div>
+                  {gradientType === 'linear' && (
+                    <div style={{ flex: 1 }}>
+                      <StyledLabel htmlFor="gradientAngleInput">Angle:</StyledLabel>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
                         <input
+                          id="gradientAngleInput"
                           type="number"
                           value={gradientAngle}
                           min={0}
                           max={360}
-                          onChange={e => setGradientAngle(Number(e.target.value))}
-                          style={{ width: 60, marginTop: 5 }}
+                          onChange={e => setGradientAngle(e.target.value)}
+                          style={{ width: '80px', marginRight: '5px' }}
                         />
-                        <span>deg</span>
-                      </>
-                    )}
-                 
-                </div>
+                        <span style={{color: '#EDE7F6'}}>deg</span>
+                      </div>
+                    </div>
+                  )}
+                </Inline>
+                <StyledLabel>Adjust Gradient:</StyledLabel>
                 <GradientPicker
-                    {...{
-                      width: 320,
-                      paletteHeight: 32,
-                      palette,
-                      onPaletteChange: updatePalette,
-                    }}
-                  >
-                    <WrappedSketchPicker />
-                  </GradientPicker>
-                
+                  width={280} 
+                  paletteHeight={28} 
+                  palette={palette} // Use local palette state
+                  onPaletteChange={updatePaletteAndContext} // Update local state and sync to context
+                >
+                  <WrappedSketchPicker />
+                </GradientPicker>
               </div>
             )}
           </Section>
-
-          
         </Controls>
+
         <Controls>
             <Section>
-            <SectionTitle>Feature</SectionTitle>
+            <SectionTitle>Add Detail</SectionTitle>
             <ToggleGroup>
               <ToggleBtn active={feature === 'none'} onClick={() => setFeature('none')}>None</ToggleBtn>
               <ToggleBtn active={feature === 'text'} onClick={() => setFeature('text')}>Text</ToggleBtn>
               <ToggleBtn active={feature === 'decal'} onClick={() => setFeature('decal')}>Decal</ToggleBtn>
             </ToggleGroup>
+            
             {feature === 'text' && (
               <>
+                <div>
+                  <StyledLabel htmlFor="textInput">Text:</StyledLabel>
+                  <input id="textInput" type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Enter text here" />
+                </div>
                 <Inline>
-                  <label>Text:</label>
-                  <input type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Enter text" style={{ flex: 1 }} />
+                  <div style={{flex: 1}}>
+                    <StyledLabel htmlFor="textColorPicker">Colour:</StyledLabel>
+                    {/* For text color, a simple input type color might be less intrusive than SketchPicker */}
+                    <input id="textColorPicker" type="color" value={textColor} onChange={e => setTextColor(e.target.value)} />
+                  </div>
+                  <div style={{flex: 2}}>
+                    <StyledLabel htmlFor="textFontSelect">Font:</StyledLabel>
+                    <select id="textFontSelect" value={textFont} onChange={e => setTextFont(e.target.value)}>
+                      <option value="Arial, sans-serif">Arial</option>
+                      <option value="'Instrument Sans', sans-serif">Instrument Sans</option>
+                      <option value="'Inria Serif', serif">Inria Serif</option>
+                      <option value="'Lilita One', cursive">Lilita One</option>
+                      <option value="Verdana, sans-serif">Verdana</option>
+                      <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                      <option value="'Courier New', Courier, monospace">Courier New</option>
+                    </select>
+                  </div>
                 </Inline>
                 <Inline>
-                  <label>Colour:</label>
-                  <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} />
-                </Inline>
-                <Inline>
-                  <label>Font:</label>
-                  <select value={textFont} onChange={e => setTextFont(e.target.value)}>
-                    <option value="Arial">Arial</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                  </select>
-                </Inline>
-                <Inline>
-                  <label>Size:</label>
-                  <input type="number" value={textSize} min={12} max={80} onChange={e => setTextSize(Number(e.target.value))} style={{ width: 60 }} /> px
-                </Inline>
-                <Inline>
-                  <label>Weight:</label>
-                  <select value={textWeight} onChange={e => setTextWeight(e.target.value)}>
-                    <option value="normal">Normal</option>
-                    <option value="bold">Bold</option>
-                    <option value="bolder">Bolder</option>
-                    <option value="lighter">Lighter</option>
-                  </select>
+                  <div style={{flex: 1}}>
+                    <StyledLabel htmlFor="textSizeInput">Size (px):</StyledLabel>
+                    <input id="textSizeInput" type="number" value={textSize} min={12} max={80} onChange={e => setTextSize(e.target.value)} />
+                  </div>
+                  <div style={{flex: 1}}>
+                    <StyledLabel htmlFor="textWeightSelect">Weight:</StyledLabel>
+                    <select id="textWeightSelect" value={textWeight} onChange={e => setTextWeight(e.target.value)}>
+                      <option value="normal">Normal</option>
+                      <option value="bold">Bold</option>
+                      <option value="bolder">Bolder</option>
+                      <option value="lighter">Lighter</option>
+                      {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
+                    </select>
+                  </div>
                 </Inline>
               </>
             )}
+            
             {feature === 'decal' && (
               <>
-                <Inline>
-                  <label>Upload Image:</label>
-                  <input type="file" accept="image/*" onChange={handleDecalUpload} />
-                </Inline>
-                {decalUrl && <div style={{ color: '#FFDAB9', fontSize: 14, marginTop: 4 }}>Uploaded: {decalName}</div>}
+                <div>
+                  <StyledLabel htmlFor="decalUpload">Upload Image:</StyledLabel>
+                  <input id="decalUpload" type="file" accept="image/*" onChange={handleDecalUpload} />
+                </div>
+                {decalUrl && <div style={{ color: '#FFDAB9', fontSize: '0.9rem', marginTop: 8 }}>Uploaded: {decalName}</div>}
               </>
             )}
-          </Section>          <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
-          <ResetButton onClick={resetDesign}>Reset Design</ResetButton>
+          </Section>
+          <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
+          <ResetButton onClick={handleResetDesign}>Reset Design</ResetButton>
         </Controls>
         </ControlsParent>
       </Layout>
