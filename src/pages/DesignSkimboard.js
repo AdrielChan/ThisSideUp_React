@@ -281,7 +281,7 @@ const DesignSkimboard = () => {
   // Add to cart (stub)
   const handleAddToCart = () => {
     alert('Custom skimboard added to cart!');
-    navigate('/cart');
+    navigate('/shoppingCart');
   };
 
   return (
