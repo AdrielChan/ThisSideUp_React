@@ -12,7 +12,7 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
         console.warn("CartItem: Missing itemData in cartEntry", cartEntry);
         return null;
     }
-    const itemId = itemData._id; // Ensure all items (product/custom) have a unique _id
+    const itemId = itemData._id;
 
     return (
         <div className="cart-item-card">
@@ -29,13 +29,14 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                 <p id={`item-name-${itemId}`} className="item-name" title={itemData.name}>
                     {itemData.name}
                 </p>
-                {/* To use the remove button, uncomment it and ensure onRemove is correctly passed */}
-                {/* <button onClick={() => onRemove(itemId)} className="remove-item-button">×</button> */}
+                {/* Remove button is not in the header in the new Figma, 
+                    but if it were, this is where it would go.
+                    The new Figma shows it below the image/price. */}
             </div>
             <div className="item-body">
                 <div className="item-visuals-and-price">
                     <img
-                        src={itemData.imageUrl || '/images/placeholder-product.png'} // Provide a fallback image
+                        src={itemData.imageUrl || '/images/placeholder-product.png'}
                         alt={itemData.name ? itemData.name.substring(0, 30) : 'Cart item image'}
                         className="item-image"
                     />
@@ -54,9 +55,22 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                     >+</button>
                 </div>
             </div>
+            {/* Add the remove button below the item body, as per the new Figma */}
+            <div className="item-actions">
+                <button
+                    onClick={() => onRemove(itemId)} // Use the onRemove prop passed from ActualShoppingCartPage
+                    className="item-remove-button" // New class for styling
+                    aria-label={`Remove ${itemData.name} from cart`}
+                >
+                    Remove
+                </button>
+            </div>
         </div>
     );
 };
+
+// ... (ActualShoppingCartPage component remains largely the same)
+// The onRemove={handleRemoveItem} prop is already correctly passed.
 
 const ActualShoppingCartPage = () => {
     const navigate = useNavigate();
@@ -74,13 +88,12 @@ const ActualShoppingCartPage = () => {
         cartItems.forEach(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
             if (itemId) {
-                // Preserve existing selection if item is already in map, otherwise default to false
                 newSelectionMap[itemId] = selectedItemsMap.hasOwnProperty(itemId) ? selectedItemsMap[itemId] : false;
             }
         });
         setSelectedItemsMap(newSelectionMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cartItems]); // Only re-run if cartItems changes
+    }, [cartItems]);
 
     useEffect(() => {
         const newTotal = cartItems.reduce((sum, cartEntry) => {
@@ -117,21 +130,18 @@ const ActualShoppingCartPage = () => {
         });
     };
     
-    // This function is defined but not currently used as the remove button in CartItem is commented out.
-    // If you uncomment the button in CartItem, this function will be called via the onRemove prop.
     const handleRemoveItem = (itemId) => {
         removeItemFromCart(itemId);
-        // Also update the selectedItemsMap to remove the item if it was selected
         setSelectedItemsMap(prevMap => {
-            const { [itemId]: _, ...rest } = prevMap; // efficiently remove property
+            const { [itemId]: _, ...rest } = prevMap;
             return rest;
         });
     };
 
     return (
-        <div className="shopping-cart-page"> {/* Outermost div */}
-            <div className="shopping-cart-page-container"> {/* Container for padding/max-width etc. */}
-                <main className="shopping-cart-main-content"> {/* Main content block */}
+        <div className="shopping-cart-page">
+            <div className="shopping-cart-page-container">
+                <main className="shopping-cart-main-content">
                     <div className="cart-title-section">
                         <h1 className="cart-main-title">Shopping cart</h1>
                         <p className="total-price-display">Total price: ${totalPriceOfSelected.toFixed(2)}</p>
@@ -149,7 +159,7 @@ const ActualShoppingCartPage = () => {
                                         cartEntry={cartEntry}
                                         onQuantityChange={updateItemQuantity}
                                         onSelect={handleToggleSelectItem}
-                                        onRemove={handleRemoveItem} // Pass the handler here if button is active
+                                        onRemove={handleRemoveItem} // This calls the function in ActualShoppingCartPage
                                         isSelected={!!selectedItemsMap[itemId]}
                                     />
                                 );
@@ -170,9 +180,9 @@ const ActualShoppingCartPage = () => {
                             Check Out
                         </button>
                     </div>
-                </main> {/* Closes shopping-cart-main-content */}
-            </div> {/* Closes shopping-cart-page-container */}
-        </div> // <<< --- ADD THIS CLOSING DIV TAG
+                </main>
+            </div>
+        </div>
     );
 };
 

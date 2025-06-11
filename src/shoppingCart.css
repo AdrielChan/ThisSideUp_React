@@ -250,3 +250,49 @@
   box-shadow: none;
   transform: none; /* No hover effect when disabled */
 }
+
+.cart-item-card {
+  /* ... existing styles ... */
+  display: flex; /* Ensure flex for easier child management if not already */
+  flex-direction: column; /* Stack header, body, actions */
+  justify-content: space-between; /* Pushes actions to bottom if card has fixed height */
+  /* Add some padding to the bottom if the button looks too close to the card edge */
+  /* padding-bottom: 15px; */
+}
+
+.item-actions {
+  margin-top: 15px; /* Space above the remove button */
+  display: flex; /* To center the button if needed, or align it */
+  justify-content: flex-start; /* Aligns button to the left by default, or use center */
+}
+
+.item-remove-button {
+  background-color: #FFB366; /* Peach/orange color like the main "Check Out" button */
+  color: #2C003E; /* Dark purple text, similar to card background for contrast */
+  border: none;
+  padding: 8px 20px; /* Adjust padding as needed */
+  font-size: 0.9rem;  /* Adjust font size as needed */
+  font-weight: bold;
+  font-family: 'Instrument Sans', sans-serif; /* Match other button fonts */
+  border-radius: 20px; /* Pill shape or more rounded like Figma */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  /* Remove box-shadow if it doesn't match the Figma, or add a subtle one */
+  /* box-shadow: 0 1px 2px rgba(0,0,0,0.1); */
+}
+
+.item-remove-button:hover {
+  background-color: #FFA04D; /* Darker shade on hover */
+  transform: translateY(-1px);
+}
+
+.item-remove-button:active {
+  transform: translateY(0);
+}
+
+/* Adjust grid if remove button causes overflow or layout issues */
+.cart-items-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Might need minmax adjustment */
+  gap: 25px;
+  margin-bottom: 50px;
+}
