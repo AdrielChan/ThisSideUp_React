@@ -279,21 +279,31 @@ const CheckoutPage = () => {
           </thead>
           <tbody>
             {cartItems.map(item => {
+              // First check if the item exists
+              if (!item) return null;
+              
+              // Determine the product data based on item type
               const product = item.type === 'custom' ? item.customItemData : item.product;
-              const itemPrice = product.price;
+              
+              // Skip rendering if product data is missing
+              if (!product) return null;
+              
+              // Ensure price exists and is a number
+              const itemPrice = typeof product.price === 'number' ? product.price : 0;
+              
               return (
-                <tr key={item._id}>
+                <tr key={item._id || `temp-${Math.random()}`}>
                   <td className="product-name">
                     <img 
                         src={product.imageUrl || (item.type === 'custom' ? '/images/custom-skimboard-placeholder.png' : '/images/placeholder-product.png')} 
-                        alt={product.name} 
+                        alt={product.name || 'Product'} 
                         className="product-image" 
                     />
-                    <span className="product-name-text">{product.name}</span>
+                    <span className="product-name-text">{product.name || 'Unnamed Product'}</span>
                   </td>
                   <td className="unit-price">${itemPrice.toFixed(2)}</td>
-                  <td className="quantity">{item.quantity}</td>
-                  <td className="total-price">${(itemPrice * item.quantity).toFixed(2)}</td>
+                  <td className="quantity">{item.quantity || 1}</td>
+                  <td className="total-price">${(itemPrice * (item.quantity || 1)).toFixed(2)}</td>
                 </tr>
               );
             })}
