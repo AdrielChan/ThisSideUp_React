@@ -48,6 +48,7 @@ const FAQ = () => {
 
   
   return (
+    <div className="faq-page">
     <Wrapper>
       <div style={{
       backgroundImage: `url(${backgroundImage})`,
@@ -82,6 +83,7 @@ const FAQ = () => {
       </div>
       </div>
     </Wrapper>
+    </div>
   );
 };
 

@@ -10,13 +10,11 @@ import ProductCard from './ProductCard';
 
 
 const PageWrapper = styled.div`
-  background-color:rgb(0, 0, 0); /* Updated to a dark, rich purple matching the site scheme */
   color: var(--color-text-light, #FFFFFF);
-  min-height: 100vh; /* Ensure it takes at least full viewport height */
   padding: var(--spacing-l, 24px) var(--spacing-m, 16px);
-  /* Removed padding-bottom: 100px from here, will add margin to content */
-  display: flex; /* Added for footer spacing */
-  flex-direction: column; /* Added for footer spacing */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 const MainContent = styled.main`
@@ -141,47 +139,49 @@ const Products = () => {
   };
   
   return (
-    <PageWrapper>
-      <MainContent> {/* Wrap main content */}
-        <PageHeader>
-          <CategorySelectorWrapper>
-            <CategoryDisplayButton onClick={() => setShowDropdown(!showDropdown)}>
-              {currentCategory === "All" ? "All Products" : currentCategory}
-              <FaChevronDown /> {/* Add icon here */}
-            </CategoryDisplayButton>
-            {showDropdown && (
-              <CategoryDropdownList>
-                {categories.map((cat) => (
-                  <CategoryDropdownItem 
-                    key={cat} 
-                    onClick={() => handleCategorySelect(cat)}
-                  >
-                    {cat === "All" ? "All Products" : cat}
-                  </CategoryDropdownItem>
-                ))}
-              </CategoryDropdownList>
-            )}
-          </CategorySelectorWrapper>
+    <div className="products-page">
+      <PageWrapper>
+        <MainContent> {/* Wrap main content */}
+          <PageHeader>
+            <CategorySelectorWrapper>
+              <CategoryDisplayButton onClick={() => setShowDropdown(!showDropdown)}>
+                {currentCategory === "All" ? "All Products" : currentCategory}
+                <FaChevronDown /> {/* Add icon here */}
+              </CategoryDisplayButton>
+              {showDropdown && (
+                <CategoryDropdownList>
+                  {categories.map((cat) => (
+                    <CategoryDropdownItem 
+                      key={cat} 
+                      onClick={() => handleCategorySelect(cat)}
+                    >
+                      {cat === "All" ? "All Products" : cat}
+                    </CategoryDropdownItem>
+                  ))}
+                </CategoryDropdownList>
+              )}
+            </CategorySelectorWrapper>
 
-        </PageHeader>
+          </PageHeader>
 
-        {loading && <MessageText>Loading products...</MessageText>}
-        {error && <MessageText>Error: {error}</MessageText>}
-        
-        {!loading && !error && filteredProducts.length === 0 && (
-          <MessageText>No products found in this category.</MessageText>
-        )}
+          {loading && <MessageText>Loading products...</MessageText>}
+          {error && <MessageText>Error: {error}</MessageText>}
+          
+          {!loading && !error && filteredProducts.length === 0 && (
+            <MessageText>No products found in this category.</MessageText>
+          )}
 
-        {!loading && !error && filteredProducts.length > 0 && (
-          <ProductGrid>
-            {filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </ProductGrid>
-        )}
-      </MainContent>
+          {!loading && !error && filteredProducts.length > 0 && (
+            <ProductGrid>
+              {filteredProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </ProductGrid>
+          )}
+        </MainContent>
 
-    </PageWrapper>
+      </PageWrapper>
+    </div>
   );
 };
 

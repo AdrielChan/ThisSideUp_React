@@ -21,76 +21,56 @@ export const initialUsers = [
 ];
 
 export const initialProducts = [
-  {
-    _id: generateId('prod'),
+  {    _id: generateId('prod'),
     name: "Candy Camo Skimboard",
     description: "Classic wooden skimboard, perfect for beginners and calm waters. Features a natural wood finish.",
     imageUrl: "/Product Photos/Candy Camo.jpeg", // Replace with actual path
     category: "Skimboards",
-    type: "Wood",
     price: 275.63,
     stock: 15,
-    tags: ["beginner", "wood", "radbug"],
     rating: 4.0,
     numRatings: 12,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(),
   },
-  {
-    _id: generateId('prod'),
+  {    _id: generateId('prod'),
     name: "Carbon Fiber Pro Skimboard",
     description: "High-performance skimboard with a vibrant blue wave design. Suitable for intermediate to advanced riders.",
     imageUrl: "/Product Photos/Carbon Fiber Pro.jpeg", // Replace with actual path
     category: "Skimboards",
-    type: "Foam",
     price: 968.54,
     stock: 8,
-    tags: ["intermediate", "advanced", "foam", "wave"],
     rating: 4.7,
     numRatings: 25,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
   }, 
-  {
-    _id: generateId('prod'),
+  {    _id: generateId('prod'),
     name: "Blue Palm Tree T-Shirt",
     description: "Tween boy casual palm tree & sunset print revere collar short sleeve shirt, suitable For summer.",
     imageUrl: "/Product Photos/BluePalmTreeShirt.png", // Replace with actual path
     category: "T-Shirts",
-    type: "T-Shirts",
     price: 6.99,
     stock: 28,
-    tags: ["tree", "palm", "beach", "shirt", "blue"],
     rating: 4.2,
     numRatings: 83,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(),
   },
-  {
-    _id: generateId('prod'),
+  {    _id: generateId('prod'),
     name: "Green Island Skimboard",
     description: "Colorful skimboard featuring a sunset orange gradient. Great for all skill levels.",
     imageUrl: "/Product Photos/Green Island.jpeg",
     category: "Skimboards",
-    type: "Composite",
     price: 832.19,
     stock: 20,
-    tags: ["all levels", "composite", "colorful"],
     rating: 4.3,
     numRatings: 18,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
   },
 
-  {
-    _id: generateId('prod'),
+  {    _id: generateId('prod'),
     name: "Lime Swirl Skimboard",
     description: "Broad Spectrum SPF 50. Gentle formula for sensitive skin. 3 FL OZ.",
     imageUrl: "/Product Photos/Lime Swirl.jpeg", // Replace with actual path
     category: "Skimboards",
-    type: "Lotion",
     price: 427.68,
     stock: 50,
-    tags: ["spf50", "mineral", "sensitive skin", "cetaphil"],
     rating: 4.8,
     numRatings: 96,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -155,7 +135,7 @@ export const initialProducts = [
     name: "Samurai Skimboard",
     description: "Timeless black sunglasses with UV protection.",
     imageUrl: "/Product Photos/Samurai.jpeg",
-    category: "Beach Apparel", // Or "Accessories"
+    category: "Skimboards", // Or "Accessories"
     type: "Sunglasses",
     price: 742.98,
     stock: 100,

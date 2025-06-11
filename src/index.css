@@ -153,6 +153,15 @@ input {
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --header-height: 70px;
   --footer-height: 200px; /* Approximate */
+
+  /* Gradient Backgrounds */
+  --gradient-primary: linear-gradient(135deg, #101010 0%, #670097 100%);
+  --gradient-products: linear-gradient(135deg, #101010 0%, #670097 100%);
+  --gradient-details: linear-gradient(135deg, #101010 0%, #670097 100%);
+  --gradient-faq: linear-gradient(135deg, #101010 0%, #670097 100%);
+  --gradient-design: linear-gradient(135deg, #F3E7E9 0%, #E3EEFF 99%, #E3EEFF 100%);
+  --gradient-cart: linear-gradient(135deg, #101010 0%, #670097 100%);
+  --gradient-checkout: linear-gradient(135deg, #101010 0%, #670097 100%);
 }
 
 
@@ -163,12 +172,11 @@ input {
 }
 
 body {
-  font-family: var(--font-main);
-  background-color: var(--color-background-light);
-  color: var(--color-text-dark);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  /* Alternative ocean-themed gradient: */
+  /* background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -255,6 +263,42 @@ select:focus {
   outline: none;
   border-color: var(--color-primary-purple);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-purple-light) 30%, transparent); /* Light purple glow */
+}
+
+/* Page-specific backgrounds */
+.products-page {
+  min-height: 100vh;
+  background: var(--gradient-products);
+}
+
+.product-detail-page {
+  min-height: 100vh;
+  background: var(--gradient-details);
+}
+
+.faq-page {
+  min-height: 100vh;
+  background: var(--gradient-faq);
+}
+
+.design-page {
+  min-height: 100vh;
+  background: var(--gradient-design);
+}
+
+.shopping-cart-page {
+  min-height: 100vh;
+  background: var(--gradient-cart);
+}
+
+.checkout-page {
+  min-height: 100vh;
+  background: var(--gradient-checkout);
+}
+
+/* Ensure content takes full height */
+#root {
+  min-height: 100vh;
 }
 
 /* Utility classes (optional, but can be helpful) */

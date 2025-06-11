@@ -8,7 +8,6 @@ import { useCart } from '../contexts/CartContext'; // Assuming you have a CartCo
 // Styled Components
 const PageWrapper = styled.div`
   min-height: 100vh;
-  background-color: var(--color-background-dark, #121212); /* Very dark background */
   color: var(--color-text-light, #FFFFFF);
   padding: var(--spacing-l, 24px) 0; /* Padding top and bottom */
 `;
@@ -255,129 +254,131 @@ const CheckoutPage = () => {
 
 
   return (
-    <PageWrapper>
-      <CheckoutTitle>Checkout</CheckoutTitle>
+    <div className="checkout-page">
+      <PageWrapper>
+        <CheckoutTitle>Checkout</CheckoutTitle>
 
-      {/* Delivery Address Section */}
-      <Section>
-        <SectionTitle>Delivery Address:</SectionTitle>
-        <AddressText>{currentUser?.address || "Please set your delivery address."}</AddressText>
-        {/* Add a button/link to change address if needed */}
-      </Section>
+        {/* Delivery Address Section */}
+        <Section>
+          <SectionTitle>Delivery Address:</SectionTitle>
+          <AddressText>{currentUser?.address || "Please set your delivery address."}</AddressText>
+          {/* Add a button/link to change address if needed */}
+        </Section>
 
-      {/* Products Ordered Section */}
-      <Section>
-        <SectionTitle>Products Ordered:</SectionTitle>
-        <ProductTable>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th className="unit-price">Unit Price</th>
-              <th className="quantity">Quantity</th>
-              <th className="total-price">Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map(item => {
-              // First check if the item exists
-              if (!item) return null;
-              
-              // Determine the product data based on item type
-              const product = item.type === 'custom' ? item.customItemData : item.product;
-              
-              // Skip rendering if product data is missing
-              if (!product) return null;
-              
-              // Ensure price exists and is a number
-              const itemPrice = typeof product.price === 'number' ? product.price : 0;
-              
-              return (
-                <tr key={item._id || `temp-${Math.random()}`}>
-                  <td className="product-name">
-                    <img 
-                        src={product.imageUrl || (item.type === 'custom' ? '/images/custom-skimboard-placeholder.png' : '/images/placeholder-product.png')} 
-                        alt={product.name || 'Product'} 
-                        className="product-image" 
-                    />
-                    <span className="product-name-text">{product.name || 'Unnamed Product'}</span>
-                  </td>
-                  <td className="unit-price">${itemPrice.toFixed(2)}</td>
-                  <td className="quantity">{item.quantity || 1}</td>
-                  <td className="total-price">${(itemPrice * (item.quantity || 1)).toFixed(2)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </ProductTable>
-        <SummaryRow>
-          <span>Item Subtotal:</span>
-          <span>${itemSubtotal.toFixed(2)}</span>
-        </SummaryRow>
-        <SummaryRow>
-          <span>Shipping Option:</span>
-          <span>Doorstep Delivery ${shippingCost.toFixed(2)}</span>
-        </SummaryRow>
-        <SummaryRow className="order-total">
-          <span>Order Total:</span>
-          <span>${orderTotal.toFixed(2)}</span>
-        </SummaryRow>
-      </Section>
-
-      {/* Vouchers Section */}
-      <Section>
-        <SummaryRow>
-          <SectionTitle style={{ marginBottom: 0 }}>Vouchers:</SectionTitle>
-          <SelectVoucherButton onClick={() => alert('Voucher selection UI to be implemented.')}>
-            Select Voucher
-          </SelectVoucherButton>
-        </SummaryRow>
-      </Section>
-
-      {/* Payment Method Section */}
-      <Section>
-        <SectionTitle>Payment Method:</SectionTitle>
-        <PaymentMethodSelector>
-          <PaymentButton 
-            active={selectedPaymentMethod === 'PayNow'}
-            onClick={() => setSelectedPaymentMethod('PayNow')}
-          >
-            PayNow
-          </PaymentButton>
-          <PaymentButton 
-            active={selectedPaymentMethod === 'Card'}
-            onClick={() => setSelectedPaymentMethod('Card')}
-          >
-            Credit Card/Debit Card
-          </PaymentButton>
-        </PaymentMethodSelector>
-        {/* You might add input fields for card details if 'Card' is selected */}
-      </Section>
-
-      {/* Final Order Summary Section */}
-      <Section>
-        <FinalSummary>
+        {/* Products Ordered Section */}
+        <Section>
+          <SectionTitle>Products Ordered:</SectionTitle>
+          <ProductTable>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th className="unit-price">Unit Price</th>
+                <th className="quantity">Quantity</th>
+                <th className="total-price">Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map(item => {
+                // First check if the item exists
+                if (!item) return null;
+                
+                // Determine the product data based on item type
+                const product = item.type === 'custom' ? item.customItemData : item.product;
+                
+                // Skip rendering if product data is missing
+                if (!product) return null;
+                
+                // Ensure price exists and is a number
+                const itemPrice = typeof product.price === 'number' ? product.price : 0;
+                
+                return (
+                  <tr key={item._id || `temp-${Math.random()}`}>
+                    <td className="product-name">
+                      <img 
+                          src={product.imageUrl || (item.type === 'custom' ? '/images/custom-skimboard-placeholder.png' : '/images/placeholder-product.png')} 
+                          alt={product.name || 'Product'} 
+                          className="product-image" 
+                      />
+                      <span className="product-name-text">{product.name || 'Unnamed Product'}</span>
+                    </td>
+                    <td className="unit-price">${itemPrice.toFixed(2)}</td>
+                    <td className="quantity">{item.quantity || 1}</td>
+                    <td className="total-price">${(itemPrice * (item.quantity || 1)).toFixed(2)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </ProductTable>
           <SummaryRow>
-            <span>Item Subtotal</span>
+            <span>Item Subtotal:</span>
             <span>${itemSubtotal.toFixed(2)}</span>
           </SummaryRow>
           <SummaryRow>
-            <span>Shipping Subtotal</span> {/* Figma calls it Shipping Subtotal here */}
-            <span>${shippingCost.toFixed(2)}</span>
+            <span>Shipping Option:</span>
+            <span>Doorstep Delivery ${shippingCost.toFixed(2)}</span>
           </SummaryRow>
+          <SummaryRow className="order-total">
+            <span>Order Total:</span>
+            <span>${orderTotal.toFixed(2)}</span>
+          </SummaryRow>
+        </Section>
+
+        {/* Vouchers Section */}
+        <Section>
           <SummaryRow>
-            <span>Voucher Discount</span>
-            <span>-${voucherDiscount.toFixed(2)}</span>
+            <SectionTitle style={{ marginBottom: 0 }}>Vouchers:</SectionTitle>
+            <SelectVoucherButton onClick={() => alert('Voucher selection UI to be implemented.')}>
+              Select Voucher
+            </SelectVoucherButton>
           </SummaryRow>
-          <SummaryRow className="total-payment">
-            <span>Total Payment</span>
-            <span>${totalPayment.toFixed(2)}</span>
-          </SummaryRow>
-        </FinalSummary>
-        <PlaceOrderButton onClick={handlePlaceOrder} disabled={isPlacingOrder}>
-          {isPlacingOrder ? 'Placing Order...' : 'Place Order'}
-        </PlaceOrderButton>
-      </Section>
-    </PageWrapper>
+        </Section>
+
+        {/* Payment Method Section */}
+        <Section>
+          <SectionTitle>Payment Method:</SectionTitle>
+          <PaymentMethodSelector>
+            <PaymentButton 
+              active={selectedPaymentMethod === 'PayNow'}
+              onClick={() => setSelectedPaymentMethod('PayNow')}
+            >
+              PayNow
+            </PaymentButton>
+            <PaymentButton 
+              active={selectedPaymentMethod === 'Card'}
+              onClick={() => setSelectedPaymentMethod('Card')}
+            >
+              Credit Card/Debit Card
+            </PaymentButton>
+          </PaymentMethodSelector>
+          {/* You might add input fields for card details if 'Card' is selected */}
+        </Section>
+
+        {/* Final Order Summary Section */}
+        <Section>
+          <FinalSummary>
+            <SummaryRow>
+              <span>Item Subtotal</span>
+              <span>${itemSubtotal.toFixed(2)}</span>
+            </SummaryRow>
+            <SummaryRow>
+              <span>Shipping Subtotal</span> {/* Figma calls it Shipping Subtotal here */}
+              <span>${shippingCost.toFixed(2)}</span>
+            </SummaryRow>
+            <SummaryRow>
+              <span>Voucher Discount</span>
+              <span>-${voucherDiscount.toFixed(2)}</span>
+            </SummaryRow>
+            <SummaryRow className="total-payment">
+              <span>Total Payment</span>
+              <span>${totalPayment.toFixed(2)}</span>
+            </SummaryRow>
+          </FinalSummary>
+          <PlaceOrderButton onClick={handlePlaceOrder} disabled={isPlacingOrder}>
+            {isPlacingOrder ? 'Placing Order...' : 'Place Order'}
+          </PlaceOrderButton>
+        </Section>
+      </PageWrapper>
+    </div>
   );
 };
 

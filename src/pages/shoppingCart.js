@@ -29,7 +29,7 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                 <p id={`item-name-${itemId}`} className="item-name" title={itemData.name}>
                     {itemData.name}
                 </p>
-                {/* Optional: Add remove button if desired, not explicitly in Figma for this view of card header */}
+                {/* To use the remove button, uncomment it and ensure onRemove is correctly passed */}
                 {/* <button onClick={() => onRemove(itemId)} className="remove-item-button">×</button> */}
             </div>
             <div className="item-body">
@@ -63,7 +63,7 @@ const ActualShoppingCartPage = () => {
     const {
         cartItems,
         updateItemQuantity,
-        removeItemFromCart, // We might not use remove directly in CartItem as per Figma
+        removeItemFromCart,
     } = useCart();
 
     const [selectedItemsMap, setSelectedItemsMap] = useState({});
@@ -74,12 +74,13 @@ const ActualShoppingCartPage = () => {
         cartItems.forEach(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
             if (itemId) {
-                newSelectionMap[itemId] = selectedItemsMap[itemId] || false;
+                // Preserve existing selection if item is already in map, otherwise default to false
+                newSelectionMap[itemId] = selectedItemsMap.hasOwnProperty(itemId) ? selectedItemsMap[itemId] : false;
             }
         });
         setSelectedItemsMap(newSelectionMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cartItems]);
+    }, [cartItems]); // Only re-run if cartItems changes
 
     useEffect(() => {
         const newTotal = cartItems.reduce((sum, cartEntry) => {
@@ -116,58 +117,62 @@ const ActualShoppingCartPage = () => {
         });
     };
     
-    // If you add a remove button to CartItem, you'd use this:
-    // const handleRemoveItem = (itemId) => {
-    //     removeItemFromCart(itemId);
-    //     setSelectedItemsMap(prevMap => {
-    //         const { [itemId]: _, ...rest } = prevMap;
-    //         return rest;
-    //     });
-    // };
+    // This function is defined but not currently used as the remove button in CartItem is commented out.
+    // If you uncomment the button in CartItem, this function will be called via the onRemove prop.
+    const handleRemoveItem = (itemId) => {
+        removeItemFromCart(itemId);
+        // Also update the selectedItemsMap to remove the item if it was selected
+        setSelectedItemsMap(prevMap => {
+            const { [itemId]: _, ...rest } = prevMap; // efficiently remove property
+            return rest;
+        });
+    };
 
     return (
-        <div className="shopping-cart-page-container"> {/* Updated class name */}
-            <main className="shopping-cart-main-content"> {/* Updated class name */}
-                <div className="cart-title-section">
-                    <h1 className="cart-main-title">Shopping cart</h1>
-                    <p className="total-price-display">Total price: ${totalPriceOfSelected.toFixed(2)}</p>
-                </div>
-
-                {cartItems.length > 0 ? (
-                    <div className="cart-items-grid">
-                        {cartItems.map(cartEntry => {
-                            const itemData = cartEntry.product || cartEntry.customDesign;
-                            if (!itemData) return null;
-                            const itemId = itemData._id;
-                            return (
-                                <CartItem
-                                    key={itemId}
-                                    cartEntry={cartEntry}
-                                    onQuantityChange={updateItemQuantity} // Directly pass context function
-                                    onSelect={handleToggleSelectItem}
-                                    onRemove={removeItemFromCart} // Directly pass context function if remove btn added
-                                    isSelected={!!selectedItemsMap[itemId]}
-                                />
-                            );
-                        })}
+        <div className="shopping-cart-page"> {/* Outermost div */}
+            <div className="shopping-cart-page-container"> {/* Container for padding/max-width etc. */}
+                <main className="shopping-cart-main-content"> {/* Main content block */}
+                    <div className="cart-title-section">
+                        <h1 className="cart-main-title">Shopping cart</h1>
+                        <p className="total-price-display">Total price: ${totalPriceOfSelected.toFixed(2)}</p>
                     </div>
-                ) : (
-                    <p className="empty-cart-message">
-                        Your shopping cart is empty. <a href="/products">Continue Shopping</a>
-                    </p>
-                )}
 
-                <div className="checkout-button-container">
-                    <button
-                        className="checkout-button"
-                        onClick={handleActualCheckout}
-                        disabled={cartItems.length === 0 || Object.values(selectedItemsMap).every(isSelected => !isSelected)}
-                    >
-                        Check Out
-                    </button>
-                </div>
-            </main>
-        </div>
+                    {cartItems.length > 0 ? (
+                        <div className="cart-items-grid">
+                            {cartItems.map(cartEntry => {
+                                const itemData = cartEntry.product || cartEntry.customDesign;
+                                if (!itemData) return null;
+                                const itemId = itemData._id;
+                                return (
+                                    <CartItem
+                                        key={itemId}
+                                        cartEntry={cartEntry}
+                                        onQuantityChange={updateItemQuantity}
+                                        onSelect={handleToggleSelectItem}
+                                        onRemove={handleRemoveItem} // Pass the handler here if button is active
+                                        isSelected={!!selectedItemsMap[itemId]}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p className="empty-cart-message">
+                            Your shopping cart is empty. <a href="/products">Continue Shopping</a>
+                        </p>
+                    )}
+
+                    <div className="checkout-button-container">
+                        <button
+                            className="checkout-button"
+                            onClick={handleActualCheckout}
+                            disabled={cartItems.length === 0 || Object.values(selectedItemsMap).every(isSelected => !isSelected)}
+                        >
+                            Check Out
+                        </button>
+                    </div>
+                </main> {/* Closes shopping-cart-main-content */}
+            </div> {/* Closes shopping-cart-page-container */}
+        </div> // <<< --- ADD THIS CLOSING DIV TAG
     );
 };
 

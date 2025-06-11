@@ -360,154 +360,156 @@ const DesignSkimboard = () => {
   };
 
   return (
-    <PageWrapper>
-      <Layout>
-        <PreviewArea >
-          <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36 }}>
-            Customise Your Skimboard
-          </h1>
-          <SkimboardShape bg={previewBg}>
-            {feature === 'text' && text && (
-              <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight}>
-                {text || "Enter text here"}
-              </PreviewText>
-            )}
-            {feature === 'decal' && decalUrl && (
-              <PreviewDecal src={decalUrl} alt="Decal Preview" />
-            )}
-          </SkimboardShape>
-        </PreviewArea>
-        
-        <ControlsParent>
-          <Controls>
-          <Section>
-            <SectionTitle>Board Colour</SectionTitle>
-            <ToggleGroup>
-              <ToggleBtn active={colorMode === 'solid'} onClick={() => setColorMode('solid')}>Solid</ToggleBtn>
-              <ToggleBtn active={colorMode === 'gradient'} onClick={() => setColorMode('gradient')}>Gradient</ToggleBtn>
-            </ToggleGroup>
-            {colorMode === 'solid' && (
-              <>
-                <StyledLabel htmlFor="solidColorPicker">Pick Colour:</StyledLabel>
-                <SketchPicker 
-                    id="solidColorPicker"
-                    color={solidColor}
-                    onChangeComplete={(color) => setSolidColor(color.hex)} // Use onChangeComplete for less frequent updates
-                    width="100%" // Make picker responsive
-                />
-              </>
-            )}
-            {colorMode === 'gradient' && (
-              <div>
-                <Inline style={{ alignItems: 'flex-end', marginBottom: '16px' }}>
-                  <div style={{ flex: 1 }}>
-                    <StyledLabel htmlFor="gradientTypeSelect">Type:</StyledLabel>
-                    <select id="gradientTypeSelect" value={gradientType} onChange={e => setGradientType(e.target.value)}>
-                      <option value="linear">Linear</option>
-                      <option value="radial">Radial</option>
-                    </select>
-                  </div>
-                  {gradientType === 'linear' && (
-                    <div style={{ flex: 1 }}>
-                      <StyledLabel htmlFor="gradientAngleInput">Angle:</StyledLabel>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <input
-                          id="gradientAngleInput"
-                          type="number"
-                          value={gradientAngle}
-                          min={0}
-                          max={360}
-                          onChange={e => setGradientAngle(e.target.value)}
-                          style={{ width: '80px', marginRight: '5px' }}
-                        />
-                        <span style={{color: '#EDE7F6'}}>deg</span>
-                      </div>
-                    </div>
-                  )}
-                </Inline>
-                <StyledLabel>Adjust Gradient:</StyledLabel>
-                <GradientPicker
-                  width={280} 
-                  paletteHeight={28} 
-                  palette={palette} // Use local palette state
-                  onPaletteChange={updatePaletteAndContext} // Update local state and sync to context
-                >
-                  <WrappedSketchPicker />
-                </GradientPicker>
-              </div>
-            )}
-          </Section>
-        </Controls>
-
-        <Controls>
+    <div className="design-page">
+      <PageWrapper>
+        <Layout>
+          <PreviewArea >
+            <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36 }}>
+              Customise Your Skimboard
+            </h1>
+            <SkimboardShape bg={previewBg}>
+              {feature === 'text' && text && (
+                <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight}>
+                  {text || "Enter text here"}
+                </PreviewText>
+              )}
+              {feature === 'decal' && decalUrl && (
+                <PreviewDecal src={decalUrl} alt="Decal Preview" />
+              )}
+            </SkimboardShape>
+          </PreviewArea>
+          
+          <ControlsParent>
+            <Controls>
             <Section>
-            <SectionTitle>Add Detail</SectionTitle>
-            <ToggleGroup>
-              <ToggleBtn active={feature === 'none'} onClick={() => setFeature('none')}>None</ToggleBtn>
-              <ToggleBtn active={feature === 'text'} onClick={() => setFeature('text')}>Text</ToggleBtn>
-              <ToggleBtn active={feature === 'decal'} onClick={() => setFeature('decal')}>Decal</ToggleBtn>
-            </ToggleGroup>
-            
-            {feature === 'text' && (
-              <>
+              <SectionTitle>Board Colour</SectionTitle>
+              <ToggleGroup>
+                <ToggleBtn active={colorMode === 'solid'} onClick={() => setColorMode('solid')}>Solid</ToggleBtn>
+                <ToggleBtn active={colorMode === 'gradient'} onClick={() => setColorMode('gradient')}>Gradient</ToggleBtn>
+              </ToggleGroup>
+              {colorMode === 'solid' && (
+                <>
+                  <StyledLabel htmlFor="solidColorPicker">Pick Colour:</StyledLabel>
+                  <SketchPicker 
+                      id="solidColorPicker"
+                      color={solidColor}
+                      onChangeComplete={(color) => setSolidColor(color.hex)} // Use onChangeComplete for less frequent updates
+                      width="100%" // Make picker responsive
+                  />
+                </>
+              )}
+              {colorMode === 'gradient' && (
                 <div>
-                  <StyledLabel htmlFor="textInput">Text:</StyledLabel>
-                  <input id="textInput" type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Enter text here" />
+                  <Inline style={{ alignItems: 'flex-end', marginBottom: '16px' }}>
+                    <div style={{ flex: 1 }}>
+                      <StyledLabel htmlFor="gradientTypeSelect">Type:</StyledLabel>
+                      <select id="gradientTypeSelect" value={gradientType} onChange={e => setGradientType(e.target.value)}>
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                      </select>
+                    </div>
+                    {gradientType === 'linear' && (
+                      <div style={{ flex: 1 }}>
+                        <StyledLabel htmlFor="gradientAngleInput">Angle:</StyledLabel>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <input
+                            id="gradientAngleInput"
+                            type="number"
+                            value={gradientAngle}
+                            min={0}
+                            max={360}
+                            onChange={e => setGradientAngle(e.target.value)}
+                            style={{ width: '80px', marginRight: '5px' }}
+                          />
+                          <span style={{color: '#EDE7F6'}}>deg</span>
+                        </div>
+                      </div>
+                    )}
+                  </Inline>
+                  <StyledLabel>Adjust Gradient:</StyledLabel>
+                  <GradientPicker
+                    width={280} 
+                    paletteHeight={28} 
+                    palette={palette} // Use local palette state
+                    onPaletteChange={updatePaletteAndContext} // Update local state and sync to context
+                  >
+                    <WrappedSketchPicker />
+                  </GradientPicker>
                 </div>
-                <Inline>
-                  <div style={{flex: 1}}>
-                    <StyledLabel htmlFor="textColorPicker">Colour:</StyledLabel>
-                    {/* For text color, a simple input type color might be less intrusive than SketchPicker */}
-                    <input id="textColorPicker" type="color" value={textColor} onChange={e => setTextColor(e.target.value)} />
+              )}
+            </Section>
+          </Controls>
+
+          <Controls>
+              <Section>
+              <SectionTitle>Add Detail</SectionTitle>
+              <ToggleGroup>
+                <ToggleBtn active={feature === 'none'} onClick={() => setFeature('none')}>None</ToggleBtn>
+                <ToggleBtn active={feature === 'text'} onClick={() => setFeature('text')}>Text</ToggleBtn>
+                <ToggleBtn active={feature === 'decal'} onClick={() => setFeature('decal')}>Decal</ToggleBtn>
+              </ToggleGroup>
+              
+              {feature === 'text' && (
+                <>
+                  <div>
+                    <StyledLabel htmlFor="textInput">Text:</StyledLabel>
+                    <input id="textInput" type="text" value={text} onChange={e => setText(e.target.value)} placeholder="Enter text here" />
                   </div>
-                  <div style={{flex: 2}}>
-                    <StyledLabel htmlFor="textFontSelect">Font:</StyledLabel>
-                    <select id="textFontSelect" value={textFont} onChange={e => setTextFont(e.target.value)}>
-                      <option value="Arial, sans-serif">Arial</option>
-                      <option value="'Instrument Sans', sans-serif">Instrument Sans</option>
-                      <option value="'Inria Serif', serif">Inria Serif</option>
-                      <option value="'Lilita One', cursive">Lilita One</option>
-                      <option value="Verdana, sans-serif">Verdana</option>
-                      <option value="'Times New Roman', Times, serif">Times New Roman</option>
-                      <option value="'Courier New', Courier, monospace">Courier New</option>
-                    </select>
+                  <Inline>
+                    <div style={{flex: 1}}>
+                      <StyledLabel htmlFor="textColorPicker">Colour:</StyledLabel>
+                      {/* For text color, a simple input type color might be less intrusive than SketchPicker */}
+                      <input id="textColorPicker" type="color" value={textColor} onChange={e => setTextColor(e.target.value)} />
+                    </div>
+                    <div style={{flex: 2}}>
+                      <StyledLabel htmlFor="textFontSelect">Font:</StyledLabel>
+                      <select id="textFontSelect" value={textFont} onChange={e => setTextFont(e.target.value)}>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Instrument Sans', sans-serif">Instrument Sans</option>
+                        <option value="'Inria Serif', serif">Inria Serif</option>
+                        <option value="'Lilita One', cursive">Lilita One</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                        <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                        <option value="'Courier New', Courier, monospace">Courier New</option>
+                      </select>
+                    </div>
+                  </Inline>
+                  <Inline>
+                    <div style={{flex: 1}}>
+                      <StyledLabel htmlFor="textSizeInput">Size (px):</StyledLabel>
+                      <input id="textSizeInput" type="number" value={textSize} min={12} max={80} onChange={e => setTextSize(e.target.value)} />
+                    </div>
+                    <div style={{flex: 1}}>
+                      <StyledLabel htmlFor="textWeightSelect">Weight:</StyledLabel>
+                      <select id="textWeightSelect" value={textWeight} onChange={e => setTextWeight(e.target.value)}>
+                        <option value="normal">Normal</option>
+                        <option value="bold">Bold</option>
+                        <option value="bolder">Bolder</option>
+                        <option value="lighter">Lighter</option>
+                        {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
+                      </select>
+                    </div>
+                  </Inline>
+                </>
+              )}
+              
+              {feature === 'decal' && (
+                <>
+                  <div>
+                    <StyledLabel htmlFor="decalUpload">Upload Image:</StyledLabel>
+                    <input id="decalUpload" type="file" accept="image/*" onChange={handleDecalUpload} />
                   </div>
-                </Inline>
-                <Inline>
-                  <div style={{flex: 1}}>
-                    <StyledLabel htmlFor="textSizeInput">Size (px):</StyledLabel>
-                    <input id="textSizeInput" type="number" value={textSize} min={12} max={80} onChange={e => setTextSize(e.target.value)} />
-                  </div>
-                  <div style={{flex: 1}}>
-                    <StyledLabel htmlFor="textWeightSelect">Weight:</StyledLabel>
-                    <select id="textWeightSelect" value={textWeight} onChange={e => setTextWeight(e.target.value)}>
-                      <option value="normal">Normal</option>
-                      <option value="bold">Bold</option>
-                      <option value="bolder">Bolder</option>
-                      <option value="lighter">Lighter</option>
-                      {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
-                    </select>
-                  </div>
-                </Inline>
-              </>
-            )}
-            
-            {feature === 'decal' && (
-              <>
-                <div>
-                  <StyledLabel htmlFor="decalUpload">Upload Image:</StyledLabel>
-                  <input id="decalUpload" type="file" accept="image/*" onChange={handleDecalUpload} />
-                </div>
-                {decalUrl && <div style={{ color: '#FFDAB9', fontSize: '0.9rem', marginTop: 8 }}>Uploaded: {decalName}</div>}
-              </>
-            )}
-          </Section>
-          <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
-          <ResetButton onClick={handleResetDesign}>Reset Design</ResetButton>
-        </Controls>
-        </ControlsParent>
-      </Layout>
-    </PageWrapper>
+                  {decalUrl && <div style={{ color: '#FFDAB9', fontSize: '0.9rem', marginTop: 8 }}>Uploaded: {decalName}</div>}
+                </>
+              )}
+            </Section>
+            <AddToCartBtn onClick={handleAddToCart}>Add to Cart</AddToCartBtn>
+            <ResetButton onClick={handleResetDesign}>Reset Design</ResetButton>
+          </Controls>
+          </ControlsParent>
+        </Layout>
+      </PageWrapper>
+    </div>
   );
 };
 

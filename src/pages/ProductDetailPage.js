@@ -443,102 +443,104 @@ const ProductDetailPage = () => {
   }
 
   return (
-    <PageWrapper>
-      {/* Back Button */}
-      <BackButton onClick={() => navigate(-1)}> {/* navigate(-1) goes to previous page */}
-        <FaArrowLeft />
-      </BackButton>
+    <div className="product-detail-page">
+      <PageWrapper>
+        {/* Back Button */}
+        <BackButton onClick={() => navigate(-1)}> {/* navigate(-1) goes to previous page */}
+          <FaArrowLeft />
+        </BackButton>
 
-      {/* Main Product Content: Image on left, Details on right */}
-      <ProductContentWrapper>
-        {/* Left Column: Image and Social Actions */}
-        <ImageColumn>
-          <MainProductImage src={product.imageUrl} alt={product.name} />
-          <SocialActions>
-            <BaseSocialButton onClick={handleShare}>
-              <FaShareAlt /> Share
-            </BaseSocialButton>
-            <BaseSocialButton onClick={handleLike}>
-              <FaHeart /> Likes ({likes})
-            </BaseSocialButton>
-          </SocialActions>
-        </ImageColumn>
+        {/* Main Product Content: Image on left, Details on right */}
+        <ProductContentWrapper>
+          {/* Left Column: Image and Social Actions */}
+          <ImageColumn>
+            <MainProductImage src={product.imageUrl} alt={product.name} />
+            <SocialActions>
+              <BaseSocialButton onClick={handleShare}>
+                <FaShareAlt /> Share
+              </BaseSocialButton>
+              <BaseSocialButton onClick={handleLike}>
+                <FaHeart /> Likes ({likes})
+              </BaseSocialButton>
+            </SocialActions>
+          </ImageColumn>
 
-        {/* Right Column: Product Details */}
-        <DetailsColumn>
-          <ProductName>{product.name}</ProductName>
-          <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
-          <RatingContainer>
-            {renderStars(product.rating)}
-            <span>{product.reviews} Ratings</span>
-          </RatingContainer>
-          <ProductDescription>{product.description}</ProductDescription>
-          
-          <InfoRow>
-            <InfoLabel>Bundle Deals:</InfoLabel>
-            <InfoValue>{product.bundleDeals}</InfoValue>
-          </InfoRow>
-          <InfoRow>
-            <InfoLabel>Shipping:</InfoLabel>
-            <InfoValue>              {product.shippingInfo?.replace(/\$0\.20/g, '<span class="highlight">$0.20</span>') || 'Standard shipping available'}
-              <br />
-              <span style={{fontSize: 'var(--font-size-xsmall, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}>
-                {product.shippingVoucher || 'Free shipping for orders above $50'}
-              </span>
-            </InfoValue>
-          </InfoRow>
-          <InfoRow>
-            <InfoLabel>Shopping Guarantee:</InfoLabel>
-            <InfoValue>{product.shoppingGuarantee}</InfoValue>
-          </InfoRow>
+          {/* Right Column: Product Details */}
+          <DetailsColumn>
+            <ProductName>{product.name}</ProductName>
+            <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
+            <RatingContainer>
+              {renderStars(product.rating)}
+              <span>{product.reviews} Ratings</span>
+            </RatingContainer>
+            <ProductDescription>{product.description}</ProductDescription>
+            
+            <InfoRow>
+              <InfoLabel>Bundle Deals:</InfoLabel>
+              <InfoValue>{product.bundleDeals}</InfoValue>
+            </InfoRow>
+            <InfoRow>
+              <InfoLabel>Shipping:</InfoLabel>
+              <InfoValue>              {product.shippingInfo?.replace(/\$0\.20/g, '<span class="highlight">$0.20</span>') || 'Standard shipping available'}
+                <br />
+                <span style={{fontSize: 'var(--font-size-xsmall, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}>
+                  {product.shippingVoucher || 'Free shipping for orders above $50'}
+                </span>
+              </InfoValue>
+            </InfoRow>
+            <InfoRow>
+              <InfoLabel>Shopping Guarantee:</InfoLabel>
+              <InfoValue>{product.shoppingGuarantee}</InfoValue>
+            </InfoRow>
 
-          <QuantityControl>
-            <InfoLabel>Quantity:</InfoLabel>
-            {/* Quantity buttons to increment/decrement quantity */}
-              <FaMinus />
-            <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
-              <FaMinus />
-            </QuantityButton>           
-            <QuantityDisplay>{quantity}</QuantityDisplay>            
-            <QuantityButton onClick={handleIncrementQuantity}>     
-              <FaPlus />       
-            </QuantityButton>
-            <FaPlus /> 
-          </QuantityControl>          <ActionButtonsContainer>
-            <AddToCartButton onClick={handleAddToCart}>
-              <FaShoppingCart /> Add to cart
-            </AddToCartButton>
-            <BuyNowButton onClick={handleBuyNow}>
-              Buy Now
-            </BuyNowButton>
-          </ActionButtonsContainer>
-          {cartMessage && (
-            <div style={{ 
-              color: '#FFDAB9', 
-              textAlign: 'center', 
-              marginTop: 'var(--spacing-m, 16px)',
-              padding: 'var(--spacing-s, 8px)',
-              backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              borderRadius: 'var(--border-radius-s, 4px)'
-            }}>
-              {cartMessage}
-            </div>
-          )}
-        </DetailsColumn>
-      </ProductContentWrapper>
+            <QuantityControl>
+              <InfoLabel>Quantity:</InfoLabel>
+              {/* Quantity buttons to increment/decrement quantity */}
+                <FaMinus />
+              <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
+                <FaMinus />
+              </QuantityButton>           
+              <QuantityDisplay>{quantity}</QuantityDisplay>            
+              <QuantityButton onClick={handleIncrementQuantity}>     
+                <FaPlus />       
+              </QuantityButton>
+              <FaPlus /> 
+            </QuantityControl>          <ActionButtonsContainer>
+              <AddToCartButton onClick={handleAddToCart}>
+                <FaShoppingCart /> Add to cart
+              </AddToCartButton>
+              <BuyNowButton onClick={handleBuyNow}>
+                Buy Now
+              </BuyNowButton>
+            </ActionButtonsContainer>
+            {cartMessage && (
+              <div style={{ 
+                color: '#FFDAB9', 
+                textAlign: 'center', 
+                marginTop: 'var(--spacing-m, 16px)',
+                padding: 'var(--spacing-s, 8px)',
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: 'var(--border-radius-s, 4px)'
+              }}>
+                {cartMessage}
+              </div>
+            )}
+          </DetailsColumn>
+        </ProductContentWrapper>
 
-      {/* Similar Products Section */}
-      {similarProducts.length > 0 && (
-        <SimilarProductsSection>
-          <SimilarProductsTitle>Similar Products</SimilarProductsTitle>
-          <SimilarProductsGrid>
-            {similarProducts.map(sp => (
-              <ProductCard key={sp._id} product={sp} />
-            ))}
-          </SimilarProductsGrid>
-        </SimilarProductsSection>
-      )}
-    </PageWrapper>
+        {/* Similar Products Section */}
+        {similarProducts.length > 0 && (
+          <SimilarProductsSection>
+            <SimilarProductsTitle>Similar Products</SimilarProductsTitle>
+            <SimilarProductsGrid>
+              {similarProducts.map(sp => (
+                <ProductCard key={sp._id} product={sp} />
+              ))}
+            </SimilarProductsGrid>
+          </SimilarProductsSection>
+        )}
+      </PageWrapper>
+    </div>
   );
 };
 
