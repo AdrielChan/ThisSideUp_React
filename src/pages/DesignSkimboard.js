@@ -289,7 +289,7 @@ const DesignSkimboard = () => {
       
       <Layout>
         <PreviewArea >
-          <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36 }}>
+          <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36, textShadow:'2px 2px 7px rgb(236, 236, 236)' }}>
             Customise Your Skimboard
           </h1>
           <SkimboardShape bg={previewBg}>

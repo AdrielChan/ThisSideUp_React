@@ -92,6 +92,7 @@ const Home = () => {
         padding: '0rem'
       }}>
         <div id='font1' style={{
+          marginLeft: '35px',
           padding: '2rem',
           backgroundColor: 'rgba(32, 32, 32, 0.8)',
           width: '560px',
