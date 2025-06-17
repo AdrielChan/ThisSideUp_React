@@ -40,7 +40,6 @@ const HeroTextBox = styled.div`
 `;
 
 const PageTitle = styled.p` 
-  font-family: var(--font-heading, 'Lilita One', cursive);
   font-size: clamp(2rem, 6vw, 3.5rem); 
   color: var(--color-text-light, #FFFFFF);
   line-height: 1.2;
@@ -254,7 +253,7 @@ const FAQ = () => {
     <FAQPageWrapper>
       <HeroBanner bgImage={backgroundImage}>
         <HeroTextBox>
-          <PageTitle>Frequently Asked Questions (FAQs)</PageTitle>
+          <PageTitle id='font1'>Frequently Asked Questions (FAQs)</PageTitle>
         </HeroTextBox>
       </HeroBanner>
 
