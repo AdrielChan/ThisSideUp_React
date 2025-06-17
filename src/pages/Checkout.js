@@ -1,9 +1,9 @@
 // File: src/pages/CheckoutPage.js
 import React, { useState, useEffect } from 'react'; // Added useEffect
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import { countries } from '../Data'; // Assuming you have a countries data file
+import { countries } from '../Data';// Assuming you have a countries data file
 
 
 
@@ -293,7 +293,19 @@ const PlaceOrderButton = styled.button`
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { cartItems, getCartTotal, clearCart } = useCart(); 
+  const location = useLocation();
+  const { clearCart } = useCart();
+  
+  // Get selected items from navigation state
+  const selectedItems = location.state?.itemsForCheckout || [];
+  const totalFromCart = location.state?.total || 0;
+
+  useEffect(() => {
+    // Redirect to cart if no items are selected
+    if (!location.state || !location.state.itemsForCheckout || location.state.itemsForCheckout.length === 0) {
+      navigate('/cart');
+    }
+  }, [location.state, navigate]);
 
   const [addressLine1, setAddressLine1] = useState('');
   const [city, setCity] = useState('');
@@ -318,7 +330,7 @@ const CheckoutPage = () => {
     }
   }, [country]); // Dependency array: only re-run when 'country' changes
 
-  const itemSubtotal = getCartTotal();
+  const itemSubtotal = totalFromCart;
   const orderTotal = itemSubtotal + shippingCost;
   const totalPayment = orderTotal - voucherDiscount;
 
@@ -327,7 +339,7 @@ const CheckoutPage = () => {
       alert("Please fill in all required address fields, including country.");
       return;
     }
-    if (cartItems.length === 0) {
+    if (selectedItems.length === 0) {
         alert("Your cart is empty.");
         return;
     }
@@ -335,26 +347,26 @@ const CheckoutPage = () => {
     setIsPlacingOrder(true);
     const selectedCountryName = countries.find(c => c.code === country)?.name || country;
     const fullAddress = `${addressLine1}, ${city}, ${stateProv ? stateProv + ' ' : ''}${postalCode}, ${selectedCountryName}`;
-    
-    console.log("Placing order with:", {
-      items: cartItems, 
-      itemSubtotal,
-      shippingCost, // This will be the dynamically calculated cost
-      voucherDiscount,
-      totalPayment,
-      shippingAddress: fullAddress, 
-      paymentMethod: selectedPaymentMethod,
-    });
+      try {
+      // Simulate API call to place order
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    alert("Order placed successfully!");
-    clearCart();
-    navigate('/order-confirmation'); 
-    setIsPlacingOrder(false);
+      // Clear the cart after successful order
+      clearCart(); // Add clearCart to your useCart() destructuring at the top
+
+      // Show success message
+      alert("Thank you for your order! You will receive a confirmation email shortly.");
+
+      // Redirect to home page
+      navigate('/');
+    } catch (error) {
+      alert("There was an error processing your order. Please try again.");
+    } finally {
+      setIsPlacingOrder(false);
+    }
   };
 
-  const currentCartItems = cartItems; 
+  const currentCartItems = selectedItems; 
 
   if (currentCartItems.length === 0 && !isPlacingOrder) {
     return (

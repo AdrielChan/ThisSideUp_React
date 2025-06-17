@@ -119,20 +119,24 @@ const ActualShoppingCartPage = () => {
             ...prevMap,
             [itemIdToToggle]: !prevMap[itemIdToToggle],
         }));
-    };
-
-    const handleActualCheckout = () => {
+    };    const handleActualCheckout = () => {
         const itemsToPassToCheckout = cartItems.filter(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
-            return itemId && selectedItemsMap[itemId];
+            return itemId && selectedItemsMap[itemId] === true; // Explicitly check for true
         });
 
         if (itemsToPassToCheckout.length === 0) {
             alert("Please select items to checkout.");
             return;
         }
+        
+        // Only pass selected items and their total
         navigate('/checkout', {
-            state: { itemsForCheckout: itemsToPassToCheckout, total: totalPriceOfSelected }
+            state: { 
+                itemsForCheckout: itemsToPassToCheckout,
+                total: totalPriceOfSelected,
+                selectedItems: selectedItemsMap
+            }
         });
     };
     
