@@ -262,7 +262,7 @@ const FAQ = () => {
           <SearchForm onSubmit={(e) => e.preventDefault()}> 
             <SearchInput 
               type="text"
-              placeholder='Type your question to search...'
+              placeholder='Type your question'
             />
           </SearchForm>
           
