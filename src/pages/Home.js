@@ -106,42 +106,7 @@ const Divider = styled.div`
     height: auto;
     margin: 0 clamp(10px, 3vw, 16px); /* Responsive margins */
   }
-`;
-
-// Keep AccentButton as is, it already uses clamp for font-size
-const AccentButton = styled(Link)`
-  display: inline-block;
-  background-color: var(--color-accent-peach, #FE9C7F); /* Using CSS var from index.css */
-  color: var(--color-primary-purple-dark, #1A1333); /* Using CSS var */
-  padding: var(--spacing-m, 12px) var(--spacing-xl, 24px);
-  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Adjusted font size for buttons */
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: var(--border-radius-m, 8px);
-  transition: background-color 0.3s, color 0.3s, transform 0.2s;
-  margin-top: var(--spacing-l, 20px);
-  text-align: center;
-  border: 2px solid transparent;
-  width: 100%; /* Make button full width on mobile */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-
-  @media (min-width: 480px) {
-    width: auto; /* Allow button to size to content on larger screens */
-    display: inline-block; /* Revert to inline-block */
-  }
-
-  &:hover {
-    background-color: #FFBFAF; /* Lighter shade for hover */
-    color: #1A1333;
-    transform: translateY(-2px);
-  }
-
-  &:focus-visible { /* Better for accessibility than just :focus */
-    outline: none;
-    border-color: var(--color-accent-peach, #FE9C7F);
-    box-shadow: 0 0 0 2px var(--color-primary-purple, #5D3FD3); /* Example focus ring */
-  }
-`;
+`
 
 
 const Home = () => {
@@ -171,10 +136,7 @@ const Home = () => {
             everything you need for your next beach adventure to the shore.
           </Description>
 
-          {/* Uncomment and test this button */}
-          <AccentButton to="/design">
-            Design Your Skimboard
-          </AccentButton>
+          
         </InfoBox>
       </HeroSection>
     </PageWrapper>
