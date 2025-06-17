@@ -1,5 +1,5 @@
 // File: src/pages/SignUpPage.js
-import {React, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -198,9 +198,8 @@ const SignUpPage = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   // Redirect if already logged in
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentUser) {
       navigate('/');
     }
