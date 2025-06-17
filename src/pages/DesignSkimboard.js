@@ -431,8 +431,8 @@ const DesignSkimboard = () => {
                   </Inline>
                   <StyledLabel>Adjust Gradient:</StyledLabel>
                   <GradientPicker
-                    width={280} 
-                    paletteHeight={28} 
+                    width={300} 
+                    paletteHeight={30} 
                     palette={palette} // Use local palette state
                     onPaletteChange={updatePaletteAndContext} // Update local state and sync to context
                   >

@@ -162,37 +162,7 @@ export const initialProducts = [
 ];
 
 export const initialCustomDesigns = [
-    // {
-    //   _id: generateId('design'),
-    //   userId: initialUsers[0]._id,
-    //   name: "My Custom Board 1",
-    //   boardShape: "oval", // Example
-    //   baseType: "gradient", // 'solid' or 'gradient'
-    //   gradientDetails: {
-    //     type: "linear", // 'linear' or 'radial'
-    //     angle: 90, // degrees for linear
-    //     stops: [
-    //       { offset: 0, color: "#F2C2CE", opacity: 1 },
-    //       { offset: 0.5, color: "#BDCE62", opacity: 1 },
-    //       { offset: 1, color: "#A0C888", opacity: 1 },
-    //     ],
-    //   },
-    //   solidColor: null, // Hex string if baseType is 'solid'
-    //   customText: {
-    //     text: "Beach Vibes",
-    //     font: "Arial",
-    //     color: "#333333",
-    //     size: 30, // px
-    //     position: { x: 50, y: 150 }, // relative to board preview
-    //   },
-    //   decal: {
-    //     url: null, // URL of uploaded decal image
-    //     position: { x: 100, y: 200 },
-    //     size: { width: 80, height: 80 },
-    //   },
-    //   price: 75.00, // Base price for custom board + customizations
-    //   createdAt: new Date().toISOString(),
-    // }
+    
 ];
 
 export const initialOrders = [];
@@ -328,7 +298,7 @@ export const saveCustomDesignAPI = async (designData) => {
     userId: designData.userId, // Assumes userId is passed
     name: designData.name || `Custom Design ${initialCustomDesigns.length + 1}`,
     ...designData,
-    price: designData.price || 70.00, // Example base price for custom design
+    price: designData.price || 200.00, // Example base price for custom design
     createdAt: new Date().toISOString(),
   };
   initialCustomDesigns.push(newDesign);
