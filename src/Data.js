@@ -28,9 +28,10 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Candy Camo.jpeg",
     category: "Skimboards",
     price: 275.63,
-    stock: 15,
+    stock: 1000,
     rating: 4.0,
     numRatings: 12,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -39,9 +40,10 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Carbon Fiber Pro.jpeg",
     category: "Skimboards",
     price: 968.54,
-    stock: 8,
+    stock: 1000,
     rating: 4.7,
     numRatings: 25,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -50,9 +52,10 @@ export const initialProducts = [
     imageUrl: "/Product Photos/BluePalmTreeShirt.png",
     category: "T-Shirts",
     price: 6.99,
-    stock: 28,
+    stock: 1000,
     rating: 4.2,
     numRatings: 83,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -61,9 +64,10 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Green Island.jpeg",
     category: "Skimboards",
     price: 832.19,
-    stock: 20,
+    stock: 1000,
     rating: 4.3,
     numRatings: 18,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -72,9 +76,10 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Lime Swirl.jpeg",
     category: "Skimboards",
     price: 427.68,
-    stock: 50,
+    stock: 1000,
     rating: 4.8,
     numRatings: 96,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -83,10 +88,11 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Marble Fish.jpeg",
     category: "Skimboards",
     price: 195.36,
-    stock: 75,
+    stock: 1000,
     tags: ["skimboard", "marble", "fish shape"],
     rating: 4.5,
     numRatings: 150,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -95,10 +101,11 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Marble.jpeg",
     category: "Skimboards",
     price: 941.25,
-    stock: 30,
+    stock: 1000,
     tags: ["skimboard", "marble design", "premium"],
     rating: 4.2,
     numRatings: 45,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -107,10 +114,11 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Purple Carbon.jpeg",
     category: "Skimboards",
     price: 659.57,
-    stock: 10,
+    stock: 1000,
     tags: ["carbon fiber", "purple", "performance"],
     rating: 4.6,
     numRatings: 33,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -119,10 +127,11 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Rasta.jpeg",
     category: "Skimboards",
     price: 92.01,
-    stock: 22,
+    stock: 1000,
     tags: ["rasta", "colorful", "freestyle"],
     rating: 4.4,
     numRatings: 19,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -131,10 +140,11 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Samurai.jpeg",
     category: "Skimboards",
     price: 742.98,
-    stock: 100,
+    stock: 1000,
     tags: ["samurai", "japanese style", "aggressive design"],
     rating: 4.1,
     numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
   },
   {
     _id: generateId('prod'),
@@ -143,10 +153,11 @@ export const initialProducts = [
     imageUrl: "/Product Photos/Cetaphil-Sheer-Mineral-Sunscreen-Lotion-SPF-50-Fragrance-Free-3-oz_31c4fa0f-cbeb-43d0-84ae-168d51d38f5f.0783adf0de938f2148f6902345bfee3b.png",
     category: "Accessories",
     price: 27.60,
-    stock: 100,
+    stock: 1000,
     tags: ["sunscreen", "spf50", "mineral", "fragrance-free"],
     rating: 4.1,
     numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
   }
 ];
 
@@ -368,6 +379,8 @@ export const productCategories = [
     "Jackets", 
     "Boardshorts", 
     "Accessories", 
+    "Beach Bags", 
+    "Towels", 
 ];
 
 export const topSearchTerms = [
@@ -630,3 +643,42 @@ export const countries = [
 
 // If you put this in a separate file (e.g., src/data/countries.js):
 // export default countries;
+
+// Function to toggle product likes
+export const toggleProductLikeAPI = async (productId, userId) => {
+  try {
+    // Find the product in initialProducts array
+    const productIndex = initialProducts.findIndex(p => p._id === productId);
+    if (productIndex === -1) {
+      throw new Error('Product not found');
+    }
+
+    const product = initialProducts[productIndex];
+    const likes = product.likes || [];
+    const userLikedIndex = likes.indexOf(userId);
+
+    // Toggle like status
+    if (userLikedIndex === -1) {
+      // User hasn't liked the product yet, add like
+      likes.push(userId);
+    } else {
+      // User already liked the product, remove like
+      likes.splice(userLikedIndex, 1);
+    }
+
+    // Update product with new likes array
+    initialProducts[productIndex] = {
+      ...product,
+      likes: likes
+    };
+
+    // Return updated like status and count
+    return {
+      liked: likes.includes(userId),
+      likesCount: likes.length
+    };
+  } catch (error) {
+    console.error('Error in toggleProductLikeAPI:', error);
+    throw error;
+  }
+};
