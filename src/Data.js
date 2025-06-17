@@ -83,7 +83,6 @@ export const initialProducts = [
     tags: ["spf55", "dry-touch", "neutrogena"],
     rating: 4.5,
     numRatings: 150,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(),
   },
   
   {
@@ -97,7 +96,6 @@ export const initialProducts = [
     tags: ["tote bag", "canvas", "striped"],
     rating: 4.2,
     numRatings: 45,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 15).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -110,7 +108,6 @@ export const initialProducts = [
     tags: ["inflatable", "lounger", "float", "canopy"],
     rating: 4.6,
     numRatings: 33,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4).toISOString(),
   },
   {
     _id: generateId('prod'),
@@ -123,7 +120,6 @@ export const initialProducts = [
     tags: ["bucket hat", "sun protection", "fishing hat"],
     rating: 4.4,
     numRatings: 19,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6).toISOString(),
   },
 
   {
@@ -137,7 +133,6 @@ export const initialProducts = [
     tags: ["sunglasses", "uv protection", "classic"],
     rating: 4.1,
     numRatings: 77,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(),
   }
 ];
 
