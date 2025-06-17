@@ -136,10 +136,7 @@ const Home = () => {
             everything you need for your next beach adventure to the shore.
           </Description>
 
-          {/* Uncomment and test this button */}
-          <AccentButton to="/design">
-            Design Your Skimboard
-          </AccentButton>
+         
         </InfoBox>
       </HeroSection>
     </PageWrapper>
