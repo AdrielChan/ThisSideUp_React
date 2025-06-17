@@ -1,38 +1,47 @@
-// File: src/pages/Home.js
-import React from 'react';
+
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import '../index.css'; // Assuming this contains global styles and font imports
+import '../index.css';
 
-// --- STYLED COMPONENTS ---
+
+const slides = [
+  '/bannerHD.jpg',
+  '/aizat2.jpeg',
+  '/an2.jpeg',
+  '/sunset.jpg',
+];
+
+
 
 const PageWrapper = styled.div`
-  /* No top/bottom padding here if the HeroSection covers the full height */
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 const HeroSection = styled.div`
   background-image: url(${props => props.bgImage});
-  background-size: cover; /* Changed from fixed size to cover for better responsiveness */
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center; /* Better centering */
-  min-height: 100vh; /* Make hero at least full viewport height */
-  display: flex; /* To help with centering the InfoBox if needed, or aligning it */
-  align-items: center; /* Vertically center InfoBox */
-  padding: 2rem 1rem; /* Add some padding for smaller screens */
+  background-position: center center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 1rem;
 
   @media (min-width: 768px) {
-    padding: 2rem; /* Adjust padding for larger screens */
-    /* You could adjust background-size here if 'cover' isn't perfect for all ratios */
-    /* e.g., background-size: 1950px auto; */
+    padding: 2rem;
   }
   @media (min-width: 1200px) {
-    /* Potentially different alignment or padding for very large screens */
   }
 `;
 
 const InfoBox = styled.div`
-  background-color: rgba(32, 32, 32, 0.85); /* Slightly more opaque for readability */
+  background-color: rgba(32, 32, 32, 0.85);
   padding: 1.5rem; /* Base padding */
+  height: 750px;
   width: 90%; /* More responsive width for mobile */
   max-width: 560px; /* Keep the max-width for desktop */
   /* min-height: 700px; /* Consider if fixed height is needed or if content should dictate it */
@@ -40,6 +49,8 @@ const InfoBox = styled.div`
   border-radius: 8px; /* Optional: add some rounded corners */
   margin-left: auto; /* Default: center the box on mobile if HeroSection is full width */
   margin-right: auto;
+  position: relative;
+  z-index: 2;
   color: var(--color-text-light, #FFFFFF); /* Default text color */
 
   @media (min-width: 768px) {
@@ -73,8 +84,8 @@ const Title = styled.p`
 `;
 
 const Tagline = styled.p`
-  font-size: clamp(1.125rem, 3vw, 1.5rem); /* 18px, 24px */
-  color: var(--color-accent-orange, #FE9C7F);
+  font-size: 24px;
+  color: var(--color-accent-orange, #FDDDFD);
   line-height: 1.4;
   margin-bottom: 1.5em; /* Space before divider */
   font-family: "Inria Serif", serif;
@@ -82,7 +93,7 @@ const Tagline = styled.p`
 `;
 
 const Description = styled.p`
-  font-size: clamp(0.9rem, 2.5vw, 1.125rem); /* 16px, 20px */
+  font-size: 20px;
   color: var(--color-text-light, #FFFFFF);
   line-height: 1.6;
   font-family: "Inria Serif", serif;
@@ -107,15 +118,45 @@ const Divider = styled.div`
     margin: 0 clamp(10px, 3vw, 16px); /* Responsive margins */
   }
 `
+const SlideBackground = styled.div`
+  position: absolute;
+  inset: 0;
+  background-image: url(${props => props.bgImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: ${props => (props.active ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+`;
 
 
 const Home = () => {
-  const backgroundImage = "/bannerHD.jpg"; // Ensure this is in the public folder
-  const dividerIcon = "/assets/icons/icons8-surfguy.png"; // Ensure this path is correct from public folder
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideInterval = 4000;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % slides.length);
+    }, slideInterval);
+    return () => clearInterval(interval);
+  }, []);
+
+
+  // const backgroundImage = "/bannerHD.jpg";
+  const dividerIcon = "/assets/icons/icons8-surfguy.png";
 
   return (
     <PageWrapper>
-      <HeroSection bgImage={backgroundImage}>
+      <HeroSection>
+        {slides.map((slide, index) => (
+          <SlideBackground
+            key={index}
+            bgImage={slide}
+            active={index === currentSlide}
+          />
+        ))}
         <InfoBox>
           <Subtitle>Skim & Ride</Subtitle>
           <Title>Find Your Next Adventure</Title>
