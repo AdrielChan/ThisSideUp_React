@@ -129,14 +129,17 @@ const Home = () => {
 
           <Description>
             This Side Up is an online store for skimboards, beach
-            supplies, and custom board designs. The website
+            supplies, and custom board designs. This website
             makes it easy for customers to shop for skim-
             boarding gear and personalise their boards. This
             shop offers a simple and convenient way to get
             everything you need for your next beach adventure to the shore.
           </Description>
 
-          
+          {/* Uncomment and test this button */}
+          <AccentButton to="/design">
+            Design Your Skimboard
+          </AccentButton>
         </InfoBox>
       </HeroSection>
     </PageWrapper>
