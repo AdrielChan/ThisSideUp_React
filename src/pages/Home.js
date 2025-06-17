@@ -10,9 +10,8 @@ const slides = [
   '/aizat2.jpeg',
   '/an2.jpeg',
   '/sunset.jpg',
+  '/Banana.jpeg',
 ];
-
-
 
 const PageWrapper = styled.div`
   position: relative;
