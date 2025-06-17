@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
-// import { useAuth } from '../contexts/AuthContext'; // Assuming you have an AuthContext
+import { useAuth } from '../../contexts/AuthContext';
 
 // Styled Components (similar to SignUpPage, with minor adjustments if needed)
 const PageWrapper = styled.div`
@@ -167,43 +167,42 @@ const SignUpLinkButton = styled(Link)`
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  // const { login, loading, error } = useAuth(); // From your AuthContext
-  const [loading, setLoading] = useState(false); // Mock loading
-  const [error, setError] = useState(null); // Mock error
-
+  const { login, currentUser } = useAuth();
   const [formData, setFormData] = useState({
-    username: '', // Or email
-    password: '',
+    email: '',
+    password: ''
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (error) setError(null); // Clear error when user starts typing
-  };
+  // Redirect if already logged in
+  React.useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    setError('');
     setLoading(true);
 
-    // Mock API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
     try {
-      // In a real app:
-      // await login(formData.username, formData.password);
-      // For demo, let's simulate success if username and password are not empty
-      if (formData.username && formData.password) {
-        console.log("Logging in with:", formData);
-        alert("Login successful! Redirecting...");
-        navigate('/'); // Redirect to homepage or dashboard
-      } else {
-        throw new Error("Username and password are required.");
-      }
-    } catch (apiError) {
-      setError(apiError.message || "Failed to log in. Please check your credentials.");
+      await login(formData.email, formData.password);
+      navigate('/'); // Redirect to home page on success
+    } catch (err) {
+      setError(err.message || 'Failed to log in');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (

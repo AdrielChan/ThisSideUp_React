@@ -226,32 +226,83 @@ export const searchProductsAPI = async (searchTerm, category, sortBy = 'name_asc
 };
 
 
-// USERS
+// USERS & AUTH
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+};
+
+const validatePassword = (password) => {
+  // Password must be at least 8 characters, contain one number and one special character
+  const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+  return re.test(password);
+};
+
 export const loginAPI = async (email, password) => {
-  await new Promise(resolve => setTimeout(resolve, 500));
-  const user = initialUsers.find(u => u.email === email /* && checkPassword(password, u.passwordHash) */);
-  // Simplified: in real app, compare hashed passwords
-  if (user && password) { // For demo, any password for a known email works
-    return { ...user, token: `mock_token_for_${user._id}` }; // Return a mock token
+  await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+
+  if (!email || !password) {
+    throw new Error("Email and password are required");
   }
-  throw new Error("Invalid email or password");
+
+  if (!validateEmail(email)) {
+    throw new Error("Invalid email format");
+  }
+
+  const user = initialUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+  
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  // In a real app, you would hash the password and compare with stored hash
+  // This is just for demo purposes
+  if (password !== user.passwordHash) {
+    throw new Error("Invalid password");
+  }
+
+  const { passwordHash, ...userWithoutPassword } = user;
+  return {
+    ...userWithoutPassword,
+    token: `mock_token_${Date.now()}`
+  };
 };
 
 export const signupAPI = async (userData) => {
   await new Promise(resolve => setTimeout(resolve, 500));
-  if (initialUsers.some(u => u.email === userData.email)) {
-    throw new Error("User with this email already exists.");
+
+  if (!userData.email || !userData.password || !userData.name) {
+    throw new Error("Name, email and password are required");
   }
+
+  if (!validateEmail(userData.email)) {
+    throw new Error("Invalid email format");
+  }
+
+  if (!validatePassword(userData.password)) {
+    throw new Error("Password must be at least 8 characters long and contain at least one number and one special character");
+  }
+
+  if (initialUsers.some(u => u.email.toLowerCase() === userData.email.toLowerCase())) {
+    throw new Error("Email already in use");
+  }
+
   const newUser = {
     _id: generateId('user'),
     name: userData.name,
     email: userData.email,
-    passwordHash: `hashed_${userData.password}_placeholder`, // HASH PASSWORDS IN REAL APP
-    role: "customer",
-    createdAt: new Date().toISOString(),
+    passwordHash: userData.password, // In real app, hash this password
+    role: userData.role || "customer",
+    createdAt: new Date().toISOString()
   };
-  initialUsers.push(newUser); // In a real app, this would be a DB operation
-  return { ...newUser, token: `mock_token_for_${newUser._id}` };
+
+  initialUsers.push(newUser);
+
+  const { passwordHash, ...userWithoutPassword } = newUser;
+  return {
+    ...userWithoutPassword,
+    token: `mock_token_${Date.now()}`
+  };
 };
 
 // CUSTOM DESIGNS

@@ -2,7 +2,7 @@
 import {React, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
-// import { useAuth } from '../contexts/AuthContext'; // Assuming you have an AuthContext
+import { useAuth } from '../../contexts/AuthContext';
 
 // Styled Components
 const PageWrapper = styled.div`
@@ -188,52 +188,61 @@ const SignInLink = styled.p`
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  // const { signup, loading, error } = useAuth(); // From your AuthContext
-  const [loading, setLoading] = useState(false); // Mock loading
-  const [error, setError] = useState(null); // Mock error
-
+  const { signup, currentUser } = useAuth();
   const [formData, setFormData] = useState({
-    username: '', // Or email if you use email for login
+    name: '',
+    email: '',
     password: '',
     confirmPassword: '',
-    role: 'customer', // Default role
+    role: 'customer' // Add default role
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // Redirect if already logged in
+  React.useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
 
-  const handleRoleChange = (selectedRole) => {
-    setFormData({ ...formData, role: selectedRole });
+  const handleRoleChange = (role) => {
+    setFormData(prev => ({
+      ...prev,
+      role: role
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    setError('');
+
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
+      return setError('Passwords do not match');
     }
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-    
+
     setLoading(true);
-    // Mock API call
-    await new Promise(resolve => setTimeout(resolve, 1000)); 
     try {
-      // In a real app:
-      // await signup({ name: formData.username, email: formData.username, password: formData.password, role: formData.role });
-      // For demo, let's simulate success:
-      console.log("Signing up with:", { name: formData.username, email: formData.username, password: formData.password, role: formData.role });
-      alert("Sign up successful! Redirecting to login..."); // Or directly to dashboard
-      navigate('/login'); 
-    } catch (apiError) {
-      setError(apiError.message || "Failed to sign up. Please try again.");
+      await signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role // Include role in signup data
+      });
+      navigate('/'); // Redirect to home page on success
+    } catch (err) {
+      setError(err.message || 'Failed to create an account');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (
@@ -243,14 +252,26 @@ const SignUpPage = () => {
           <Title>Sign up</Title>
           <Form onSubmit={handleSubmit}>
             <div>
-              <Label htmlFor="username">Username:</Label>
+              <Label htmlFor="name">Name:</Label>
               <Input
-                type="text" // Could be "email" if you prefer
-                id="username"
-                name="username"
-                value={formData.username}
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
-                placeholder="Enter your username or email"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="email">Email:</Label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
                 required
               />
             </div>
