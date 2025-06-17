@@ -13,11 +13,19 @@ import {
 } from 'react-icons/fa';
 import { useCart } from '../contexts/CartContext';
 import ProductCard from './ProductCard';
-import { useProducts } from '../contexts/ProductContext'; 
+import { useProducts } from '../contexts/ProductContext';
+import { useAuth } from '../contexts/AuthContext'; // Import useAuth
 
 // --- STYLED COMPONENTS ---
-// These components define the visual appearance of the page elements.
+// (Keep all your styled components as they are)
+// PageWrapper, BackButton, ProductContentWrapper, ImageColumn, MainProductImage,
+// SocialActions, BaseSocialButton, DetailsColumn, ProductName, ProductPrice,
+// RatingContainer, ProductDescription, InfoRow, InfoLabel, InfoValue,
+// QuantityControl, QuantityButton, QuantityDisplay, ActionButtonsContainer,
+// BaseActionButton, AddToCartButton, BuyNowButton, SimilarProductsSection,
+// SimilarProductsTitle, SimilarProductsGrid
 
+// --- STYLED COMPONENTS (No changes needed here from your provided file) ---
 // PageWrapper: The main container for the entire product detail page.
 // It sets the dark background color, text color, and minimum height.
 const PageWrapper = styled.div`
@@ -106,7 +114,7 @@ const BaseSocialButton = styled.button`
   display: flex;
   align-items: center;
   gap: var(--spacing-xs, 8px);
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease; /* Added color transition */
 
   &:hover {
     background-color: var(--color-secondary-peach-dark, #FFA07A);
@@ -114,6 +122,7 @@ const BaseSocialButton = styled.button`
 
   svg {
     font-size: var(--font-size-large, 18px);
+    transition: color 0.2s ease; /* For smooth color change on icon */
   }
 `;
 
@@ -313,20 +322,25 @@ const SimilarProductsGrid = styled.div`
   scrollbar-width: none;  /* Firefox */
 `;
 
+
 // --- REACT COMPONENT ---
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const cart = useCart();
   const { getProductById, filteredProducts, loading: contextLoading, error: contextError } = useProducts();
+  const { currentUser } = useAuth(); // Get current user
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [likes, setLikes] = useState(0); // Add likes state
   const [cartMessage, setCartMessage] = useState('');
+
+  // States for Likes functionality
+  const [displayLikes, setDisplayLikes] = useState(0);
+  const [isLikedByCurrentUser, setIsLikedByCurrentUser] = useState(false);
 
   useEffect(() => {
     const loadProductDetails = async () => {
@@ -342,12 +356,25 @@ const ProductDetailPage = () => {
         const fetchedProduct = await getProductById(id);
         if (fetchedProduct) {
           setProduct(fetchedProduct);
+          // Initialize likes from product data
+          setDisplayLikes(fetchedProduct.likes !== undefined ? fetchedProduct.likes : 0);
+
+          // Check localStorage if current user has liked this product
+          if (currentUser && fetchedProduct._id) {
+            const likedStatus = localStorage.getItem(`liked_${currentUser._id}_${fetchedProduct._id}`);
+            if (likedStatus === 'true') {
+              setIsLikedByCurrentUser(true);
+            } else {
+              setIsLikedByCurrentUser(false); // Ensure it's explicitly false if not found or not 'true'
+            }
+          } else {
+            setIsLikedByCurrentUser(false); // No user or product ID, so cannot be liked by current user
+          }
           
-          // Find similar products from the same category
           if (filteredProducts && filteredProducts.length > 0) {
             const related = filteredProducts
               .filter(p => p.category === fetchedProduct.category && p._id !== fetchedProduct._id)
-              .slice(0, 5); // Get up to 5 similar products
+              .slice(0, 5);
             setSimilarProducts(related);
           }
         } else {
@@ -362,7 +389,7 @@ const ProductDetailPage = () => {
     };
 
     loadProductDetails();
-  }, [id, getProductById, filteredProducts]);
+  }, [id, getProductById, filteredProducts, currentUser]); // Added currentUser to dependencies
 
   const handleIncrementQuantity = () => {
     if (product && quantity < product.stock) {
@@ -373,11 +400,13 @@ const ProductDetailPage = () => {
   const handleDecrementQuantity = () => {
     setQuantity(prev => (prev > 1 ? prev - 1 : 1));
   };
+
   const handleAddToCart = () => {
     if (product) {
       if (cart?.addItemToCart) {
         cart.addItemToCart(product._id, quantity);
-        console.log(`Added ${quantity} of ${product.name} to cart.`);
+        setCartMessage(`Added ${quantity} of ${product.name} to cart.`);
+        setTimeout(() => setCartMessage(''), 3000);
       } else {
         setCartMessage('Cart functionality is currently unavailable.');
         setTimeout(() => setCartMessage(''), 3000);
@@ -396,39 +425,83 @@ const ProductDetailPage = () => {
       }
     }
   };
-   const handleLike = () => {
-    if (product) {
-      setLikes(prevLikes => prevLikes + 1);
-      setCartMessage(`Thanks for liking ${product.name}!`);
-      setTimeout(() => setCartMessage(''), 2000);
+
+  const handleLike = () => {
+    if (!currentUser) {
+      setCartMessage("Please log in to like products.");
+      setTimeout(() => setCartMessage(''), 3000);
+      return;
     }
+    if (!product || !product._id) {
+      console.error("Product data or ID is missing for like action.");
+      setCartMessage("Cannot like product at this time.");
+      setTimeout(() => setCartMessage(''), 3000);
+      return;
+    }
+
+    const localStorageKey = `liked_${currentUser._id}_${product._id}`;
+
+    if (isLikedByCurrentUser) {
+      // User is unliking
+      setDisplayLikes(prevLikes => Math.max(0, prevLikes - 1)); // Ensure likes don't go below 0
+      setIsLikedByCurrentUser(false);
+      localStorage.removeItem(localStorageKey);
+      setCartMessage(`You unliked ${product.name}.`);
+    } else {
+      // User is liking
+      setDisplayLikes(prevLikes => prevLikes + 1);
+      setIsLikedByCurrentUser(true);
+      localStorage.setItem(localStorageKey, 'true');
+      setCartMessage(`Thanks for liking ${product.name}!`);
+    }
+    setTimeout(() => setCartMessage(''), 2000);
   };
 
   const handleShare = () => {
-    if (navigator.share) {
+    if (product && navigator.share) {
       navigator.share({
         title: product.name,
         text: product.description,
         url: window.location.href,
       })
-      .catch((error) => console.log('Error sharing:', error));
+      .then(() => setCartMessage('Product shared!'))
+      .catch((error) => {
+          console.log('Error sharing:', error);
+          setCartMessage('Could not share product.');
+      });
+    } else if (product) {
+      // Fallback for browsers that don't support navigator.share
+      // You could copy to clipboard or show a share dialog
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => setCartMessage('Link copied to clipboard!'))
+        .catch(() => setCartMessage('Could not copy link.'));
     } else {
-      alert('Share feature not supported by your browser');
+        setCartMessage('Product data not available for sharing.');
     }
+    setTimeout(() => setCartMessage(''), 3000);
   };
 
   const renderStars = (rating) => {
     const stars = [];
+    const numRating = parseFloat(rating);
+    if (isNaN(numRating)) return null; // Handle cases where rating might not be a number
+
     for (let i = 0; i < 5; i++) {
       stars.push(
-        <FaStar 
-          key={`star-${i}`} 
-          style={{ opacity: i < Math.round(rating) ? 1 : 0.3 }}
+        <FaStar
+          key={`star-${i}`}
+          style={{ opacity: i < Math.round(numRating) ? 1 : 0.3 }}
         />
       );
     }
     return stars;
   };
+
+  // Helper function to safely render HTML (use with caution, ensure source is trusted)
+  const createMarkup = (htmlString) => {
+    return { __html: htmlString };
+  };
+
 
   if (loading || contextLoading) {
     return <PageWrapper><p>Loading product details...</p></PageWrapper>;
@@ -442,84 +515,101 @@ const ProductDetailPage = () => {
     return <PageWrapper><p>Product not found.</p></PageWrapper>;
   }
 
+  // Prepare shipping info with highlight
+  const highlightedShippingInfo = product.shippingInfo?.replace(
+    /\$(\d+\.\d{2})/g, // Regex to find dollar amounts like $0.20
+    '<span class="highlight">$$$1</span>' // $$ for literal $, $1 for captured group
+  ) || 'Standard shipping available';
+
+
   return (
-    <div className="product-detail-page">
+    <div className="product-detail-page"> {/* This class is for global page-specific background from index.css */}
       <PageWrapper>
-        {/* Back Button */}
-        <BackButton onClick={() => navigate(-1)}> {/* navigate(-1) goes to previous page */}
+        <BackButton onClick={() => navigate(-1)}>
           <FaArrowLeft />
         </BackButton>
 
-        {/* Main Product Content: Image on left, Details on right */}
         <ProductContentWrapper>
-          {/* Left Column: Image and Social Actions */}
           <ImageColumn>
-            <MainProductImage src={product.imageUrl} alt={product.name} />
+            <MainProductImage src={product.imageUrl || '/placeholder.png'} alt={product.name} />
             <SocialActions>
               <BaseSocialButton onClick={handleShare}>
                 <FaShareAlt /> Share
               </BaseSocialButton>
-              <BaseSocialButton onClick={handleLike}>
-                <FaHeart /> Likes ({likes})
+              <BaseSocialButton
+                onClick={handleLike}
+                title={isLikedByCurrentUser ? "Unlike this product" : "Like this product"}
+                style={{
+                  color: isLikedByCurrentUser ? 'var(--color-error-red, #D32F2F)' : 'var(--color-primary-purple-dark, #4B0082)',
+                }}
+              >
+                <FaHeart style={{ color: isLikedByCurrentUser ? 'var(--color-error-red, #D32F2F)' : 'inherit' }} />
+                {isLikedByCurrentUser ? 'Unlike' : 'Like'} ({displayLikes})
               </BaseSocialButton>
             </SocialActions>
           </ImageColumn>
 
-          {/* Right Column: Product Details */}
           <DetailsColumn>
             <ProductName>{product.name}</ProductName>
-            <ProductPrice>${product.price.toFixed(2)}</ProductPrice>
+            <ProductPrice>${product.price ? product.price.toFixed(2) : 'N/A'}</ProductPrice>
             <RatingContainer>
               {renderStars(product.rating)}
-              <span>{product.reviews} Ratings</span>
+              {/* Corrected to use numRatings as per Data.js */}
+              <span>{product.numRatings || 0} Ratings</span>
             </RatingContainer>
             <ProductDescription>{product.description}</ProductDescription>
             
             <InfoRow>
               <InfoLabel>Bundle Deals:</InfoLabel>
-              <InfoValue>{product.bundleDeals}</InfoValue>
+              <InfoValue>{product.bundleDeals || 'None currently'}</InfoValue>
             </InfoRow>
             <InfoRow>
               <InfoLabel>Shipping:</InfoLabel>
-              <InfoValue>              {product.shippingInfo?.replace(/\$0\.20/g, '<span class="highlight">$0.20</span>') || 'Standard shipping available'}
-                <br />
-                <span style={{fontSize: 'var(--font-size-xsmall, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}>
-                  {product.shippingVoucher || 'Free shipping for orders above $50'}
+              {/* Using dangerouslySetInnerHTML for the highlight. Ensure shippingInfo is safe. */}
+              <InfoValue dangerouslySetInnerHTML={createMarkup(highlightedShippingInfo)}>
+              </InfoValue>
+            </InfoRow>
+            <InfoRow>
+              <InfoLabel></InfoLabel> {/* Empty label for alignment with the line below */}
+              <InfoValue>
+                <span style={{fontSize: 'var(--font-size-small, 12px)', color: 'var(--color-neutral-gray, #BDBDBD)'}}>
+                  {product.shippingVoucher || 'Check for shipping vouchers at checkout.'}
                 </span>
               </InfoValue>
             </InfoRow>
             <InfoRow>
-              <InfoLabel>Shopping Guarantee:</InfoLabel>
-              <InfoValue>{product.shoppingGuarantee}</InfoValue>
+              <InfoLabel>Guarantee:</InfoLabel> {/* Changed from Shopping Guarantee for brevity */}
+              <InfoValue>{product.shoppingGuarantee || 'Standard buyer protection.'}</InfoValue>
             </InfoRow>
 
             <QuantityControl>
               <InfoLabel>Quantity:</InfoLabel>
-              {/* Quantity buttons to increment/decrement quantity */}
-                <FaMinus />
               <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
                 <FaMinus />
-              </QuantityButton>           
-              <QuantityDisplay>{quantity}</QuantityDisplay>            
-              <QuantityButton onClick={handleIncrementQuantity}>     
-                <FaPlus />       
               </QuantityButton>
-              <FaPlus /> 
-            </QuantityControl>          <ActionButtonsContainer>
-              <AddToCartButton onClick={handleAddToCart}>
+              <QuantityDisplay>{quantity}</QuantityDisplay>
+              <QuantityButton onClick={handleIncrementQuantity} disabled={product.stock <=0 || quantity >= product.stock}>
+                <FaPlus />
+              </QuantityButton>
+              {product.stock <= 0 && <span style={{color: 'var(--color-error-red)', marginLeft: '10px', fontSize: 'var(--font-size-small)'}}>Out of stock</span>}
+              {product.stock > 0 && <span style={{fontSize: 'var(--font-size-small)', marginLeft: '10px', color: 'var(--color-neutral-gray-light)'}}>{product.stock} left</span>}
+
+            </QuantityControl>
+            <ActionButtonsContainer>
+              <AddToCartButton onClick={handleAddToCart} disabled={product.stock <= 0}>
                 <FaShoppingCart /> Add to cart
               </AddToCartButton>
-              <BuyNowButton onClick={handleBuyNow}>
+              <BuyNowButton onClick={handleBuyNow} disabled={product.stock <= 0}>
                 Buy Now
               </BuyNowButton>
             </ActionButtonsContainer>
             {cartMessage && (
-              <div style={{ 
-                color: '#FFDAB9', 
-                textAlign: 'center', 
+              <div style={{
+                color: 'var(--color-secondary-peach, #FFDAB9)',
+                textAlign: 'center',
                 marginTop: 'var(--spacing-m, 16px)',
                 padding: 'var(--spacing-s, 8px)',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
                 borderRadius: 'var(--border-radius-s, 4px)'
               }}>
                 {cartMessage}
@@ -528,7 +618,6 @@ const ProductDetailPage = () => {
           </DetailsColumn>
         </ProductContentWrapper>
 
-        {/* Similar Products Section */}
         {similarProducts.length > 0 && (
           <SimilarProductsSection>
             <SimilarProductsTitle>Similar Products</SimilarProductsTitle>
