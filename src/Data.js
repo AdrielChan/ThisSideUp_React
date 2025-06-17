@@ -158,7 +158,20 @@ export const initialProducts = [
     rating: 4.1,
     numRatings: 77,
     likes: [], // Array to store user IDs who liked the product
-  }
+  },
+  {
+    _id: generateId('prod'),
+    name: "Banana BoatSunscreen",
+    description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
+    imageUrl: "/Product Photos/Samurai.jpeg",
+    category: "Skimboards",
+    price: 742.98,
+    stock: 1000,
+    tags: ["samurai", "japanese style", "aggressive design"],
+    rating: 4.1,
+    numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
+  },
 ];
 
 export const initialCustomDesigns = [
