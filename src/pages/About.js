@@ -65,8 +65,7 @@ const PageTitle = styled.h1`
 `;
 
 const AboutText = styled.p`
-  font-family: var(--font-body, 'Instrument Sans', sans-serif); /* Using CSS var */
-  font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive: e.g., 14px to 16px */
+  font-size: 17px;
   line-height: 1.7; /* Adjusted for readability */
   color: var(--color-text-neutral-light, #e0e0e0); /* Using CSS var */
   margin-bottom: 1.25rem; /* Responsive margin */
@@ -107,26 +106,26 @@ const AboutPage = () => {
           <PageTitle> {/* Removed id and inline style, font size handled by styled-component */}
             <AccentHighlight>About Us</AccentHighlight>
           </PageTitle>
-          <AboutText> {/* Removed id, styles handled by styled-component */}
+          <AboutText id='aboot'>
             This Side Up is a passionate skimboard company based in Singapore, dedicated to
             bringing the thrill of skimboarding to enthusiasts of all skill levels. We
             specialize in custom-designed skimboards, blending high-quality materials with
             bold, personalized designs that not only perform exceptionally but also reflect
             your unique style.
           </AboutText>
-          <AboutText>
+          <AboutText id='aboot'>
             Rooted in Singapore's vibrant coastal culture, This Side Up was founded with a
             vision to inspire a community of adventure seekers, wave chasers, and outdoor
             lovers. More than just a brand, we're a movement — promoting an active, creative,
             and connected lifestyle by the shore.
           </AboutText>
-          <AboutText>
+          <AboutText id='aboot'>
             To further connect with our growing community, we're expanding our presence through
             a dedicated e-commerce website. Here, you'll be able to shop our range of premium
             skimboards, essential skimboarding supplies, stylish apparel, and even design your
             own custom boards to ride your way.
           </AboutText>
-          <AboutText>
+          <AboutText id='aboot'>
             Whether you're a seasoned rider or new to the sport, This Side Up is your go-to
             destination for everything skimboarding in Singapore and beyond.
           </AboutText>
