@@ -49,7 +49,7 @@
 
 .cart-items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive columns */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive columns */
   gap: 25px; /* Gap between cards */
   margin-bottom: 50px; /* Space before the checkout button */
 }
@@ -160,6 +160,7 @@
 
 .item-body {
   display: flex;
+  
   justify-content: space-between; /* Pushes image/price left, quantity right */
   align-items: center;
   gap: 10px;
@@ -290,9 +291,3 @@
   transform: translateY(0);
 }
 
-/* Adjust grid if remove button causes overflow or layout issues */
-.cart-items-grid {
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Might need minmax adjustment */
-  gap: 25px;
-  margin-bottom: 50px;
-}

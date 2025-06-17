@@ -87,6 +87,7 @@ const Input = styled.input`
   font-size: var(--font-size-medium, 16px);
   width: 100%;
   box-sizing: border-box;
+  margin-top: 10px;
 
   &::placeholder {
     color: var(--color-neutral-gray-dark, #757575);

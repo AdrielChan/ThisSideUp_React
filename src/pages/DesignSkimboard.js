@@ -64,7 +64,10 @@ const PreviewArea = styled.div`
 const SkimboardShape = styled.div`
   width: 400px;
   height: 200px;
-  border-radius: 200px / 100px;
+  border-top-left-radius: 400px 200px;
+  border-bottom-left-radius: 400px 200px;
+  border-top-right-radius: 300px 200px;
+  border-bottom-right-radius: 300px 200px;
   border: 2px solid #fff;
   position: relative;
   overflow: hidden;

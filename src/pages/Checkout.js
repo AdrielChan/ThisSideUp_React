@@ -1,44 +1,128 @@
 // File: src/pages/CheckoutPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Added useEffect
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../contexts/CartContext'; // Assuming you have a CartContext
+import { useCart } from '../contexts/CartContext';
+import { countries } from '../Data'; // Assuming you have a countries data file
 
 
-// Styled Components
+
+// --- SHIPPING CATEGORIES & COSTS ---
+const shippingCostsByCountryCode = {
+  // Category 1
+  "SG": 0.99,
+  // Category 2
+  "MY": 5.99, "ID": 5.99, "TH": 5.99, "VN": 5.99, "AU": 5.99, "PH": 5.99,
+  // Category 3
+  "JP": 7.99, "KR": 7.99, "CN": 7.99, "US": 7.99, "DE": 7.99, "GB": 7.99,
+  // Category 4 (Default for others)
+  "DEFAULT": 10.99
+};
+
+const getShippingCostForCountry = (countryCode) => {
+  return shippingCostsByCountryCode[countryCode] || shippingCostsByCountryCode["DEFAULT"];
+};
+
+
+// --- STYLED COMPONENTS (Keep all your existing styled components) ---
+// PageWrapper, CheckoutTitle, Section, SectionTitle, AddressForm, FormRow, FormLabel,
+// FormInput, FormSelect, ProductTable, SummaryRow, SelectVoucherButton,
+// PaymentMethodSelector, PaymentButton, FinalSummary, PlaceOrderButton
+// (These remain the same as in the previous version where you added the country dropdown)
+
 const PageWrapper = styled.div`
   min-height: 100vh;
   color: var(--color-text-light, #FFFFFF);
-  padding: var(--spacing-l, 24px) 0; /* Padding top and bottom */
+  padding: var(--spacing-l, 24px) 0;
+  background-color: var(--color-background-dark, #121212);
 `;
 
 const CheckoutTitle = styled.h1`
-  font-family: 'Serif', var(--font-heading, Georgia);
-  font-size: var(--font-size-hero-small, 36px); /* Large title */
+  font-family: var(--font-heading, 'Lilita One', cursive);
+  font-size: clamp(2rem, 6vw, 2.5rem);
   color: var(--color-text-light, #FFFFFF);
   text-align: center;
   margin-bottom: var(--spacing-xl, 32px);
 `;
 
 const Section = styled.section`
-  background-color: var(--color-primary-purple, #5D3FD3); /* Purple background for sections */
+  background-color: var(--color-primary-purple, #5D3FD3);
   padding: var(--spacing-l, 24px);
-  margin: 0 auto var(--spacing-l, 24px) auto; /* Centered with bottom margin */
-  max-width: 800px; /* Max width for content sections */
+  margin: 0 auto var(--spacing-l, 24px) auto;
+  max-width: 800px;
   border-radius: var(--border-radius-m, 8px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+
+  @media (max-width: 768px) {
+    margin-left: var(--spacing-s, 8px);
+    margin-right: var(--spacing-s, 8px);
+    padding: var(--spacing-m, 16px);
+  }
 `;
 
 const SectionTitle = styled.h2`
-  font-size: var(--font-size-xlarge, 22px);
+  font-family: var(--font-serif, 'Inria Serif', serif);
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
   font-weight: 600;
   margin-bottom: var(--spacing-m, 16px);
   color: var(--color-text-light, #FFFFFF);
 `;
 
-const AddressText = styled.p`
+const AddressForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m, 16px);
+`;
+
+const FormRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 4px);
+`;
+
+const FormLabel = styled.label`
+  font-size: var(--font-size-small, 14px);
+  color: var(--color-neutral-gray-light, #E0E0E0);
+  font-weight: 500;
+`;
+
+const FormControlBase = styled.select` 
+  width: 100%;
+  padding: var(--spacing-s, 10px);
   font-size: var(--font-size-medium, 16px);
-  line-height: 1.5;
+  border-radius: var(--border-radius-s, 4px);
+  border: 1px solid rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.05);
+  color: var(--color-text-light, #FFFFFF);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  appearance: none; 
+  margin-top: 10px; /* Align with label */
+
+  &::placeholder { 
+    color: var(--color-neutral-gray, #BDBDBD);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-secondary-peach, #FFDAB9);
+    background-color: rgba(255,255,255,0.1);
+  }
+`;
+
+const FormInput = styled(FormControlBase).attrs({ as: 'input' })``; 
+
+const FormSelect = styled(FormControlBase).attrs({ as: 'select' })`
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23CED4DA%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right .7em top 50%;
+  background-size: .65em auto;
+  padding-right: 2.5em; 
+
+  option {
+    background-color: var(--color-primary-purple, #5D3FD3); 
+    color: var(--color-text-light, #FFFFFF);
+  }
 `;
 
 const ProductTable = styled.table`
@@ -49,17 +133,17 @@ const ProductTable = styled.table`
   th, td {
     text-align: left;
     padding: var(--spacing-s, 8px) var(--spacing-xs, 4px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Subtle separator */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   th {
-    font-size: var(--font-size-small, 14px);
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
     color: var(--color-neutral-gray-light, #E0E0E0);
     font-weight: 500;
   }
   
   td {
-    font-size: var(--font-size-medium, 16px);
+    font-size: clamp(0.8rem, 2.2vw, 0.95rem);
   }
 
   .product-name {
@@ -69,18 +153,25 @@ const ProductTable = styled.table`
   }
 
   .product-image {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     object-fit: cover;
     border-radius: var(--border-radius-s, 4px);
-    background-color: var(--color-neutral-gray, #BDBDBD); /* Placeholder bg */
+    background-color: var(--color-neutral-gray, #BDBDBD);
+    @media (max-width: 480px) {
+        width: 30px;
+        height: 30px;
+    }
   }
   
   .product-name-text {
-      max-width: 250px; /* Limit width */
+      max-width: 150px; 
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      @media (min-width: 768px) {
+          max-width: 250px;
+      }
   }
 
   .unit-price, .quantity, .total-price {
@@ -96,7 +187,7 @@ const SummaryRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-s, 10px) 0;
-  font-size: var(--font-size-large, 18px);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   font-weight: 500;
 
   &:not(:last-child) {
@@ -105,8 +196,8 @@ const SummaryRow = styled.div`
 
   &.order-total {
     font-weight: bold;
-    font-size: var(--font-size-xlarge, 20px);
-    color: var(--color-text-light, #FFFFFF); /* Ensure total is prominent */
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--color-text-light, #FFFFFF); 
     margin-top: var(--spacing-s, 8px);
   }
 `;
@@ -115,7 +206,7 @@ const SelectVoucherButton = styled.button`
   color: var(--color-secondary-peach, #FFDAB9);
   background: none;
   border: none;
-  font-size: var(--font-size-medium, 16px);
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 500;
   cursor: pointer;
   text-decoration: underline;
@@ -127,15 +218,21 @@ const SelectVoucherButton = styled.button`
 
 const PaymentMethodSelector = styled.div`
   display: flex;
-  gap: var(--spacing-m, 16px);
+  flex-direction: column; 
+  gap: var(--spacing-s, 8px); 
   margin-top: var(--spacing-s, 8px);
+
+  @media (min-width: 600px) {
+    flex-direction: row; 
+    gap: var(--spacing-m, 16px);
+  }
 `;
 
 const PaymentButton = styled.button`
   flex-grow: 1;
-  padding: var(--spacing-m, 12px);
+  padding: var(--spacing-s, 10px); 
   border-radius: var(--border-radius-m, 8px);
-  font-size: var(--font-size-medium, 16px);
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -144,7 +241,6 @@ const PaymentButton = styled.button`
   background-color: ${props => props.active ? 'var(--color-secondary-peach, #FFDAB9)' : 'rgba(255,255,255,0.1)'};
   color: ${props => props.active ? 'var(--color-primary-purple-dark, #4B0082)' : 'var(--color-text-light, #FFFFFF)'};
   border-color: ${props => props.active ? 'var(--color-secondary-peach-dark, #FFA07A)' : 'rgba(255,255,255,0.2)'};
-
 
   &:hover:not(:disabled) {
     border-color: ${props => props.active ? 'var(--color-secondary-peach-dark, #FFA07A)' : 'var(--color-secondary-peach, #FFDAB9)'};
@@ -157,23 +253,23 @@ const FinalSummary = styled.div`
   margin-top: var(--spacing-m, 16px);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 
-  .total-payment {
-    font-size: var(--font-size-xxlarge, 28px); /* Larger total payment */
+  .total-payment { 
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
     font-weight: bold;
   }
 `;
 
 const PlaceOrderButton = styled.button`
-  display: block; /* To allow margin auto for centering if needed, or use flex on parent */
+  display: block; 
   width: 100%;
-  max-width: 300px; /* Max width for the button */
-  margin: var(--spacing-xl, 32px) auto 0 auto; /* Centered with top margin */
+  max-width: 300px; 
+  margin: var(--spacing-l, 24px) auto 0 auto; 
   background-color: var(--color-secondary-peach, #FFDAB9);
-  color: var(--color-primary-purple-dark, #4B0082); /* Dark text for contrast */
-  padding: var(--spacing-m, 16px);
+  color: var(--color-primary-purple-dark, #4B0082); 
+  padding: var(--spacing-m, 12px); 
   border: none;
   border-radius: var(--border-radius-m, 8px);
-  font-size: var(--font-size-large, 18px);
+  font-size: clamp(1rem, 3vw, 1.125rem);
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
@@ -189,58 +285,78 @@ const PlaceOrderButton = styled.button`
     background-color: var(--color-neutral-gray, #BDBDBD);
     cursor: not-allowed;
   }
+   @media (min-width: 768px) {
+    margin-top: var(--spacing-xl, 32px);
+  }
 `;
 
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { cartItems, getCartTotal, clearCart } = useCart();
-  // const { currentUser } = useAuth(); // Assuming this provides { address: '...', ... }
+  const { cartItems, getCartTotal, clearCart } = useCart(); 
 
-  const [shippingCost] = useState(1.99); // Example shipping
+  const [addressLine1, setAddressLine1] = useState('');
+  const [city, setCity] = useState('');
+  const [stateProv, setStateProv] = useState(''); 
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState(''); // Start with empty or a default like 'SG'
+  
+  // State for shippingCost, initialized with a default or based on initial country
+  const [shippingCost, setShippingCost] = useState(getShippingCostForCountry(country || 'SG')); // Default to SG if country is empty initially
+  
   const [voucherDiscount] = useState(0.00);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('PayNow'); // Default
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('PayNow');
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
-  // Mock user data - replace with actual data from AuthContext
-  const mockCurrentUser = {
-    address: "501A Topaz Road, #08-26 Woodlands Square, Singapore 312501",
-    // ... other user details
-  };
-  const currentUser = mockCurrentUser; // Use mock data for now
+  // useEffect to update shipping cost when country changes
+  useEffect(() => {
+    if (country) { // Only calculate if a country is selected
+      setShippingCost(getShippingCostForCountry(country));
+    } else {
+      // Optionally set a default or indicate shipping can't be calculated
+      setShippingCost(shippingCostsByCountryCode["DEFAULT"]); // Or some other placeholder
+    }
+  }, [country]); // Dependency array: only re-run when 'country' changes
 
   const itemSubtotal = getCartTotal();
   const orderTotal = itemSubtotal + shippingCost;
   const totalPayment = orderTotal - voucherDiscount;
 
   const handlePlaceOrder = async () => {
-    if (cartItems.length === 0) {
-      alert("Your cart is empty.");
+    if (!addressLine1 || !city || !postalCode || !country) {
+      alert("Please fill in all required address fields, including country.");
       return;
     }
+    if (cartItems.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
     setIsPlacingOrder(true);
-    // Simulate API call
+    const selectedCountryName = countries.find(c => c.code === country)?.name || country;
+    const fullAddress = `${addressLine1}, ${city}, ${stateProv ? stateProv + ' ' : ''}${postalCode}, ${selectedCountryName}`;
+    
     console.log("Placing order with:", {
-      userId: currentUser?._id || 'guest', // Handle guest users if applicable
-      items: cartItems,
+      items: cartItems, 
       itemSubtotal,
-      shippingCost,
+      shippingCost, // This will be the dynamically calculated cost
       voucherDiscount,
       totalPayment,
-      shippingAddress: currentUser?.address,
+      shippingAddress: fullAddress, 
       paymentMethod: selectedPaymentMethod,
     });
-    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate delay
+
+    await new Promise(resolve => setTimeout(resolve, 1500));
     
     alert("Order placed successfully!");
-    clearCart(); // Clear the cart after successful order
-    navigate('/order-confirmation'); // Or to user's order history page
+    clearCart();
+    navigate('/order-confirmation'); 
     setIsPlacingOrder(false);
   };
 
-  if (cartItems.length === 0 && !isPlacingOrder) { // Prevent redirect if order was just placed
-    // Optional: Redirect to cart or home if cart is empty
-    // useEffect(() => { navigate('/cart'); }, [navigate]);
+  const currentCartItems = cartItems; 
+
+  if (currentCartItems.length === 0 && !isPlacingOrder) {
     return (
         <PageWrapper>
             <CheckoutTitle>Checkout</CheckoutTitle>
@@ -252,23 +368,80 @@ const CheckoutPage = () => {
     );
   }
 
-
   return (
-    <div className="checkout-page">
       <PageWrapper>
         <CheckoutTitle>Checkout</CheckoutTitle>
 
-        {/* Delivery Address Section */}
         <Section>
-          <SectionTitle>Delivery Address:</SectionTitle>
-          <AddressText>{currentUser?.address || "Please set your delivery address."}</AddressText>
-          {/* Add a button/link to change address if needed */}
+          <SectionTitle>Delivery Address</SectionTitle>
+          <AddressForm>
+            <FormRow>
+              <FormLabel htmlFor="addressLine1">Address Line 1*</FormLabel>
+              <FormInput 
+                type="text" 
+                id="addressLine1" 
+                value={addressLine1} 
+                onChange={(e) => setAddressLine1(e.target.value)} 
+                placeholder="Street address, P.O. box"
+                required 
+              />
+            </FormRow>
+            <FormRow>
+              <FormLabel htmlFor="city">City*</FormLabel>
+              <FormInput 
+                type="text" 
+                id="city" 
+                value={city} 
+                onChange={(e) => setCity(e.target.value)} 
+                placeholder="e.g., Singapore"
+                required 
+              />
+            </FormRow>
+            <FormRow>
+              <FormLabel htmlFor="stateProv">State / Province</FormLabel>
+              <FormInput 
+                type="text" 
+                id="stateProv" 
+                value={stateProv} 
+                onChange={(e) => setStateProv(e.target.value)} 
+                placeholder="e.g., CA (Optional)"
+              />
+            </FormRow>
+            <FormRow>
+              <FormLabel htmlFor="postalCode">Postal Code*</FormLabel>
+              <FormInput 
+                type="text" 
+                id="postalCode" 
+                value={postalCode} 
+                onChange={(e) => setPostalCode(e.target.value)} 
+                placeholder="e.g., 123456"
+                required 
+              />
+            </FormRow>
+            <FormRow>
+              <FormLabel htmlFor="country">Country*</FormLabel>
+              <FormSelect 
+                id="country" 
+                value={country} 
+                onChange={(e) => setCountry(e.target.value)}
+                required
+              >
+                <option value="" disabled>Select your country</option>
+                {countries.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name}
+                  </option>
+                ))}
+              </FormSelect>
+            </FormRow>
+          </AddressForm>
         </Section>
 
         {/* Products Ordered Section */}
         <Section>
-          <SectionTitle>Products Ordered:</SectionTitle>
+          <SectionTitle>Products Ordered</SectionTitle>
           <ProductTable>
+            {/* ... table content remains the same ... */}
             <thead>
               <tr>
                 <th>Product</th>
@@ -278,32 +451,28 @@ const CheckoutPage = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems.map(item => {
-                // First check if the item exists
+              {currentCartItems.map(item => {
                 if (!item) return null;
+                const productDetails = item.customDesign || item.product;
+                if (!productDetails) return null;
                 
-                // Determine the product data based on item type
-                const product = item.type === 'custom' ? item.customItemData : item.product;
-                
-                // Skip rendering if product data is missing
-                if (!product) return null;
-                
-                // Ensure price exists and is a number
-                const itemPrice = typeof product.price === 'number' ? product.price : 0;
-                
+                const itemPrice = typeof productDetails.price === 'number' ? productDetails.price : 0;
+                const quantity = typeof item.quantity === 'number' && item.quantity > 0 ? item.quantity : 1;
+                const itemId = productDetails._id || item._id;
+
                 return (
-                  <tr key={item._id || `temp-${Math.random()}`}>
+                  <tr key={itemId || `temp-${Math.random() * 10000}`}>
                     <td className="product-name">
                       <img 
-                          src={product.imageUrl || (item.type === 'custom' ? '/images/custom-skimboard-placeholder.png' : '/images/placeholder-product.png')} 
-                          alt={product.name || 'Product'} 
+                          src={productDetails.imageUrl || '/images/placeholder-product.png'} 
+                          alt={productDetails.name || 'Product'} 
                           className="product-image" 
                       />
-                      <span className="product-name-text">{product.name || 'Unnamed Product'}</span>
+                      <span className="product-name-text">{productDetails.name || 'Unnamed Product'}</span>
                     </td>
                     <td className="unit-price">${itemPrice.toFixed(2)}</td>
-                    <td className="quantity">{item.quantity || 1}</td>
-                    <td className="total-price">${(itemPrice * (item.quantity || 1)).toFixed(2)}</td>
+                    <td className="quantity">{quantity}</td>
+                    <td className="total-price">${(itemPrice * quantity).toFixed(2)}</td>
                   </tr>
                 );
               })}
@@ -315,10 +484,12 @@ const CheckoutPage = () => {
           </SummaryRow>
           <SummaryRow>
             <span>Shipping Option:</span>
+            {/* Display the dynamic shippingCost */}
             <span>Doorstep Delivery ${shippingCost.toFixed(2)}</span>
           </SummaryRow>
           <SummaryRow className="order-total">
             <span>Order Total:</span>
+            {/* orderTotal will reflect the dynamic shippingCost */}
             <span>${orderTotal.toFixed(2)}</span>
           </SummaryRow>
         </Section>
@@ -326,7 +497,7 @@ const CheckoutPage = () => {
         {/* Vouchers Section */}
         <Section>
           <SummaryRow>
-            <SectionTitle style={{ marginBottom: 0 }}>Vouchers:</SectionTitle>
+            <SectionTitle style={{ marginBottom: 0 }}>Vouchers</SectionTitle>
             <SelectVoucherButton onClick={() => alert('Voucher selection UI to be implemented.')}>
               Select Voucher
             </SelectVoucherButton>
@@ -335,7 +506,7 @@ const CheckoutPage = () => {
 
         {/* Payment Method Section */}
         <Section>
-          <SectionTitle>Payment Method:</SectionTitle>
+          <SectionTitle>Payment Method</SectionTitle>
           <PaymentMethodSelector>
             <PaymentButton 
               active={selectedPaymentMethod === 'PayNow'}
@@ -350,7 +521,6 @@ const CheckoutPage = () => {
               Credit Card/Debit Card
             </PaymentButton>
           </PaymentMethodSelector>
-          {/* You might add input fields for card details if 'Card' is selected */}
         </Section>
 
         {/* Final Order Summary Section */}
@@ -361,7 +531,8 @@ const CheckoutPage = () => {
               <span>${itemSubtotal.toFixed(2)}</span>
             </SummaryRow>
             <SummaryRow>
-              <span>Shipping Subtotal</span> {/* Figma calls it Shipping Subtotal here */}
+              <span>Shipping Subtotal</span>
+              {/* Display the dynamic shippingCost */}
               <span>${shippingCost.toFixed(2)}</span>
             </SummaryRow>
             <SummaryRow>
@@ -370,6 +541,7 @@ const CheckoutPage = () => {
             </SummaryRow>
             <SummaryRow className="total-payment">
               <span>Total Payment</span>
+              {/* totalPayment will reflect the dynamic shippingCost */}
               <span>${totalPayment.toFixed(2)}</span>
             </SummaryRow>
           </FinalSummary>
@@ -378,7 +550,6 @@ const CheckoutPage = () => {
           </PlaceOrderButton>
         </Section>
       </PageWrapper>
-    </div>
   );
 };
 
