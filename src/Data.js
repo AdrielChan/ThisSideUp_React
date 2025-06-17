@@ -137,7 +137,7 @@ export const initialProducts = [
 
   {
     _id: generateId('prod'),
-    name: "Sunscreen",
+    name: "Cetaphil Sheer Mineral Sunscreen Lotion",
     description: "Timeless black sunglasses with UV protection.",
     imageUrl: "/Product Photos/Cetaphil-Sheer-Mineral-Sunscreen-Lotion-SPF-50-Fragrance-Free-3-oz_31c4fa0f-cbeb-43d0-84ae-168d51d38f5f.0783adf0de938f2148f6902345bfee3b.png",
     category: "Accessories", // Or "Accessories"
