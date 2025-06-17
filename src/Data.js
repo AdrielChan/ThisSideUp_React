@@ -78,7 +78,6 @@ export const initialProducts = [
     description: "Broad Spectrum SPF 55. Lightweight, non-greasy feel.",
     imageUrl: "/Product Photos/Marble Fish.jpeg", // Replace with actual path
     category: "Skimboards",
-    type: "Lotion",
     price: 195.36,
     stock: 75,
     tags: ["spf55", "dry-touch", "neutrogena"],
@@ -93,7 +92,6 @@ export const initialProducts = [
     description: "Spacious and stylish rope handle tote bag for all your beach essentials. Durable canvas material.",
     imageUrl: "/Product Photos/Marble.jpeg", // Replace with actual path
     category: "Skimboards",
-    type: "Tote",
     price: 941.25,
     stock: 30,
     tags: ["tote bag", "canvas", "striped"],
@@ -107,7 +105,6 @@ export const initialProducts = [
     description: "Relax in style on this large inflatable lounger featuring a sun canopy. Perfect for pools and calm beach waters.",
     imageUrl: "/Product Photos/Purple Carbon.jpeg", // Replace with actual path
     category: "Skimboards",
-    type: "Floats",
     price: 659.57,
     stock: 10,
     tags: ["inflatable", "lounger", "float", "canopy"],
@@ -121,7 +118,6 @@ export const initialProducts = [
     description: "Versatile black bucket hat with detachable neck cover and face shield for ultimate sun protection.",
     imageUrl: "/Product Photos/Rasta.jpeg",
     category: "Skimboards",
-    type: "Bucket Hat",
     price: 92.01, // Price seems high for a hat, might be a bundle
     stock: 22,
     tags: ["bucket hat", "sun protection", "fishing hat"],
@@ -136,7 +132,6 @@ export const initialProducts = [
     description: "Timeless black sunglasses with UV protection.",
     imageUrl: "/Product Photos/Samurai.jpeg",
     category: "Skimboards", // Or "Accessories"
-    type: "Sunglasses",
     price: 742.98,
     stock: 100,
     tags: ["sunglasses", "uv protection", "classic"],
