@@ -162,7 +162,13 @@ export const initialProducts = [
 ];
 
 export const initialCustomDesigns = [
-    
+  {
+    _id: generateId('custom'),
+    userId: "user123",
+    designName: "Custom Wave Design",
+    basePrice: 399.99,  // This is the base price for custom skimboards
+    description: "Custom designed skimboard with wave patterns",
+  }
 ];
 
 export const initialOrders = [];
