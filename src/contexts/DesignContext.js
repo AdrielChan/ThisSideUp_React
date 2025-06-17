@@ -47,7 +47,7 @@ export const DesignProvider = ({ children }) => {
     imageUrl: "/images/custom-board-placeholder.png", // ADD THIS LINE (ensure you have this image in public/images)
                                                       // Or use a more generic one like: 'https://picsum.photos/seed/customboard/80/80'
 
-    price: 70.00, // Base price, can be adjusted by features later
+    price: 300.00, // Base price, can be adjusted by features later
     isCustom: true, // Crucial flag for CartContext
   };
 
