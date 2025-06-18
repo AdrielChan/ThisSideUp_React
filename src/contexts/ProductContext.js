@@ -1,12 +1,11 @@
 // File: src/contexts/ProductContext.js
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-// This path MUST be correct. Assumes Data.js is at src/data/Data.js
 import { 
     fetchProducts, 
     searchProductsAPI, 
-    productCategories, 
-    fetchProductById // Ensure Data.js exports this
-} from '../Data'; // MAKE SURE THIS PATH IS CORRECT relative to ProductContext.js
+    fetchProductById,
+    productCategories
+} from '../Data/Data';
 
 const ProductContext = createContext(null);
 

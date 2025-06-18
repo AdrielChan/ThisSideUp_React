@@ -76,58 +76,69 @@ function SearchIcon() {
 
 
 // User Dropdown
+const UserDropdownLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  display: block;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #333333;
+    text-decoration: none;
+    color: #b19cd9;
+  }
+`;
+
+const UserDropdownMenu = styled.div`
+  position: absolute;
+  top: 75px;
+  right: 0;
+  background-color: #222222;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 260px;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+`;
+
 function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleClick2 = () => {
+  const handleClick = () => {
     setIsOpen(prev => !prev);
+  };
+
+  const handleLinkClick = (path) => {
+    setIsOpen(false);
+    navigate(path);
   };
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* User Icon (always visible) */}
       <img
         id="icon"
         src={UserIcon}
         width="40px"
         height="40px"
         alt="User icon"
-        onClick={handleClick2}
+        onClick={handleClick}
         style={{ cursor: 'pointer', position: 'relative' }}
       />
 
-      {/* Dropdown Menu */}
       {isOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '75px',
-            right: 0,
-            backgroundColor: '#222222',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            width: '260px',
-            height: '100px',
-            padding: '0.5rem 0',
-            zIndex: 1001,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <Link
-            to="/signin"
-            id='link'
-            
-          >
+        <UserDropdownMenu>
+          <UserDropdownLink to="/login" onClick={() => handleLinkClick('/login')}>
             Sign In
-          </Link>
-          <Link
-            to="/signup"
-            id='link'
-            
-          >
+          </UserDropdownLink>
+          <UserDropdownLink to="/signup" onClick={() => handleLinkClick('/signup')}>
             Create an Account
-          </Link>
-        </div>
+          </UserDropdownLink>
+        </UserDropdownMenu>
       )}
     </div>
   );

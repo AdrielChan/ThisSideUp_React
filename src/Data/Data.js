@@ -1,10 +1,16 @@
-import { initialProducts } from "./ProductData";
-import { initialUsers } from "./UserData";
+import { initialProducts, generateId as productGenerateId } from "./ProductData";
+import { initialUsers, generateId as accountGenerateId } from "./Accounts";
+import { countries } from "./CountryData";
 
+// Re-export the data
+export { countries } from "./CountryData";
+export { initialProducts } from "./ProductData";
+export { initialUsers } from "./Accounts";
 
-let nextId = 1;
-export const generateId = (prefix = 'id') => `${prefix}_${nextId++}`;
-
+// Use a single generateId function to avoid conflicts
+export const generateId = (prefix = 'id') => {
+  return prefix.startsWith('prod') ? productGenerateId(prefix) : accountGenerateId(prefix);
+};
 
 export const initialCustomDesigns = [
   {
@@ -18,10 +24,19 @@ export const initialCustomDesigns = [
 
 export const initialOrders = [];
 
+// Define product categories
+export const productCategories = [
+  'All',
+  'Skimboards',
+  'T-Shirts',
+  'Beach Accessories',
+  'Sunscreen',
+  'Custom Designs'
+];
 
 // --- Mock API Functions ---
 
-// PRODUCTS
+// PRODUCTS API Functions
 export const fetchProducts = async () => {
   await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
   return [...initialProducts];
@@ -30,35 +45,51 @@ export const fetchProducts = async () => {
 export const fetchProductById = async (id) => {
   await new Promise(resolve => setTimeout(resolve, 200));
   const product = initialProducts.find(p => p._id === id);
-  return product ? {...product} : null;
+  if (!product) {
+    throw new Error('Product not found');
+  }
+  return {...product};
 };
 
 export const searchProductsAPI = async (searchTerm, category, sortBy = 'name_asc') => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    let results = [...initialProducts];
+  await new Promise(resolve => setTimeout(resolve, 200));
 
-    if (searchTerm) {
-        results = results.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    }
-    if (category && category !== "All") { // Assuming "All" means no category filter
-        results = results.filter(p => p.category.toLowerCase() === category.toLowerCase());
-    }
+  let filteredProducts = [...initialProducts];
 
-    // Sorting
-    if (sortBy === 'name_asc') {
-        results.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortBy === 'name_desc') {
-        results.sort((a, b) => b.name.localeCompare(a.name));
-    } else if (sortBy === 'price_asc') {
-        results.sort((a, b) => a.price - b.price);
-    } else if (sortBy === 'price_desc') {
-        results.sort((a, b) => b.price - a.price);
-    } else if (sortBy === 'rating_desc') { // Most Popular (by rating)
-        results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    }
-    // Add more sorting options as needed
+  // Filter by search term if provided
+  if (searchTerm && searchTerm.trim() !== '') {
+    const term = searchTerm.toLowerCase();
+    filteredProducts = filteredProducts.filter(product =>
+      product.name.toLowerCase().includes(term) ||
+      product.description.toLowerCase().includes(term)
+    );
+  }
 
-    return results;
+  // Filter by category if provided and not 'All'
+  if (category && category !== 'All') {
+    filteredProducts = filteredProducts.filter(product =>
+      product.category === category
+    );
+  }
+
+  // Sort products
+  switch (sortBy) {
+    case 'price_asc':
+      filteredProducts.sort((a, b) => a.price - b.price);
+      break;
+    case 'price_desc':
+      filteredProducts.sort((a, b) => b.price - a.price);
+      break;
+    case 'name_desc':
+      filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case 'name_asc':
+    default:
+      filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+  }
+
+  return filteredProducts;
 };
 
 
@@ -91,8 +122,7 @@ export const loginAPI = async (email, password) => {
     throw new Error("User not found");
   }
 
-  // In a real app, you would hash the password and compare with stored hash
-  // This is just for demo purposes
+  
   if (password !== user.passwordHash) {
     throw new Error("Invalid password");
   }
@@ -182,16 +212,6 @@ export const fetchOrdersForUserAPI = async (userId) => {
     await new Promise(resolve => setTimeout(resolve, 300));
     return initialOrders.filter(order => order.userId === userId);
 };
-
-export const productCategories = [
-    "All", 
-    "Skimboards", 
-    "T-Shirts", 
-    "Boardshorts", 
-    "Accessories", 
-    "Beach Bags", 
-    "Towels", 
-];
 
 export const topSearchTerms = [
     "Skimboards", "Hats", "Towels", "Sandals", "Traction Pads", "Sunscreen", "Beach Bags", "Flip-Flops"

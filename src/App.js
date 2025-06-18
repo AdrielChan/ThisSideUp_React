@@ -42,8 +42,8 @@ function App() {
                   <Route path="/design-skimboard" element={<DesignSkimboardPage />} />
                   {/* MODIFIED: /cart now points to your ShoppingCartPage component */}
                   <Route path="/shoppingCart" element={<ActualShoppingCartPage />} /> 
-                  <Route path="/checkout" element={<CheckoutPage />} /> {/* This remains for the actual checkout process */}
-                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} /> {/* This remains for the actual checkout process */}                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route path="/login" element={<SignInPage />} />
                   <Route path="/signin" element={<SignInPage />} />
                   {/* Add other routes here */}
                 </Routes>
