@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react'; // Added useEffect
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import { countries } from '../Data';// Assuming you have a countries data file
-
+import { countries } from '../Data/CountryData';// Assuming you have a countries data file
 
 
 // --- SHIPPING CATEGORIES & COSTS ---
@@ -24,11 +23,7 @@ const getShippingCostForCountry = (countryCode) => {
 };
 
 
-// --- STYLED COMPONENTS (Keep all your existing styled components) ---
-// PageWrapper, CheckoutTitle, Section, SectionTitle, AddressForm, FormRow, FormLabel,
-// FormInput, FormSelect, ProductTable, SummaryRow, SelectVoucherButton,
-// PaymentMethodSelector, PaymentButton, FinalSummary, PlaceOrderButton
-// (These remain the same as in the previous version where you added the country dropdown)
+
 
 const PageWrapper = styled.div`
   min-height: 100vh;
