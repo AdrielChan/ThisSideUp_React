@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import videoBG from '../icons/anSkim.mp4';
 import '../index.css';
 
 
@@ -23,9 +24,12 @@ const PageWrapper = styled.div`
 const HeroSection = styled.div`
   background-image: url(${props => props.bgImage});
   background-size: cover;
+  position: relative;
+  overflow: hidden;
   background-repeat: no-repeat;
   background-position: center center;
   min-height: 100vh;
+  width: auto;
   display: flex;
   align-items: center;
   padding: 2rem 1rem;
@@ -118,9 +122,12 @@ const Divider = styled.div`
   }
 `
 const SlideBackground = styled.div`
-  position: absolute;
-  inset: 0;
   background-image: url(${props => props.bgImage});
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -128,6 +135,24 @@ const SlideBackground = styled.div`
   transition: opacity 1s ease-in-out;
   z-index: 0;
   pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+`;
+
+const VideoSection = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 
@@ -179,6 +204,11 @@ const Home = () => {
          
         </InfoBox>
       </HeroSection>
+
+
+      <VideoSection>
+        <video src={videoBG} autoPlay loop muted />
+      </VideoSection>
     </PageWrapper>
   );
 };
