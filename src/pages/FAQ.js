@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import '../index.css';
 
-// --- STYLED COMPONENTS (Hero, PageTitle, FAQContentSection, FAQContainer, SearchForm, SearchInput, AccentHighlight remain the same as previous good version) ---
+
 const FAQPageWrapper = styled.div`
   background-color: var(--color-background-medium-dark, #222); 
   min-height: 100vh;
@@ -48,7 +48,8 @@ const PageTitle = styled.p`
 `;
 
 const FAQContentSection = styled.div`
-  padding: 1.5rem 1rem; 
+  padding: 1.5rem 1rem;
+  margin-top: 19px; 
   
   @media (min-width: 768px) {
     padding: 2rem;
@@ -106,7 +107,7 @@ const AccentHighlight = styled.span`
 
 // --- QnOpen Component Styled ---
 const FAQItemWrapper = styled.div`
-  background-color: rgba(0,0,0,0.15);
+  background-color: rgba(120, 64, 91, 0.8);
   border-radius: var(--border-radius-s, 6px);
   margin-bottom: 1rem;
   cursor: pointer;
@@ -114,11 +115,11 @@ const FAQItemWrapper = styled.div`
   border: 1px solid transparent; 
 
   &:hover {
-    background-color: rgba(0,0,0,0.25);
+    background-color: rgba(120, 64, 91, 0.25);
   }
   
   ${props => props.isOpen && css`
-    background-color: rgba(0,0,0,0.25); 
+    background-color: rgba(120, 64, 91, 0.8); 
   `}
 `;
 
@@ -224,7 +225,7 @@ const FAQ = () => {
   const faqData = [
     {
       id: 1,
-      question: <>How do I customise my <AccentHighlight>skimboard</AccentHighlight>?</>,
+      question: <>How do I customise my skimboard?</>,
       ans: "1. Click 'Design Your Own Board' on the homepage.\n2. Design as you please. 🎨\n3. Add to cart & checkout!"
     },
     {
@@ -234,17 +235,17 @@ const FAQ = () => {
     },
     {
       id: 3,
-      question: <>What if my order arrives <AccentHighlight>damaged</AccentHighlight>?</>,
+      question: <>What if my order arrives damaged?</>,
       ans: <>Please contact us immediately at <AccentHighlight>inquiries@thissideup.com</AccentHighlight> with photos for a quick resolution.</>
     },
     {
       id: 4,
-      question: <>Do you ship <AccentHighlight>internationally</AccentHighlight>?</>,
+      question: <>Do you ship internationally?</>,
       ans: "🌍 Yes, we ship worldwide! Shipping rates vary by destination."
     },
     {
       id: 5,
-      question: <>Do you accept <AccentHighlight>returns/refunds</AccentHighlight>?</>,
+      question: <>Do you accept returns/refunds?</>,
       ans: "✅ Yes, we do! Returns/refunds are accepted within 30 days for unused items. Check our full policy for details."
     }
   ];
