@@ -391,15 +391,19 @@ function UserDropdown() {
   const navigate = useNavigate();
 
   const toggleDropdown = () => setIsOpen(prev => !prev);
-  const handleLogout = () => {
-    logout();
-    setIsOpen(false);
-    navigate('/');
-  };
+
+  // This function will now be used for all navigation links within the dropdown
   const closeAndNavigate = (path) => {
     setIsOpen(false);
     navigate(path);
-  }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false); // Ensure dropdown closes
+    navigate('/'); // Navigate to home after logout
+  };
+  
 
   return (
     <UserDropdownContainer>
@@ -412,7 +416,8 @@ function UserDropdown() {
         <UserDropdownMenuStyled>
           {currentUser ? (
             <>
-              <UserDropdownLink to="/profile" onClick={() => setIsOpen(false)}>
+              {/* Use closeAndNavigate here */}
+              <UserDropdownLink to="/profile" onClick={(e) => { e.preventDefault(); closeAndNavigate('/profile'); }}>
                 My Profile
               </UserDropdownLink>
               <UserDropdownButton onClick={handleLogout}>
@@ -421,10 +426,12 @@ function UserDropdown() {
             </>
           ) : (
             <>
-              <UserDropdownLink to="/login" onClick={() => setIsOpen(false)}>
+              {/* Use closeAndNavigate here */}
+              <UserDropdownLink to="/login" onClick={(e) => { e.preventDefault(); closeAndNavigate('/login'); }}>
                 Sign In
               </UserDropdownLink>
-              <UserDropdownLink to="/signup" onClick={() => setIsOpen(false)}>
+              {/* Use closeAndNavigate here */}
+              <UserDropdownLink to="/signup" onClick={(e) => { e.preventDefault(); closeAndNavigate('/signup'); }}>
                 Create an Account
               </UserDropdownLink>
             </>

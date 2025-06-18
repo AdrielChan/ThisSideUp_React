@@ -289,41 +289,50 @@ const PlaceOrderButton = styled.button`
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { clearCart } = useCart();
+  const { clearCart, cartItems } = useCart(); // Assuming cartItems might be needed if location.state fails
   
-  // Get selected items from navigation state
-  const selectedItems = location.state?.itemsForCheckout || [];
-  const totalFromCart = location.state?.total || 0;
+  // Get selected items from navigation state or cart context as fallback
+  const itemsFromState = location.state?.itemsForCheckout;
+  const totalFromState = location.state?.total;
+
+  // Fallback to cartItems if location.state is not available or empty
+  // This makes the page more robust if accessed directly without going through the cart summary
+  const selectedItems = (itemsFromState && itemsFromState.length > 0) ? itemsFromState : cartItems.filter(item => item.selected);
+  const totalFromCart = (totalFromState !== undefined) ? totalFromState : selectedItems.reduce((acc, item) => {
+    const itemPrice = item.customDesign?.price || item.product?.price || 0;
+    return acc + (itemPrice * (item.quantity || 1));
+  }, 0);
+
 
   useEffect(() => {
-    // Redirect to cart if no items are selected
-    if (!location.state || !location.state.itemsForCheckout || location.state.itemsForCheckout.length === 0) {
-      navigate('/cart');
+    if (selectedItems.length === 0) {
+      // Small delay to allow potential state updates from context
+      const timer = setTimeout(() => {
+        if (selectedItems.length === 0) { // Re-check after delay
+            // console.log("No items for checkout, navigating to cart.");
+            navigate('/shoppingCart'); // Changed from '/cart' to '/shoppingCart'
+        }
+      }, 100); // 100ms delay
+      return () => clearTimeout(timer);
     }
-  }, [location.state, navigate]);
+  }, [selectedItems, navigate]);
 
   const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState(''); // Optional: Address Line 2
   const [city, setCity] = useState('');
   const [stateProv, setStateProv] = useState(''); 
   const [postalCode, setPostalCode] = useState('');
-  const [country, setCountry] = useState(''); // Start with empty or a default like 'SG'
+  const [country, setCountry] = useState('');
   
-  // State for shippingCost, initialized with a default or based on initial country
-  const [shippingCost, setShippingCost] = useState(getShippingCostForCountry(country || 'SG')); // Default to SG if country is empty initially
+  const [shippingCost, setShippingCost] = useState(getShippingCostForCountry(country || 'SG'));
   
-  const [voucherDiscount] = useState(0.00);
+  const [voucherDiscount] = useState(0.00); // Placeholder
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('PayNow');
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
-  // useEffect to update shipping cost when country changes
   useEffect(() => {
-    if (country) { // Only calculate if a country is selected
-      setShippingCost(getShippingCostForCountry(country));
-    } else {
-      // Optionally set a default or indicate shipping can't be calculated
-      setShippingCost(shippingCostsByCountryCode["DEFAULT"]); // Or some other placeholder
-    }
-  }, [country]); // Dependency array: only re-run when 'country' changes
+    setShippingCost(getShippingCostForCountry(country || shippingCostsByCountryCode["DEFAULT"]));
+  }, [country]);
 
   const itemSubtotal = totalFromCart;
   const orderTotal = itemSubtotal + shippingCost;
@@ -335,26 +344,56 @@ const CheckoutPage = () => {
       return;
     }
     if (selectedItems.length === 0) {
-        alert("Your cart is empty.");
+        alert("Your cart is empty or no items were selected for checkout.");
+        navigate('/shoppingCart'); // Changed from '/cart' to '/shoppingCart'
         return;
     }
 
     setIsPlacingOrder(true);
     const selectedCountryName = countries.find(c => c.code === country)?.name || country;
-    const fullAddress = `${addressLine1}, ${city}, ${stateProv ? stateProv + ' ' : ''}${postalCode}, ${selectedCountryName}`;
-      try {
+    
+    // Construct the fullAddress string
+    let constructedAddress = `${addressLine1}`;
+    if (addressLine2) constructedAddress += `, ${addressLine2}`; // Add address line 2 if present
+    constructedAddress += `, ${city}`;
+    if (stateProv) constructedAddress += `, ${stateProv}`;
+    constructedAddress += ` ${postalCode}, ${selectedCountryName}`;
+    
+    const fullAddress = constructedAddress; // Assign the constructed address
+
+    // Prepare order data for the API
+    const orderData = {
+      // userId: currentUser?._id, // You'd get this from useAuth() if implemented
+      items: selectedItems.map(item => ({ // Format items as needed by your backend
+        productId: item.customDesign?._id || item.product?._id,
+        name: item.customDesign?.name || item.product?.name,
+        quantity: item.quantity,
+        price: item.customDesign?.price || item.product?.price,
+      })),
+      totalPrice: totalPayment,
+      shippingAddress: fullAddress, // *** USE fullAddress HERE ***
+      paymentMethod: selectedPaymentMethod,
+      shippingCost: shippingCost,
+      subtotal: itemSubtotal,
+      voucherDiscount: voucherDiscount,
+      // You might also include customer details if available (name, email)
+    };
+
+    try {
       // Simulate API call to place order
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log("Placing order with data:", orderData); // Log the data being "sent"
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
 
-      // Clear the cart after successful order
-      clearCart(); // Add clearCart to your useCart() destructuring at the top
+      // In a real app, this would be an actual API call:
+      // const response = await createOrderAPI(orderData); 
+      // console.log("Order created:", response);
 
-      // Show success message
+      clearCart(selectedItems.map(item => item.customDesign?._id || item.product?._id)); // Pass IDs of items to clear
+
       alert("Thank you for your order! You will receive a confirmation email shortly.");
-
-      // Redirect to home page
       navigate('/');
     } catch (error) {
+      console.error("Error placing order:", error);
       alert("There was an error processing your order. Please try again.");
     } finally {
       setIsPlacingOrder(false);
@@ -363,12 +402,29 @@ const CheckoutPage = () => {
 
   const currentCartItems = selectedItems; 
 
+  // Add Address Line 2 field in the JSX:
+  // ... (inside <AddressForm>)
+  // <FormRow>
+  //   <FormLabel htmlFor="addressLine2">Address Line 2 (Optional)</FormLabel>
+  //   <FormInput 
+  //     type="text" 
+  //     id="addressLine2" 
+  //     value={addressLine2} 
+  //     onChange={(e) => setAddressLine2(e.target.value)} 
+  //     placeholder="Apartment, suite, unit, building, floor, etc."
+  //   />
+  // </FormRow>
+  // ... (rest of the component) ...
+
+
   if (currentCartItems.length === 0 && !isPlacingOrder) {
+    // This check might run before selectedItems is properly populated from context/state
+    // Consider adding a loading state or ensuring items are definitely loaded before this check
     return (
         <PageWrapper>
             <CheckoutTitle>Checkout</CheckoutTitle>
             <Section style={{ textAlign: 'center' }}>
-                <p>Your cart is empty. Add some items to proceed to checkout.</p>
+                <p>Your cart is empty or no items selected. Add some items to proceed to checkout.</p>
                 <PlaceOrderButton style={{maxWidth: '200px', marginTop: '20px'}} onClick={() => navigate('/products')}>Shop Now</PlaceOrderButton>
             </Section>
         </PageWrapper>
@@ -391,6 +447,17 @@ const CheckoutPage = () => {
                 onChange={(e) => setAddressLine1(e.target.value)} 
                 placeholder="Street address, P.O. box"
                 required 
+              />
+            </FormRow>
+            {/* ADDED Address Line 2 for completeness */}
+            <FormRow>
+              <FormLabel htmlFor="addressLine2">Address Line 2 (Optional)</FormLabel>
+              <FormInput 
+                type="text" 
+                id="addressLine2" 
+                value={addressLine2} 
+                onChange={(e) => setAddressLine2(e.target.value)} 
+                placeholder="Apartment, suite, unit, building, floor, etc."
               />
             </FormRow>
             <FormRow>
@@ -448,7 +515,6 @@ const CheckoutPage = () => {
         <Section>
           <SectionTitle>Products Ordered</SectionTitle>
           <ProductTable>
-            {/* ... table content remains the same ... */}
             <thead>
               <tr>
                 <th>Product</th>
@@ -459,16 +525,16 @@ const CheckoutPage = () => {
             </thead>
             <tbody>
               {currentCartItems.map(item => {
-                if (!item) return null;
+                if (!item) return null; // Defensive check
                 const productDetails = item.customDesign || item.product;
-                if (!productDetails) return null;
+                if (!productDetails) return null; // Defensive check
                 
                 const itemPrice = typeof productDetails.price === 'number' ? productDetails.price : 0;
                 const quantity = typeof item.quantity === 'number' && item.quantity > 0 ? item.quantity : 1;
-                const itemId = productDetails._id || item._id;
+                const itemId = productDetails._id || item._id; // Ensure consistent ID source
 
                 return (
-                  <tr key={itemId || `temp-${Math.random() * 10000}`}>
+                  <tr key={itemId || `temp-${Math.random() * 10000}`}> {/* Fallback for key if ID is missing */}
                     <td className="product-name">
                       <img 
                           src={productDetails.imageUrl || '/images/placeholder-product.png'} 
@@ -491,12 +557,10 @@ const CheckoutPage = () => {
           </SummaryRow>
           <SummaryRow>
             <span>Shipping Option:</span>
-            {/* Display the dynamic shippingCost */}
             <span>Doorstep Delivery ${shippingCost.toFixed(2)}</span>
           </SummaryRow>
           <SummaryRow className="order-total">
             <span>Order Total:</span>
-            {/* orderTotal will reflect the dynamic shippingCost */}
             <span>${orderTotal.toFixed(2)}</span>
           </SummaryRow>
         </Section>
@@ -539,7 +603,6 @@ const CheckoutPage = () => {
             </SummaryRow>
             <SummaryRow>
               <span>Shipping Subtotal</span>
-              {/* Display the dynamic shippingCost */}
               <span>${shippingCost.toFixed(2)}</span>
             </SummaryRow>
             <SummaryRow>
@@ -548,11 +611,10 @@ const CheckoutPage = () => {
             </SummaryRow>
             <SummaryRow className="total-payment">
               <span>Total Payment</span>
-              {/* totalPayment will reflect the dynamic shippingCost */}
               <span>${totalPayment.toFixed(2)}</span>
             </SummaryRow>
           </FinalSummary>
-          <PlaceOrderButton onClick={handlePlaceOrder} disabled={isPlacingOrder}>
+          <PlaceOrderButton onClick={handlePlaceOrder} disabled={isPlacingOrder || currentCartItems.length === 0}>
             {isPlacingOrder ? 'Placing Order...' : 'Place Order'}
           </PlaceOrderButton>
         </Section>
