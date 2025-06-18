@@ -1,6 +1,6 @@
 // File: src/App.js
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Added Router
+import { BrowserRouter as Routes, Route } from 'react-router-dom'; // Added Router
 import { ProductProvider } from './contexts/ProductContext'; 
 import { DesignProvider } from './contexts/DesignContext';
 import { AuthProvider } from './contexts/AuthContext'; 

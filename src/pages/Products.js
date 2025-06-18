@@ -1,7 +1,7 @@
 // File: src/pages/Products.js (or src/pages/products/ProductsPage.js)
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 
 

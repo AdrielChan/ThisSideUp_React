@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+
 import videoBG from '../icons/anSkim.mp4';
 import '../index.css';
 
