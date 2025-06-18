@@ -205,7 +205,7 @@ const ProductsDropdownDesktop = styled.div`
   transform: translateX(-50%);
   background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(22, 19, 19, 0.1);
   padding: 1rem;
   min-width: 200px;
   visibility: ${props => props.show ? 'visible' : 'hidden'};
@@ -221,7 +221,7 @@ const DropdownGridDesktop = styled.div`
 `;
 
 const CategoryLinkDesktop = styled(Link)`
-  color: #ddd;
+  color: #000000;
   text-decoration: none;
   padding: 0.6rem 1rem;
   border-radius: 6px;
@@ -237,7 +237,7 @@ const CategoryLinkDesktop = styled(Link)`
 `;
 
 const DropdownTitleDesktop = styled.h3`
-  color: #eee;
+  color: #000000;
   font-size: 0.9rem;
   margin: 0 0 0.8rem 0;
   padding: 0 0.5rem 0.5rem;
