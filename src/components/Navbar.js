@@ -21,7 +21,7 @@ const NavContainer = styled.nav`
   align-items: center;
   position: relative;
   z-index: 1000;
-  height: 80px; /* Adjusted height for better spacing */
+  height: 106px; /* Adjusted height for better spacing */
   font-family: 'Inria Serif', serif;
 
   @media (max-width: 992px) { /* Tablet and mobile */
@@ -33,9 +33,11 @@ const NavContainer = styled.nav`
 const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
+  
   z-index: 1005; /* Ensure logo is above mobile menu if it slides from top */
   img {
-    height: 50px; /* Adjust as needed */
+    padding: 13px 10px 13px 90px;
+    height: 85px; /* Adjust as needed */
     width: auto;
     @media (max-width: 992px) {
       height: 40px;
@@ -68,7 +70,8 @@ const NavItemDesktop = styled.div`
 const StyledNavLink = styled(Link)`
   color: white;
   text-decoration: none;
-  font-size: 1.2rem; /* Adjust as needed */
+  font-size: 26px;
+  font-weight: bold;
   transition: color 0.3s ease;
   padding: 0.5rem 0.8rem;
   
@@ -564,7 +567,7 @@ const Navbar = () => {
             to="/shoppingCart"
             onClick={() => isMobileMenuOpen && closeMobileMenuAndNavigate('/shoppingCart')}
           >
-            <img src={CartIconImg} alt='Cart icon' />
+            <img src={CartIconImg} alt='Cart icon' style={{width: '35px'}}/>
           </CartLinkStyled>
           <UserDropdown />
         </IconsGroup>
