@@ -17,17 +17,7 @@ import { useProducts } from '../contexts/ProductContext';
 import { useAuth } from '../contexts/AuthContext'; // Import useAuth
 
 // --- STYLED COMPONENTS ---
-// (Keep all your styled components as they are)
-// PageWrapper, BackButton, ProductContentWrapper, ImageColumn, MainProductImage,
-// SocialActions, BaseSocialButton, DetailsColumn, ProductName, ProductPrice,
-// RatingContainer, ProductDescription, InfoRow, InfoLabel, InfoValue,
-// QuantityControl, QuantityButton, QuantityDisplay, ActionButtonsContainer,
-// BaseActionButton, AddToCartButton, BuyNowButton, SimilarProductsSection,
-// SimilarProductsTitle, SimilarProductsGrid
 
-// --- STYLED COMPONENTS (No changes needed here from your provided file) ---
-// PageWrapper: The main container for the entire product detail page.
-// It sets the dark background color, text color, and minimum height.
 const PageWrapper = styled.div`
   background-color: var(--color-background-dark, #121212); /* Very dark background */
   color: var(--color-text-light, #FFFFFF);

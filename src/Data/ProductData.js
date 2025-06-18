@@ -181,7 +181,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Boardshort 1",
+    name: "Boardshort 2",
     description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
     imageUrl: "/Product Photos/Boardshorts 1.png",
     category: "Boardshorts",

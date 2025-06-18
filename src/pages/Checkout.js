@@ -1,10 +1,10 @@
 // File: src/pages/CheckoutPage.js
-import React, { useState, useEffect } from 'react'; // Added useEffect
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import { countries } from '../Data/CountryData';// Assuming you have a countries data file
-
+import { countries } from '../Data/CountryData';
+import '../index.css'; // Import the CSS file
 
 // --- SHIPPING CATEGORIES & COSTS ---
 const shippingCostsByCountryCode = {
@@ -27,32 +27,27 @@ const getShippingCostForCountry = (countryCode) => {
 
 const PageWrapper = styled.div`
   min-height: 100vh;
-  color: var(--color-text-light, #FFFFFF);
-  padding: var(--spacing-l, 24px) 0;
-  background-color: var(--color-background-dark, #121212);
+  font-family: "Instrument Sans", sans-serif;
+  padding: 24px 0;
+  background: linear-gradient(180deg, #78405B 0%, #BE6892 100%);
 `;
 
 const CheckoutTitle = styled.h1`
-  font-family: var(--font-heading, 'Lilita One', cursive);
-  font-size: clamp(2rem, 6vw, 2.5rem);
-  color: var(--color-text-light, #FFFFFF);
+  ${() => document.getElementById('font2')?.getAttribute('style')}
+  color: white;
   text-align: center;
-  margin-bottom: var(--spacing-xl, 32px);
+  margin-bottom: 32px;
 `;
 
 const Section = styled.section`
-  background-color: var(--color-primary-purple, #5D3FD3);
-  padding: var(--spacing-l, 24px);
-  margin: 0 auto var(--spacing-l, 24px) auto;
+  background-color: rgba(190, 104, 146, 0.9);
+  padding: 24px;
+  margin: 0 auto 24px auto;
   max-width: 800px;
-  border-radius: var(--border-radius-m, 8px);
+  border-radius: 24px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-
-  @media (max-width: 768px) {
-    margin-left: var(--spacing-s, 8px);
-    margin-right: var(--spacing-s, 8px);
-    padding: var(--spacing-m, 16px);
-  }
+  color: white;
+  font-family: "Instrument Sans", sans-serif;
 `;
 
 const SectionTitle = styled.h2`
