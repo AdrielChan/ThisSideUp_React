@@ -51,7 +51,7 @@ export const initialProducts = [
     description: "Cool and breezy summer shirt with blue palm tree and sunset design. Lightweight and stylish for beach outings.",
     imageUrl: "/Product Photos/BluePalmTreeShirt.png",
     category: "T-Shirts",
-    price: 6.99,
+    price: 16.99,
     stock: 1000,
     rating: 4.2,
     numRatings: 83,
@@ -161,17 +161,44 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Banana BoatSunscreen",
+    name: "Banana Boat Sunscreen",
     description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
-    imageUrl: "/Product Photos/Samurai.jpeg",
-    category: "Skimboards",
-    price: 742.98,
+    imageUrl: "/Product Photos/Banana Boat Sunscreen.jpg",
+    category: "Accessories",
+    price: 12.80,
     stock: 1000,
     tags: ["samurai", "japanese style", "aggressive design"],
     rating: 4.1,
     numRatings: 77,
     likes: [], // Array to store user IDs who liked the product
   },
+  {
+    _id: generateId('prod'),
+    name: "Beach Shirt 1",
+    description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
+    imageUrl: "/Product Photos/Beach Shirt 1.png",
+    category: "T-Shirts",
+    price: 22.00,
+    stock: 1000,
+    tags: ["samurai", "japanese style", "aggressive design"],
+    rating: 4.1,
+    numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
+  },
+  {
+    _id: generateId('prod'),
+    name: "Boardshort 1",
+    description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
+    imageUrl: "/Product Photos/Boardshorts 1.png",
+    category: "Boardshorts",
+    price: 22.00,
+    stock: 1000,
+    tags: ["samurai", "japanese style", "aggressive design"],
+    rating: 4.1,
+    numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
+  },
+
 ];
 
 export const initialCustomDesigns = [
@@ -179,7 +206,7 @@ export const initialCustomDesigns = [
     _id: generateId('custom'),
     userId: "user123",
     designName: "Custom Wave Design",
-    basePrice: 399.99,  // This is the base price for custom skimboards
+    basePrice: 300,  // This is the base price for custom skimboards
     description: "Custom designed skimboard with wave patterns",
   }
 ];
@@ -326,8 +353,7 @@ export const saveCustomDesignAPI = async (designData) => {
 
 // --- NEW DATA FOR SHOPPING CART PAGE ---
 // This data is specifically designed to match the Figma screenshot for the shopping cart page.
-// ImageURLs are placeholders from picsum.photos for easy display.
-// In a real app, these imageURLs would point to actual product images.
+
 export const initialShoppingCartPageItems = [
   { _id: 'cartItem_1', name: 'Snorkeling Gear for Adults, Dry-Top Snorkel Set...', price: 57.39, imageUrl: 'https://picsum.photos/seed/snorkeling_gear/80/80', quantity: 2, selected: false },
   { _id: 'cartItem_2', name: 'Tahe sup-yak Air 10\'6 Beach pack, Inflatable Kayak...', price: 745.00, imageUrl: 'https://picsum.photos/seed/sup_yak/80/80', quantity: 1, selected: true },
@@ -335,12 +361,6 @@ export const initialShoppingCartPageItems = [
   { _id: 'cartItem_4', name: 'Sun Bum Premium Day Tripper Travel Set, Sunscreen...', price: 32.98, imageUrl: 'https://picsum.photos/seed/sun_bum/80/80', quantity: 3, selected: true },
   { _id: 'cartItem_5', name: 'Deluxe Skimboard Travel Bag for Skimboards up to 52"...', price: 153.00, imageUrl: 'https://picsum.photos/seed/skimboard_bag_deluxe/80/80', quantity: 1, selected: true },
   { _id: 'cartItem_6', name: 'Buckets and Spades Play Set for Kids, Beach Sand To...', price: 7.78, imageUrl: 'https://picsum.photos/seed/buckets_spades/80/80', quantity: 2, selected: false },
-  { _id: 'cartItem_7', name: 'Blue Swimwear Beach Shorts Mens Quick Dry Swim Tru...', price: 24.61, imageUrl: 'https://picsum.photos/seed/swim_shorts/80/80', quantity: 1, selected: false },
-  { _id: 'cartItem_8', name: 'The Essential Beach Set - Includes Tote Bag, Microfi...', price: 391.98, imageUrl: 'https://picsum.photos/seed/essential_beach_set/80/80', quantity: 2, selected: true },
-  { _id: 'cartItem_9', name: 'CETAPHIL Sheer Mineral Sunscreen Lotion SPF 50, Fa...', price: 27.60, imageUrl: 'https://picsum.photos/seed/cetaphil_sunscreen/80/80', quantity: 1, selected: true },
-  { _id: 'cartItem_10', name: 'Camouflage Skimboard Travel Bag with Shoulder Str...', price: 89.21, imageUrl: 'https://picsum.photos/seed/skimboard_bag_camo/80/80', quantity: 1, selected: false },
-  { _id: 'cartItem_11', name: 'Sunglasses, Classic Aviator Style UV Protection Su...', price: 10.98, imageUrl: 'https://picsum.photos/seed/sunglasses_classic/80/80', quantity: 4, selected: true },
-  { _id: 'cartItem_12', name: 'Beach Towel with Fringes 100x200cm, Absorbent C...', price: 7.78, imageUrl: 'https://picsum.photos/seed/beach_towel/80/80', quantity: 2, selected: false },
 ];
 
 // ORDERS
