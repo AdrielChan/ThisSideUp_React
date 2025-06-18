@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDesign } from '../contexts/DesignContext';
 import { useCart } from '../contexts/CartContext'; // <<<<<<<<<<< ADD THIS IMPORT
 // Assuming generateId is exported from Data.js and Data.js is in src/
-import { generateId } from '../Data'; // <<<<<<<<<<< ADD THIS IMPORT (adjust path if Data.js is elsewhere)
+import { generateId } from '../Data/Data'; // <<<<<<<<<<< ADD THIS IMPORT (adjust path if Data.js is elsewhere)
 import { SketchPicker } from 'react-color';
 import { GradientPicker } from 'react-linear-gradient-picker';
 import 'react-linear-gradient-picker/dist/index.css';
