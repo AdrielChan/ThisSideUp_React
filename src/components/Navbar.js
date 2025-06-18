@@ -268,11 +268,11 @@ const SearchBarContainer = styled.div`
   }
   /* Style the close icon within search if needed */
   img[alt="Close icon"] { 
-    width: 24px !important; height: 24px !important; 
+    width: 40px !important; height: 40px !important; 
     top: 50% !important; transform: translateY(-50%) !important; 
   }
   img[alt="Search icon"] { 
-    width: 28px !important; height: 28px !important; 
+    width: 40px !important; height: 40px !important; 
     @media (max-width: 768px) { width: 26px !important; height: 26px !important; }
     @media (max-width: 480px) { width: 24px !important; height: 24px !important; }
   }
@@ -334,7 +334,7 @@ function SearchBar() {
 const UserDropdownContainer = styled.div`
   position: relative;
   img[alt="User icon"] { 
-    width: 28px !important; height: 28px !important; cursor: 'pointer';
+    width: 40px !important; height: 40px !important; cursor: 'pointer';
     @media (max-width: 768px) { width: 26px !important; height: 26px !important; }
     @media (max-width: 480px) { width: 24px !important; height: 24px !important; }
   }
@@ -449,7 +449,7 @@ function UserDropdown() {
 const CartLinkStyled = styled(Link)`
  display: flex; /* To align icon properly if text is added later */
   img {
-    width: 28px !important; height: 28px !important; cursor: 'pointer';
+    width: 40px !important; height: 40px !important; cursor: 'pointer';
     @media (max-width: 768px) { width: 26px !important; height: 26px !important; }
     @media (max-width: 480px) { width: 24px !important; height: 24px !important; }
   }
@@ -567,7 +567,7 @@ const Navbar = () => {
             to="/shoppingCart"
             onClick={() => isMobileMenuOpen && closeMobileMenuAndNavigate('/shoppingCart')}
           >
-            <img src={CartIconImg} alt='Cart icon' style={{width: '35px'}}/>
+            <img src={CartIconImg} alt='Cart icon'/>
           </CartLinkStyled>
           <UserDropdown />
         </IconsGroup>
