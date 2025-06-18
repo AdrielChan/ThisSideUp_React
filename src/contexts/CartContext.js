@@ -1,6 +1,6 @@
 // File: src/contexts/CartContext.js
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { fetchProductById } from '../Data/Data'; // To get product details when adding
+import { fetchProductById } from '../Data'; // To get product details when adding
 
 const CartContext = createContext(null);
 
