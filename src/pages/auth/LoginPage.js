@@ -181,17 +181,28 @@ const LoginPage = () => {
       navigate('/');
     }
   }, [currentUser, navigate]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
+      // Validate form data
+      if (!formData.email || !formData.password) {
+        throw new Error('Email and password are required');
+      }
+
+      // Attempt login
       await login(formData.email, formData.password);
-      navigate('/'); // Redirect to home page on success
+      
+      // Clear form data
+      setFormData({ email: '', password: '' });
+      
+      // Navigate to home page on success
+      navigate('/');
     } catch (err) {
-      setError(err.message || 'Failed to log in');
+      console.error('Login error:', err);
+      setError(err.message || 'Failed to log in. Please check your credentials.');
     } finally {
       setLoading(false);
     }

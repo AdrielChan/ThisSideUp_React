@@ -18,4 +18,12 @@ export const initialUsers = [
     role: "admin",
     createdAt: new Date().toISOString(),
   },
+  {
+    _id: generateId('user'),
+    name: "Jack",
+    email: "bluewhiteJack@gmail.com",
+    passwordHash: "T123456cc#",
+    role: "customer",
+    createdAt: new Date().toISOString(),
+  },
 ];

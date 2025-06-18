@@ -106,32 +106,29 @@ const validatePassword = (password) => {
 };
 
 export const loginAPI = async (email, password) => {
-  await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
 
+  // Basic validation
   if (!email || !password) {
-    throw new Error("Email and password are required");
+    throw new Error('Email and password are required');
   }
 
-  if (!validateEmail(email)) {
-    throw new Error("Invalid email format");
-  }
-
+  // Find user by email
   const user = initialUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
   
   if (!user) {
-    throw new Error("User not found");
+    throw new Error('Invalid email or password');
   }
 
-  
-  if (password !== user.passwordHash) {
-    throw new Error("Invalid password");
+  // In a real app, you would hash the password and compare hashes
+  // For demo purposes, we're comparing the raw password with passwordHash
+  if (user.passwordHash !== password) {
+    throw new Error('Invalid email or password');
   }
 
+  // Return user data (excluding password)
   const { passwordHash, ...userWithoutPassword } = user;
-  return {
-    ...userWithoutPassword,
-    token: `mock_token_${Date.now()}`
-  };
+  return userWithoutPassword;
 };
 
 export const signupAPI = async (userData) => {
