@@ -197,31 +197,18 @@ const MobileSubMenu = styled.div`
 // Products Dropdown (Desktop - from your original code, minor style tweaks for context)
 const ProductsDropdownDesktop = styled.div`
   position: absolute;
-  top: calc(100% + 5px); /* Add a small gap */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #333; /* Darker theme for dropdown */
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 1rem;
-  opacity: ${props => props.show ? 1 : 0};
+  min-width: 200px;
   visibility: ${props => props.show ? 'visible' : 'hidden'};
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  min-width: 220px;
-  z-index: 1010; /* High z-index */
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 100%; /* Pointing upwards */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0; 
-    height: 0; 
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid #333; /* Match dropdown background */
-  }
+  opacity: ${props => props.show ? 1 : 0};
+  transition: all 0.2s ease-in-out;
+  pointer-events: ${props => props.show ? 'all' : 'none'};
 `;
 
 const DropdownGridDesktop = styled.div`
@@ -522,8 +509,7 @@ const Navbar = () => {
             className={location.pathname.startsWith('/products') ? 'active' : ''}
           >
             Products
-          </StyledNavLink>
-          <ProductsDropdownDesktop show={showDesktopProductsDropdown}>
+          </StyledNavLink>          <ProductsDropdownDesktop show={showDesktopProductsDropdown ? 1 : 0}>
             <DropdownTitleDesktop>Shop by Category</DropdownTitleDesktop>
             <DropdownGridDesktop>
               {productCategories.map((category) => (
