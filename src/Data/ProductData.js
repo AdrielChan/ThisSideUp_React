@@ -183,14 +183,39 @@ export const initialProducts = [
     _id: generateId('prod'),
     name: "Boardshort 2",
     description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
-    imageUrl: "/Product Photos/Boardshorts 1.png",
+    imageUrl: "/Product Photos/Boardshort 2.png",
     category: "Boardshorts",
-    price: 22.00,
+    price: 21.00,
     stock: 1000,
     tags: ["samurai", "japanese style", "aggressive design"],
     rating: 4.1,
     numRatings: 77,
     likes: [], // Array to store user IDs who liked the product
   },
-
+  {
+    _id: generateId('prod'),
+    name: "Boardshort 3",
+    description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
+    imageUrl: "/Product Photos/Boardshort 3.png",
+    category: "Boardshorts",
+    price: 21.00,
+    stock: 1000,
+    tags: ["samurai", "japanese style", "aggressive design"],
+    rating: 4.1,
+    numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
+  },
+  {
+    _id: generateId('prod'),
+    name: "Bunch of Towels",
+    description: "Aggressively styled skimboard with samurai-themed graphics. Built for speed, strength, and precision carving.",
+    imageUrl: "/Product Photos/Bunch of Towels 1.png",
+    category: "Towels",
+    price: 21.00,
+    stock: 1000,
+    tags: ["samurai", "japanese style", "aggressive design"],
+    rating: 4.1,
+    numRatings: 77,
+    likes: [], // Array to store user IDs who liked the product
+  },
 ];

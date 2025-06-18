@@ -9,12 +9,21 @@ import { useProducts } from '../contexts/ProductContext';
 import ProductCard from './ProductCard'; 
 
 
+const PageContainer = styled.div` // New top-level wrapper
+  min-height: 100vh; /* Ensure it tries to fill the viewport */
+  background: var(--gradient-products); /* Apply background here */
+  display: flex; /* To make PageWrapper (child) fill height if needed */
+  flex-direction: column;
+`;
+
+// PageWrapper in Products.js (might not need background if PageContainer handles it)
 const PageWrapper = styled.div`
   color: var(--color-text-light, #FFFFFF);
   padding: var(--spacing-l, 24px) var(--spacing-m, 16px);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex-grow: 1; /* Make PageWrapper grow within PageContainer */
+  /* background-color: var(--color-background-dark, #121212); // Remove if PageContainer sets gradient */
 `;
 
 const MainContent = styled.main`
@@ -140,6 +149,7 @@ const Products = () => {
   
   return (
     <div className="products-page">
+      <PageContainer>
       <PageWrapper>
         <MainContent> {/* Wrap main content */}
           <PageHeader>
@@ -181,6 +191,7 @@ const Products = () => {
         </MainContent>
 
       </PageWrapper>
+      </PageContainer>
     </div>
   );
 };

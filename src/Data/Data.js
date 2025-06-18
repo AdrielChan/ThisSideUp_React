@@ -34,9 +34,10 @@ export const productCategories = [ // This might be redundant if defined elsewhe
    'All',
    'Skimboards',
    'T-Shirts',
-   'Beach Accessories',
-   'Sunscreen',
-   'Custom Designs'
+   'Boardshorts',
+   'Accessories',  
+   'Beach Bags',
+   'Towels',
  ];
 
 // --- Mock API Functions ---
