@@ -1,60 +1,61 @@
-// File: src/App.js (or your main router configuration file)
+// File: src/App.js
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Added Router
 import { ProductProvider } from './contexts/ProductContext'; 
-import { DesignProvider } from './contexts/DesignContext'; // Ensure path is correct
-import { AuthProvider } from './contexts/AuthContext'; // Ensure path is correct
-import { CartProvider } from './contexts/CartContext'; // Ensure path is correct
-
+import { DesignProvider } from './contexts/DesignContext';
+import { AuthProvider } from './contexts/AuthContext'; 
+import { CartProvider } from './contexts/CartContext'; 
 
 // Layout components
-import Navbar from './components/Navbar'; // Example
-import Footer from './components/layout/Footer'; // Example
+import Navbar from './components/Navbar'; 
+import Footer from './components/layout/Footer'; 
 
-// Lazy load pages for better performance
-const HomePage = lazy(() => import('./pages/Home')); // Example
-const Products = lazy(() => import('./pages/Products'));
-const About = lazy(() => import('./pages/About'));
-const FAQ = lazy(() => import('./pages/FAQ'));
+// Lazy load pages
+const HomePage = lazy(() => import('./pages/Home'));
+const ProductsPage = lazy(() => import('./pages/Products')); // Renamed for consistency
+const AboutPage = lazy(() => import('./pages/About')); // Renamed for consistency
+const FAQPage = lazy(() => import('./pages/FAQ')); // Renamed for consistency
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 const DesignSkimboardPage = lazy(() => import('./pages/DesignSkimboard'));
-const ActualShoppingCartPage = lazy(() => import('./pages/shoppingCart')); // Renamed for clarity
+const ActualShoppingCartPage = lazy(() => import('./pages/shoppingCart'));
 const CheckoutPage = lazy(() => import('./pages/Checkout'));
-const SignUpPage = lazy (() => import ('./pages/auth/SignUpPage'));
-const SignInPage = lazy (() => import ('./pages/auth/LoginPage'));
+const SignUpPage = lazy (() => import ('./pages/auth/SignUpPage')); // Correct path as per your App.js
+const SignInPage = lazy (() => import ('./pages/auth/LoginPage'));   // Correct path as per your App.js
+const UserProfilePage = lazy(() => import('./pages/auth/UserProfile')); // Example for My Profile link
 
 function App() {
-  return (
-
-      <ProductProvider>
-         <AuthProvider> 
+  return (    
+      <AuthProvider> 
+        <ProductProvider>
           <CartProvider> 
             <DesignProvider>
               <Navbar />
-              <Suspense fallback={<div style={{textAlign: 'center', marginTop: '50px', color: 'white'}}>Loading Page...</div>}>
+              <Suspense fallback={<div style={{textAlign: 'center', marginTop: '50px', color: 'black'}}>Loading Page...</div>}>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/faq" element={<FAQ />} />
-                  <Route path="/products/category/:categoryName" element={<Products />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/products/category/:categoryName" element={<ProductsPage />} />
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/design-skimboard" element={<DesignSkimboardPage />} />
-                  {/* MODIFIED: /cart now points to your ShoppingCartPage component */}
                   <Route path="/shoppingCart" element={<ActualShoppingCartPage />} /> 
-                  <Route path="/checkout" element={<CheckoutPage />} /> {/* This remains for the actual checkout process */}                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/signup" element={<SignUpPage />} />
                   <Route path="/login" element={<SignInPage />} />
-                  <Route path="/signin" element={<SignInPage />} />
+                  <Route path="/signin" element={<SignInPage />} /> {/* Keep for compatibility if used */}
+                  <Route path="/profile" element={<UserProfilePage />} /> {/* Example for My Profile */}
                   {/* Add other routes here */}
+                  <Route path="*" element={<div style={{textAlign: 'center', marginTop: '50px', color: 'black'}}>Page Not Found</div>} /> {/* Basic 404 */}
                 </Routes>
               </Suspense>
               <Footer />
             </DesignProvider>
            </CartProvider> 
-         </AuthProvider> 
-      </ProductProvider>
-
+         </ProductProvider> 
+       </AuthProvider>
   );
 }
+
 
 export default App;

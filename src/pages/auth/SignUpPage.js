@@ -1,16 +1,16 @@
-// File: src/pages/SignUpPage.js
-import React, { useState, useEffect } from 'react';
+// File: src/pages/auth/SignUpPage.js
+import React, { useState, useEffect } from 'react'; // Ensure useEffect is imported
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-// Styled Components
+// Styled Components (ensure these are defined or imported if they come from a shared file)
 const PageWrapper = styled.div`
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('CreateAccountHD.jpg');
+  background-image: url('/CreateAccountHD.jpg'); /* Ensure this image is in your public folder */
   background-size: cover;
   background-position: center;
   padding: var(--spacing-m, 16px);
@@ -19,50 +19,50 @@ const PageWrapper = styled.div`
 const SignUpContainer = styled.div`
   display: flex;
   width: 100%;
-  max-width: 900px; /* Adjust as needed for the two-panel layout */
-  min-height: 550px; /* Adjust as needed */
-  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay for the form panel if needed */
+  max-width: 900px; 
+  min-height: 550px; 
+  background-color: rgba(0, 0, 0, 0.3); 
   border-radius: var(--border-radius-large, 12px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  overflow: hidden; /* To keep rounded corners on child elements like the image */
+  overflow: hidden; 
 
   @media (max-width: 768px) {
     flex-direction: column;
-    max-width: 450px; /* Full width on smaller screens */
+    max-width: 450px; 
   }
 `;
 
 const FormPanel = styled.div`
-  flex: 1; /* Takes up half the space, or adjust ratio e.g. flex: 0 0 40%; */
+  flex: 1; 
   padding: var(--spacing-xl, 32px) var(--spacing-xxl, 48px);
-  background-color: rgba(40, 20, 60, 0.85); /* Dark purple, semi-transparent */
-  backdrop-filter: blur(8px); /* Frosted glass effect */
+  background-color: rgba(40, 20, 60, 0.85); 
+  backdrop-filter: blur(8px); 
   color: var(--color-text-light, #FFFFFF);
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center form vertically */
+  justify-content: center; 
 
   @media (max-width: 768px) {
-    border-radius: var(--border-radius-large, 12px) var(--border-radius-large, 12px) 0 0; /* Rounded top on mobile */
+    border-radius: var(--border-radius-large, 12px) var(--border-radius-large, 12px) 0 0; 
   }
 `;
 
 const ImagePanel = styled.div`
-  flex: 1; /* Takes up the other half */
-  background-image: url('/images/beach-sunset-background.jpg'); /* Same image, but it will be clipped */
+  flex: 1; 
+  background-image: url('/images/beach-sunset-background.jpg'); /* Ensure this image is in public/images */
   background-size: cover;
-  background-position: center; /* You might want to adjust this to focus on a specific part */
+  background-position: center; 
   
   @media (max-width: 768px) {
-    display: none; /* Hide image panel on smaller screens to give more space to form */
+    display: none; 
   }
 `;
 
 
 const Title = styled.h1`
-  font-family: 'Serif', var(--font-heading, Georgia); /* Matching the serif font in Figma */
-  font-size: var(--font-size-hero-small, 38px); /* Large title */
-  color: var(--color-secondary-peach-light, #FFEDDB); /* Light peach/pink color */
+  font-family: 'Serif', var(--font-heading, Georgia); 
+  font-size: var(--font-size-hero-small, 38px); 
+  color: var(--color-secondary-peach-light, #FFEDDB); 
   margin-bottom: var(--spacing-xl, 32px);
   text-align: left;
 `;
@@ -70,20 +70,20 @@ const Title = styled.h1`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-m, 20px); /* Increased gap between form elements */
+  gap: var(--spacing-m, 20px); 
 `;
 
 const Label = styled.label`
   font-size: var(--font-size-medium, 16px);
-  color: var(--color-neutral-gray-light, #E0E0E0); /* Lighter gray for labels */
-  margin-bottom: -10px; /* Reduce space between label and input */
+  color: var(--color-neutral-gray-light, #E0E0E0); 
+  margin-bottom: -10px; 
 `;
 
 const Input = styled.input`
   background-color: var(--color-background-light, #FFFFFF);
   color: var(--color-text-dark, #333333);
   border: 1px solid var(--color-neutral-gray, #BDBDBD);
-  border-radius: var(--border-radius-pill, 20px); /* Pill shape */
+  border-radius: var(--border-radius-pill, 20px); 
   padding: var(--spacing-s, 10px) var(--spacing-m, 16px);
   font-size: var(--font-size-medium, 16px);
   width: 100%;
@@ -194,11 +194,11 @@ const SignUpPage = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'customer' // Add default role
+    role: 'customer' 
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  // Redirect if already logged in
+
   useEffect(() => {
     if (currentUser) {
       navigate('/');
@@ -219,6 +219,9 @@ const SignUpPage = () => {
     if (formData.password !== formData.confirmPassword) {
       return setError('Passwords do not match');
     }
+    if (!formData.name.trim()) {
+        return setError('Name is required');
+    }
 
     setLoading(true);
     try {
@@ -226,9 +229,9 @@ const SignUpPage = () => {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role: formData.role // Include role in signup data
+        role: formData.role 
       });
-      navigate('/'); // Redirect to home page on success
+      // navigate('/'); // Navigation is now handled by useEffect or by AuthProvider redirecting
     } catch (err) {
       setError(err.message || 'Failed to create an account');
     } finally {
@@ -310,7 +313,7 @@ const SignUpPage = () => {
                 </RoleButton>
                 <RoleButton
                   type="button"
-                  active={formData.role === 'employee'} // Or 'admin'
+                  active={formData.role === 'employee'} 
                   onClick={() => handleRoleChange('employee')}
                 >
                   Employee
@@ -326,7 +329,7 @@ const SignUpPage = () => {
             Already have an account? <Link to="/login">Log In</Link>
           </SignInLink>
         </FormPanel>
-        <ImagePanel /> {/* This panel will display the right side of the background image */}
+        <ImagePanel /> 
       </SignUpContainer>
     </PageWrapper>
   );

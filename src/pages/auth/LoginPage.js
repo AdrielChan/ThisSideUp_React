@@ -1,16 +1,16 @@
-// File: src/pages/LoginPage.js
-import React, { useState } from 'react';
+// File: src/pages/auth/LoginPage.js
+import React, { useState, useEffect } from 'react'; // Added useEffect
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-// Styled Components (similar to SignUpPage, with minor adjustments if needed)
+// Styled Components (ensure these are defined or imported if they come from a shared file)
 const PageWrapper = styled.div`
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('LoginHD.jpg');
+  background-image: url('/LoginHD.jpg'); /* Ensure this image is in your public folder */
   background-size: cover;
   background-position: center;
   padding: var(--spacing-m, 16px);
@@ -20,7 +20,7 @@ const LoginContainer = styled.div`
   display: flex;
   width: 100%;
   max-width: 900px; 
-  min-height: 500px; /* Slightly less height than signup */
+  min-height: 500px;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: var(--border-radius-large, 12px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -33,9 +33,9 @@ const LoginContainer = styled.div`
 `;
 
 const FormPanel = styled.div`
-  flex: 1; /* Or flex: 0 0 40%; */
+  flex: 1;
   padding: var(--spacing-xl, 32px) var(--spacing-xxl, 48px);
-  background-color: rgba(40, 20, 60, 0.85); /* Dark purple, semi-transparent */
+  background-color: rgba(40, 20, 60, 0.85); 
   backdrop-filter: blur(8px);
   color: var(--color-text-light, #FFFFFF);
   display: flex;
@@ -49,7 +49,7 @@ const FormPanel = styled.div`
 
 const ImagePanel = styled.div`
   flex: 1;
-  background-image: url('/images/beach-sunset-background.jpg');
+  background-image: url('/images/beach-sunset-background.jpg'); /* Ensure this image is in public/images */
   background-size: cover;
   background-position: center; 
   
@@ -110,7 +110,7 @@ const SubmitButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: var(--spacing-m, 16px); /* Space above the button */
+  margin-top: var(--spacing-m, 16px);
 
   &:hover {
     background-color: var(--color-primary-purple-dark, #4B0082);
@@ -130,25 +130,25 @@ const ErrorMessage = styled.p`
   font-size: var(--font-size-small, 14px);
   text-align: center;
   margin-top: var(--spacing-s, 8px);
-  min-height: 20px; /* Reserve space for error message */
+  min-height: 20px; 
 `;
 
 const SignUpPrompt = styled.div`
   text-align: center;
-  margin-top: var(--spacing-xl, 32px); /* More space for this section */
+  margin-top: var(--spacing-xl, 32px); 
   color: var(--color-neutral-gray-light, #E0E0E0);
 
   p {
-    font-size: var(--font-size-medium, 16px); /* Slightly larger text */
+    font-size: var(--font-size-medium, 16px); 
     margin-bottom: var(--spacing-s, 12px);
   }
 `;
 
 const SignUpLinkButton = styled(Link)`
-  display: inline-block; /* To allow padding and treat as a button */
+  display: inline-block; 
   background-color: var(--color-primary-purple, #5D3FD3);
   color: var(--color-text-light, #FFFFFF);
-  padding: var(--spacing-s, 10px) var(--spacing-l, 24px); /* Button-like padding */
+  padding: var(--spacing-s, 10px) var(--spacing-l, 24px);
   border-radius: var(--border-radius-pill, 20px);
   font-size: var(--font-size-medium, 16px);
   font-weight: 500;
@@ -169,37 +169,30 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { login, currentUser } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
+    email: '', // Changed from username to email
     password: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentUser) {
       navigate('/');
     }
   }, [currentUser, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      // Validate form data
-      if (!formData.email || !formData.password) {
+      if (!formData.email || !formData.password) { // Check for formData.email
         throw new Error('Email and password are required');
       }
-
-      // Attempt login
-      await login(formData.email, formData.password);
-      
-      // Clear form data
+      await login(formData.email, formData.password); // Use formData.email
       setFormData({ email: '', password: '' });
-      
-      // Navigate to home page on success
-      navigate('/');
+      // navigate('/'); // Navigation is now handled by useEffect or by AuthProvider redirecting
     } catch (err) {
       console.error('Login error:', err);
       setError(err.message || 'Failed to log in. Please check your credentials.');
@@ -223,14 +216,14 @@ const LoginPage = () => {
           <Title>Login</Title>
           <Form onSubmit={handleSubmit}>
             <div>
-              <Label htmlFor="username">Username:</Label>
+              <Label htmlFor="email">Email:</Label> {/* Changed from username */}
               <Input
-                type="text" // Or "email"
-                id="username"
-                name="username"
-                value={formData.username}
+                type="email" // Changed from text
+                id="email"   // Changed from username
+                name="email"  // Changed from username
+                value={formData.email} // Changed from username
                 onChange={handleChange}
-                placeholder="Enter your username or email"
+                placeholder="Enter your email"
                 required
               />
             </div>
