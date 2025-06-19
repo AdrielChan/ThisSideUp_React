@@ -1,9 +1,8 @@
-// src/pages/shoppingCart.js (or your chosen path)
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../index.css'; // Assuming index.css is in src/
-import '../shoppingCart.css'; // Styles specific to this page
-import { useCart } from '../contexts/CartContext'; // Ensure this path is correct
+import '../index.css'; 
+import { useCart } from '../contexts/CartContext';
 
 const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected }) => {
     const itemData = cartEntry.product || cartEntry.customDesign;
@@ -53,11 +52,11 @@ const CartItem = ({ cartEntry, onQuantityChange, onSelect, onRemove, isSelected 
                     >+</button>
                 </div>
             </div>
-            {/* Add the remove button below the item body, as per the new Figma */}
+            
             <div className="item-actions">
                 <button
-                    onClick={() => onRemove(itemId)} // Use the onRemove prop passed from ActualShoppingCartPage
-                    className="item-remove-button" // New class for styling
+                    onClick={() => onRemove(itemId)} 
+                    className="item-remove-button" 
                     aria-label={`Remove ${itemData.name} from cart`}
                 >
                     Remove
@@ -122,7 +121,7 @@ const ActualShoppingCartPage = () => {
     };    const handleActualCheckout = () => {
         const itemsToPassToCheckout = cartItems.filter(cartEntry => {
             const itemId = cartEntry.product?._id || cartEntry.customDesign?._id;
-            return itemId && selectedItemsMap[itemId] === true; // Explicitly check for true
+            return itemId && selectedItemsMap[itemId] === true;
         });
 
         if (itemsToPassToCheckout.length === 0) {
@@ -130,7 +129,7 @@ const ActualShoppingCartPage = () => {
             return;
         }
         
-        // Only pass selected items and their total
+
         navigate('/checkout', {
             state: { 
                 itemsForCheckout: itemsToPassToCheckout,
@@ -153,7 +152,7 @@ const ActualShoppingCartPage = () => {
             <div className="shopping-cart-page-container">
                 <main className="shopping-cart-main-content">
                     <div className="cart-title-section">
-                        <h1 className="cart-main-title">Shopping cart</h1>
+                        <h1 className="cart-main-title">Shopping Cart</h1>
                         <p className="total-price-display">Total price: ${totalPriceOfSelected.toFixed(2)}</p>
                     </div>
 
@@ -169,7 +168,7 @@ const ActualShoppingCartPage = () => {
                                         cartEntry={cartEntry}
                                         onQuantityChange={updateItemQuantity}
                                         onSelect={handleToggleSelectItem}
-                                        onRemove={handleRemoveItem} // This calls the function in ActualShoppingCartPage
+                                        onRemove={handleRemoveItem}
                                         isSelected={!!selectedItemsMap[itemId]}
                                     />
                                 );
