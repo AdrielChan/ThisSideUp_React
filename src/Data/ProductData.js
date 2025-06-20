@@ -220,7 +220,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Bunch of Towels 2",
+  name: "Teal Towels",
   description: "Colorful beach towel bundle featuring soft microfiber fabric. Lightweight and easy to pack for any adventure.",
   imageUrl: "/Product Photos/Bunch of Towels 2.png",
   category: "Towels",
