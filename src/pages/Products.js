@@ -3,43 +3,49 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
-
-
 import { useProducts } from '../contexts/ProductContext'; 
 import ProductCard from './ProductCard'; 
+import '../index.css';
 
-
-const PageContainer = styled.div` // New top-level wrapper
-  min-height: 100vh; /* Ensure it tries to fill the viewport */
-  background: var(--gradient-products); /* Apply background here */
-  display: flex; /* To make PageWrapper (child) fill height if needed */
+const PageContainer = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(135deg, #101010 0%, #670097 100%);
+  display: flex;
   flex-direction: column;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #101010 0%, #670097 100%);
+    z-index: -1;
+  }
 `;
 
-// PageWrapper in Products.js (might not need background if PageContainer handles it)
 const PageWrapper = styled.div`
   color: var(--color-text-light, #FFFFFF);
   padding: var(--spacing-l, 24px) var(--spacing-m, 16px);
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Make PageWrapper grow within PageContainer */
-  /* background-color: var(--color-background-dark, #121212); // Remove if PageContainer sets gradient */
+  flex-grow: 1;
 `;
 
 const MainContent = styled.main`
-  flex-grow: 1; /* Allows this section to grow and push footer down */
-  /* Add margin-bottom to create space for the footer if footer is not sticky */
-  /* If Footer is absolutely positioned or part of App.js layout, this might not be needed */
-  /* For now, assuming Footer is rendered after PageWrapper in a standard flow */
-  margin-bottom: var(--spacing-xxl, 60px); /* ADJUST THIS VALUE FOR GAP TO FOOTER */
+  flex-grow: 1;
+  margin-bottom: var(--spacing-xxl, 60px);
 `;
 
 
 const PageHeader = styled.div`
   display: flex;
-  justify-content: space-between; /* This will push Category and Cart button to opposite ends */
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-xl, 32px); /* Increased margin below header */
+  margin-bottom: var(--spacing-xl, 32px);
   padding: 0 var(--spacing-m, 16px);
   max-width: 1200px;
   margin-left: auto;
@@ -53,10 +59,10 @@ const CategorySelectorWrapper = styled.div`
 const CategoryDisplayButton = styled.button`
   background-color: var(--color-secondary-peach, #FFDAB9);
   color: var(--color-primary-purple, #5D3FD3);
-  padding: var(--spacing-s, 10px) var(--spacing-l, 20px); /* Adjusted padding for looks */
+  padding: var(--spacing-s, 10px) var(--spacing-l, 20px);
   border: none;
-  border-radius: var(--border-radius-m, 6px); /* Slightly less rounded than original */
-  font-size: var(--font-size-large, 18px); /* Adjusted size */
+  border-radius: var(--border-radius-m, 6px);
+  font-size: var(--font-size-large, 18px);
   font-family: var(--font-heading);
   font-weight: bold;
   cursor: pointer;
@@ -68,7 +74,7 @@ const CategoryDisplayButton = styled.button`
 
   svg {
     margin-left: var(--spacing-s, 8px);
-    font-size: var(--font-size-small, 14px); /* Smaller arrow */
+    font-size: var(--font-size-small, 14px);
   }
 `;
 
@@ -108,8 +114,6 @@ const ProductGrid = styled.div`
   margin: 0 auto;
 `;
 
-// Renamed StickyCartButton to TopCartButton and adjusted styles
-
 
 const MessageText = styled.p`
   text-align: center;
@@ -127,7 +131,6 @@ const Products = () => {
     error, 
     categories, 
     currentCategory, 
-    // setCurrentCategory, // No longer directly using from here, context handles it
     filterAndSortProducts 
   } = useProducts();
 
@@ -146,10 +149,8 @@ const Products = () => {
       navigate(`/products/category/${encodeURIComponent(category)}`);
     }
   };
-  
-  return (
-    <div className="products-page">
-      <PageContainer>
+    return (
+    <PageContainer>
       <PageWrapper>
         <MainContent> {/* Wrap main content */}
           <PageHeader>
@@ -187,12 +188,9 @@ const Products = () => {
                 <ProductCard key={product._id} product={product} />
               ))}
             </ProductGrid>
-          )}
-        </MainContent>
-
+          )}        </MainContent>
       </PageWrapper>
-      </PageContainer>
-    </div>
+    </PageContainer>
   );
 };
 
