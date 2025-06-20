@@ -207,7 +207,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Bunch of Towels 1",
+  name: "Towel set 1",
   description: "Set of soft, absorbent beach towels in assorted vibrant colors. Great for sunbathing, drying off, or lounging.",
   imageUrl: "/Product Photos/Bunch of Towels 1.png",
   category: "Towels",
