@@ -462,6 +462,7 @@ const Navbar = () => {
   const [showDesktopProductsDropdown, setShowDesktopProductsDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showMobileProductCategories, setShowMobileProductCategories] = useState(false);
+  const { currentUser, logout } = useAuth();
   
   const productCategories = [
     { name: 'All Products', path: '/products' },
@@ -534,14 +535,18 @@ const Navbar = () => {
             </DropdownGridDesktop>
           </ProductsDropdownDesktop>
         </NavItemDesktop>
-        <NavItemDesktop>
-          <StyledNavLink 
-            to="/design-skimboard" 
-            className={location.pathname === '/design-skimboard' ? 'active' : ''}
-          >
-            Customise
-          </StyledNavLink>
-        </NavItemDesktop>
+
+          
+          { currentUser ? 
+             <NavItemDesktop>
+               <StyledNavLink 
+               to="/design-skimboard" 
+               className={location.pathname === '/design-skimboard' ? 'active' : ''}>
+              Customise
+              </StyledNavLink>
+             </NavItemDesktop>
+           : '' }
+
         <NavItemDesktop>
           <StyledNavLink 
             to="/about" 
