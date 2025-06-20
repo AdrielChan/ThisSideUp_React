@@ -249,15 +249,13 @@ const DropdownTitleDesktop = styled.h3`
 `;
 
 
-// --- Sub-Components (Search, UserDropdown - keeping them as they were, responsive styling applied to their trigger icons) ---
 
-// Search Bar (ensure internal elements are also responsive if they expand)
 const SearchBarContainer = styled.div`
   input {
     padding: 8px 12px;
     border-radius: 4px;
     border: 1px solid #555;
-    background-color: #333;
+    background-color: white;
     color: white;
     min-width: 150px; /* Base width */
 
@@ -268,7 +266,8 @@ const SearchBarContainer = styled.div`
   }
   /* Style the close icon within search if needed */
   img[alt="Close icon"] { 
-    width: 40px !important; height: 40px !important; 
+    width: 30px !important; height: 30px !important;
+    margin-top: 5px; 
     top: 50% !important; transform: translateY(-50%) !important; 
   }
   img[alt="Search icon"] { 
@@ -302,7 +301,7 @@ function SearchBar() {
           <div style={{ position: 'relative', display: 'inline-block' }}>
             <form onSubmit={handleSubmit}>
               <input
-                id="search-input-navbar" // More specific ID
+                id="search"
                 type="text"
                 placeholder="Search"
                 value={keyword}
