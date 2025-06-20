@@ -102,7 +102,7 @@ const NavRightSection = styled.div`
 const IconsGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem; /* Gap between individual icons */
+  gap: 40px;
   
   @media (max-width: 768px) {
     gap: 1rem;
@@ -333,6 +333,7 @@ function SearchBar() {
 // User Dropdown
 const UserDropdownContainer = styled.div`
   position: relative;
+  margin-right: 15px;
   img[alt="User icon"] { 
     width: 40px !important; height: 40px !important; cursor: 'pointer';
     @media (max-width: 768px) { width: 26px !important; height: 26px !important; }
@@ -475,13 +476,13 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (isMobileMenuOpen) { // If closing
-        setShowMobileProductCategories(false); // Reset sub-menu
+    if (isMobileMenuOpen) { 
+        setShowMobileProductCategories(false);
     }
   };
   
   const handleMobileProductsClick = (e) => {
-    e.preventDefault(); // Prevent navigation if it's a button
+    e.preventDefault(); 
     setShowMobileProductCategories(!showMobileProductCategories);
   };
 
@@ -491,14 +492,14 @@ const Navbar = () => {
     navigate(path);
   };
 
-  // Effect to handle body scroll when mobile menu is open
+ 
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => { // Cleanup on component unmount
+    return () => {
       document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen]);
