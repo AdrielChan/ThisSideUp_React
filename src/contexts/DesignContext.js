@@ -27,10 +27,11 @@ export const DesignProvider = ({ children }) => {
       font: "Arial",
       color: "#333333",
       size: 24,
-      position: { x: 50, y: 50 },
       alignment: 'center',
       style: 'normal',
       weight: 'normal',
+      position: 'centre',
+      pos: '35%',
     },
     isTextEnabled: false,
 

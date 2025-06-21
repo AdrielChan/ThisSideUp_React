@@ -48,6 +48,7 @@ const Layout = styled.div`
 `;
 
 const PreviewArea = styled.div`
+ 
   background-image: url('/waves-beach.jpg'); // Ensure this image is in public folder
   background-size: cover;
   background-position: center;
@@ -62,12 +63,9 @@ const PreviewArea = styled.div`
 `;
 
 const SkimboardShape = styled.div`
-  width: 400px;
-  height: 200px;
-  border-top-left-radius: 400px 200px;
-  border-bottom-left-radius: 400px 200px;
-  border-top-right-radius: 300px 200px;
-  border-bottom-right-radius: 300px 200px;
+  width: 600px;
+  height: 300px;
+  
   border: 2px solid #fff;
   position: relative;
   overflow: hidden;
@@ -75,6 +73,10 @@ const SkimboardShape = styled.div`
   align-items: center;
   justify-content: center;
   background: ${props => props.bg};
+  mask-image: url('/new-customisable-skimboard.png');
+  mask-repeat: no-repeat;
+  
+  -webkit-mask-image: url('/new-customisable-skimboard.png');
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
    @media (max-width: 480px) {
     width: 300px;
@@ -89,21 +91,18 @@ const PreviewText = styled.div`
   font-family: ${props => props.font || 'Arial'};
   font-size: ${props => props.size || 36}px;
   font-weight: ${props => props.weight || 'bold'};
-  width: 80%;
+  width: 100%;
+  left:-5%;
+  top:${props => props.pos || '35%'};
   text-align: center;
-  left: 10%;
-  top: 50%;
-  transform: translateY(-50%);
   pointer-events: none;
   word-wrap: break-word;
 `;
 
 const PreviewDecal = styled.img`
-  position: absolute;
-  max-width: 70%; 
-  max-height: 70%; 
-  left: 15%; 
-  top: 15%; 
+  
+  max-width: 50%; 
+  max-height: 50%; 
   pointer-events: none;
   object-fit: contain;
 `;
@@ -290,11 +289,13 @@ const DesignSkimboard = () => {
   let feature = 'none';
   if (currentDesign.isTextEnabled) feature = 'text';
   else if (currentDesign.isDecalEnabled) feature = 'decal';
+  else if (currentDesign.isTextAndDecalEnabled) feature = 'textAndDecal';
 
   const setFeature = (f) => {
     updateDesign({ 
       isTextEnabled: f === 'text', 
-      isDecalEnabled: f === 'decal' 
+      isDecalEnabled: f === 'decal',
+      isTextAndDecalEnabled: f === 'textAndDecal' 
     });
   };
 
@@ -308,6 +309,18 @@ const DesignSkimboard = () => {
   const setTextSize = (val) => updateDesign({ customText: { ...currentDesign.customText, size: Number(val) } });
   const textWeight = currentDesign.customText.weight;
   const setTextWeight = (val) => updateDesign({ customText: { ...currentDesign.customText, weight: val } });
+  const textPosition = currentDesign.customText.position;
+  const setTextPosition = (val) => {
+    var pos = "35%";
+    if(val === 'top') {
+      pos = "10%";
+    }
+    else if(val === 'bottom') {
+      pos = "65%"
+    }
+
+    updateDesign({ customText: { ...currentDesign.customText, position: val, pos:pos } });
+  }
 
   const decalUrl = currentDesign.decal.url;
   const decalName = currentDesign.decal.name;
@@ -367,16 +380,16 @@ const DesignSkimboard = () => {
       <PageWrapper>
         <Layout>
           <PreviewArea >
-            <h1 style={{ textAlign: 'center', color: '#632B6C', marginBottom: 32, fontSize: 36 }}>
+            <h1 style={{ textAlign: 'center', color: '#632B6C', fontSize: 36 }}>
               Customise Your Skimboard
             </h1>
             <SkimboardShape bg={previewBg}>
-              {feature === 'text' && text && (
-                <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight}>
+              {(feature === 'text' || feature === 'textAndDecal') && text && (
+                <PreviewText color={textColor} font={textFont} size={textSize} weight={textWeight} pos={currentDesign.customText.pos}>
                   {text || "Enter text here"}
                 </PreviewText>
               )}
-              {feature === 'decal' && decalUrl && (
+              {(feature === 'decal' || feature === 'textAndDecal') && decalUrl && (
                 <PreviewDecal src={decalUrl} alt="Decal Preview" />
               )}
             </SkimboardShape>
@@ -450,9 +463,10 @@ const DesignSkimboard = () => {
                 <ToggleBtn active={feature === 'none'} onClick={() => setFeature('none')}>None</ToggleBtn>
                 <ToggleBtn active={feature === 'text'} onClick={() => setFeature('text')}>Text</ToggleBtn>
                 <ToggleBtn active={feature === 'decal'} onClick={() => setFeature('decal')}>Decal</ToggleBtn>
+                <ToggleBtn active={feature === 'textAndDecal'} onClick={() => setFeature('textAndDecal')}>Text and Decal</ToggleBtn>
               </ToggleGroup>
               
-              {feature === 'text' && (
+              {(feature === 'text' ||feature === 'textAndDecal') && (
                 <>
                   <div>
                     <StyledLabel htmlFor="textInput">Text:</StyledLabel>
@@ -489,14 +503,25 @@ const DesignSkimboard = () => {
                         <option value="bold">Bold</option>
                         <option value="bolder">Bolder</option>
                         <option value="lighter">Lighter</option>
-                        {[100,200,300,400,500,600,700,800,900].map(w => <option key={w} value={w}>{w}</option>)}
+                        
+                      </select>
+                    </div>
+                  </Inline>
+                  <Inline>
+                    
+                    <div style={{flex: 1}}>
+                      <StyledLabel htmlFor="textPosition">Text position:</StyledLabel>
+                      <select id="textPosition" value={textPosition} onChange={e => setTextPosition(e.target.value)}>                       
+                        <option value="top">Top</option>
+                        <option value="centre">Centre</option>
+                        <option value="bottom">Bottom</option>                                  
                       </select>
                     </div>
                   </Inline>
                 </>
               )}
               
-              {feature === 'decal' && (
+              {(feature === 'decal' ||feature === 'textAndDecal') && (
                 <>
                   <div>
                     <StyledLabel htmlFor="decalUpload">Upload Image:</StyledLabel>
