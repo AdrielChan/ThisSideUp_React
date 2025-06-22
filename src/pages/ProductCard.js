@@ -32,7 +32,7 @@ const ProductImage = styled.img`
 `;
 
 const ProductName = styled.h3`
-  font-size: var(--font-size-medium, 16px);
+  font-size: var(--font-size-medium, 22px);
   font-weight: 600;
   color: white;
   margin: 0;
@@ -46,7 +46,7 @@ const ProductName = styled.h3`
 `;
 
 const ProductPrice = styled.p`
-  font-size: var(--font-size-large, 18px);
+  font-size: var(--font-size-large, 20px);
   font-weight: bold;
   color: var(--color-secondary-peach, #FFDAB9); /* Example price color */
   margin: 0;
