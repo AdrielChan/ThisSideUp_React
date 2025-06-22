@@ -1,9 +1,10 @@
-// File: src/components/products/ProductCard.js
+
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'; // To link to the detail page
+import { Link } from 'react-router-dom';
+import '../index.css';
 
-// Styled components for the card (can be adjusted to your preference)
+
 const CardWrapper = styled(Link)`
   background-color: var(--color-background-dark-lighter, #2C2C2C); /* Example dark theme */
   color: var(--color-text-light, #FFFFFF);
@@ -33,6 +34,7 @@ const ProductImage = styled.img`
 const ProductName = styled.h3`
   font-size: var(--font-size-medium, 16px);
   font-weight: 600;
+  color: white;
   margin: 0;
   line-height: 1.3;
   min-height: 2.6em; /* Approx 2 lines */
@@ -52,15 +54,14 @@ const ProductPrice = styled.p`
 
 const ProductCard = ({ product }) => {
   if (!product) {
-    return null; // Or some placeholder
+    return null;
   }
 
   return (
     <CardWrapper to={`/product/${product._id}`}> {/* Links to the detail page */}
       <ProductImage src={product.imageUrl || '/images/placeholder-product.png'} alt={product.name} />
-      <ProductName>{product.name}</ProductName>
-      <ProductPrice>${product.price ? product.price.toFixed(2) : 'N/A'}</ProductPrice>
-      {/* You can add rating stars or other small details here if needed */}
+      <ProductName id='fontProduct'>{product.name}</ProductName>
+      <ProductPrice id='fontProduct'>${product.price ? product.price.toFixed(2) : 'N/A'}</ProductPrice>
     </CardWrapper>
   );
 };

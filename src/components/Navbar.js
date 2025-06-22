@@ -462,13 +462,13 @@ const Navbar = () => {
   const [showDesktopProductsDropdown, setShowDesktopProductsDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showMobileProductCategories, setShowMobileProductCategories] = useState(false);
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
   
   const productCategories = [
     { name: 'All Products', path: '/products' },
     { name: 'Skimboards', path: '/products/category/Skimboards' },
     { name: 'T-Shirts', path: '/products/category/T-Shirts' },
-    { name: 'Boardshorts', path: '/products/category/Boardshorts' },
+    { name: 'Board Shorts', path: '/products/category/Boardshorts' },
     { name: 'Accessories', path: '/products/category/Accessories' },
     { name: 'Beach Bags', path: '/products/category/Beach Bags' },
     { name: 'Towels', path: '/products/category/Towels' }

@@ -28,7 +28,7 @@ export const initialProducts = [
   },
   {
     _id: generateId('prod'),
-    name: "Blue Palm Tree T-Shirt",
+    name: "Blue Palm Tree Tee Shirt",
     description: "Cool and breezy summer shirt with blue palm tree and sunset design. Lightweight and stylish for beach outings.",
     imageUrl: "/Product Photos/BluePalmTreeShirt.png",
     category: "T-Shirts",
@@ -155,7 +155,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Beach Shirt 1",
+  name: "Beach Tee Shirt",
   description: "Lightweight short-sleeve beach shirt with vibrant tropical prints. Breathable and perfect for sunny, casual outings.",
   imageUrl: "/Product Photos/Beach Shirt 1.png",
   category: "T-Shirts",
@@ -168,7 +168,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Boardshort 1",
+  name: "Light Blue Board Short",
   description: "Quick-dry boardshorts with a bold color pattern. Designed for comfort, movement, and water activities.",
   imageUrl: "/Product Photos/Boardshorts 1.png",
   category: "Boardshorts",
@@ -181,7 +181,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Boardshort 2",
+  name: "Dark Blue Board Shorts",
   description: "Comfortable and stylish boardshorts featuring a modern print. Great for beach games, surfing, or lounging.",
   imageUrl: "/Product Photos/Boardshort 2.png",
   category: "Boardshorts",
@@ -194,7 +194,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Black Boardshorts",
+  name: "Black Board Shorts",
   description: "Classic fit boardshorts with drawstring waist. Durable and flexible, perfect for long days in and out of the water.",
   imageUrl: "/Product Photos/Boardshort 3.png",
   category: "Boardshorts",
@@ -207,7 +207,7 @@ export const initialProducts = [
 },
 {
   _id: generateId('prod'),
-  name: "Towel set 1",
+  name: "Multi-Colour Towel Set",
   description: "Set of soft, absorbent beach towels in assorted vibrant colors. Great for sunbathing, drying off, or lounging.",
   imageUrl: "/Product Photos/Bunch of Towels 1.png",
   category: "Towels",
