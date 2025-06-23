@@ -11,7 +11,7 @@ const UserProfilePage = () => {
   if (!currentUser) return <Navigate to="/login" />; // Redirect if not logged in
 
   return (
-    <div style={{ padding: '20px', color: 'black' }}>
+     <div className="user-profile-page" style={{ padding: '20px', color: 'white' }}>
       <h1>My Profile</h1>
       <p><strong>Name:</strong> {currentUser.name}</p>
       <p><strong>Email:</strong> {currentUser.email}</p>
