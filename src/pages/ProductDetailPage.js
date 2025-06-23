@@ -129,6 +129,7 @@ const DetailsColumn = styled.div`
 
 // ProductName: Styles the product's name.
 const ProductName = styled.h1`
+  color: var(--color-text-light, #FFFFFF);
   font-size: var(--font-size-xxlarge, 28px);
   font-weight: bold;
   margin-bottom: var(--spacing-xs, 4px);
@@ -546,7 +547,7 @@ const ProductDetailPage = () => {
           </ImageColumn>
 
           <DetailsColumn>
-            <ProductName>{product.name}</ProductName>
+            <ProductName>{product.name || "Unnamed Product"}</ProductName>
             <ProductPrice>${product.price ? product.price.toFixed(2) : 'N/A'}</ProductPrice>
             <RatingContainer>
               {renderStars(product.rating)}
