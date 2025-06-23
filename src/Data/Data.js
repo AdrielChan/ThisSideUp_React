@@ -34,7 +34,7 @@ export const productCategories = [ // This might be redundant if defined elsewhe
    'All',
    'Skimboards',
    'T-Shirts',
-   'Boardshorts',
+   'Board Shorts',
    'Accessories',  
    'Beach Bags',
    'Towels',
