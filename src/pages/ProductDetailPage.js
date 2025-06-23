@@ -42,6 +42,8 @@ const BackButton = styled.button`
   }
 `;
 
+
+
 // ProductContentWrapper: A container for the main product information (image and details).
 // It uses a purple background and flexbox for a two-column layout.
 const ProductContentWrapper = styled.div`
@@ -217,6 +219,10 @@ const QuantityButton = styled.button`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+    & svg {
+    color: #fff;
+    font-size: 18px;
   }
 `;
 
@@ -575,11 +581,11 @@ const ProductDetailPage = () => {
             <QuantityControl>
               <InfoLabel>Quantity:</InfoLabel>
               <QuantityButton onClick={handleDecrementQuantity} disabled={quantity <= 1}>
-                <FaMinus />
+                <FaMinus/>
               </QuantityButton>
               <QuantityDisplay>{quantity}</QuantityDisplay>
               <QuantityButton onClick={handleIncrementQuantity} disabled={product.stock <=0 || quantity >= product.stock}>
-                <FaPlus />
+                <FaPlus/>
               </QuantityButton>
               {product.stock <= 0 && <span style={{color: 'var(--color-error-red)', marginLeft: '10px', fontSize: 'var(--font-size-small)'}}>Out of stock</span>}
               {product.stock > 0 && <span style={{fontSize: 'var(--font-size-small)', marginLeft: '10px', color: 'var(--color-neutral-gray-light)'}}>{product.stock} left</span>}

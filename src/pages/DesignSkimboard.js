@@ -325,19 +325,30 @@ const DesignSkimboard = () => {
   const decalUrl = currentDesign.decal.url;
   const decalName = currentDesign.decal.name;
   const handleDecalUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // Check if the current feature is textAndDecal
+      if (feature === 'textAndDecal') {
         updateDesign({
           decal: { ...currentDesign.decal, url: reader.result, name: file.name },
-          isDecalEnabled: true, // Automatically enable decal feature on upload
-          isTextEnabled: false
+          isTextAndDecalEnabled: true,
+          isTextEnabled: false,
+          isDecalEnabled: false
         });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+      } else {
+        updateDesign({
+          decal: { ...currentDesign.decal, url: reader.result, name: file.name },
+          isDecalEnabled: true,
+          isTextEnabled: false,
+          isTextAndDecalEnabled: false
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+};
 
   function getGradientString(type, angle, stopsArray) {
     const sortedStops = [...stopsArray].sort((a, b) => parseFloat(a.offset) - parseFloat(b.offset));
