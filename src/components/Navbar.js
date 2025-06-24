@@ -395,7 +395,7 @@ function UserDropdown() {
 
   const toggleDropdown = () => setIsOpen(prev => !prev);
 
-  // This function will now be used for all navigation links within the dropdown
+
   const closeAndNavigate = (path) => {
     setIsOpen(false);
     navigate(path);
@@ -403,8 +403,8 @@ function UserDropdown() {
 
   const handleLogout = () => {
     logout();
-    setIsOpen(false); // Ensure dropdown closes
-    navigate('/'); // Navigate to home after logout
+    setIsOpen(false);
+    navigate('/');
   };
   
 
@@ -414,6 +414,7 @@ function UserDropdown() {
         src={UserIconImg}
         alt="User icon"
         onClick={toggleDropdown}
+        style={{cursor: 'pointer'}}
       />
       {isOpen && (
         <UserDropdownMenuStyled>
